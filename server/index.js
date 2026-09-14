@@ -27,6 +27,7 @@ const exportRoutes = require('./routes/export');
 const reminderRoutes = require('./routes/reminders');
 const bootstrapRoutes = require('./routes/bootstrap');
 const mfRoutes = require('./routes/mf');
+const { ensureSchemeIndex } = require('./utils/mfapi');
 const { runDailyReminders } = require('./utils/reminders');
 const { runBackup } = require('./utils/backup');
 
@@ -89,3 +90,14 @@ cron.schedule('0 2 * * *', () => {
 
 // Also take one backup on boot, so day-one deployments aren't unprotected for 24h
 try { runBackup(); } catch (e) { /* no data yet on first run - fine */ }
+
+// Refresh the local mutual fund scheme index daily at 3:00 AM server time. This is what
+// lets newly-listed schemes (a new fund house, a newly launched scheme) start showing up
+// in search without needing to redeploy - ensureSchemeIndex() itself only actually re-fetches
+// from MFAPI.in when the cached index is more than 7 days old, so this is a cheap no-op most
+// days and a real refresh about once a week. Without a recurring trigger like this, the index
+// was only ever built once at server boot and then silently went stale for the life of the
+// running process, no matter how long that turned out to be.
+cron.schedule('0 3 * * *', () => {
+  ensureSchemeIndex().catch((e) => console.error('Scheme index refresh failed:', e.message));
+});

@@ -133,7 +133,7 @@ async function searchSchemes(query, limit = 25) {
     const like = `%${q}%`;
     const startsWith = `${q}%`;
     const wordBoundary = `% ${q}%`;
-    return db.prepare(`
+    const localResults = db.prepare(`
       SELECT scheme_code AS schemeCode, scheme_name AS schemeName FROM mf_scheme_index
       WHERE scheme_name LIKE ?
       ORDER BY
@@ -146,6 +146,19 @@ async function searchSchemes(query, limit = 25) {
         scheme_name ASC
       LIMIT ?
     `).all(like, startsWith, wordBoundary, limit);
+
+    // The local index only refreshes on a schedule (daily, see index.js), so a scheme
+    // that was newly listed on MFAPI since the last refresh won't be in it yet. Rather
+    // than make an MFD wait for tomorrow's refresh, fall through to MFAPI's own live
+    // search whenever the local index comes back empty for a query - this is the exact
+    // gap that hid a real fund (a newer AMC's scheme) from search before this fix.
+    if (localResults.length) return localResults;
+    try {
+      const live = await fetchJson(`/mf/search?q=${encodeURIComponent(q)}`);
+      return (live || []).slice(0, limit);
+    } catch (e) {
+      return []; // MFAPI unreachable and nothing local either - genuinely nothing to show
+    }
   }
 
   // No local index yet (first run) - use MFAPI's own search so the feature works
