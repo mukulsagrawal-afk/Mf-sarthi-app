@@ -63,3 +63,34 @@ test('a full-history holding renders populated rolling metrics and chart space',
   assert.match(card,/tested-chart/);
   assert.doesNotMatch(card,/0 daily windows|Performance history is too short/);
 });
+
+test('peer comparison shows four rolling measures and preserves unavailable windows', () => {
+  const start = html.indexOf('function fxPeerComparisonTable('), end = html.indexOf('function fxReportBody(', start);
+  const context = {esc:s=>String(s),fxPct:n=>Number(n).toFixed(2)+'%',fxMetric:n=>String(n),fxMoney:n=>'₹'+n,
+    fxReturn:()=>'',fxRollingChart:()=>'',fxRow:()=>'',fxPeerBars:()=>''};
+  vm.runInNewContext(html.slice(start,end),context);
+  const full = {schemeName:'Selected Large Cap Direct Growth',normalizedCategory:'Large Cap',metrics:{rolling1Y:{avgPct:9.3,sampleCount:251},rolling3Y:{avgPct:12.8,sampleCount:251},stdDev1YAvg:11.2,stdDev3YAvg:10.4}};
+  const peer = {schemeName:'Peer Large Cap Direct Growth',metrics:{rolling1Y:{avgPct:8.5},rolling3Y:{avgPct:11.5},stdDev1YAvg:12.3,stdDev3YAvg:11.7}};
+  const limited = {schemeName:'New Peer Direct Growth',metrics:{rolling1Y:null,rolling3Y:null,stdDev1YAvg:null,stdDev3YAvg:null}};
+  const table = context.fxPeerComparisonTable(full,{category:'Large Cap',peers:[peer,limited]});
+  assert.match(table,/Avg rolling 1Y return/);
+  assert.match(table,/Avg rolling 3Y return/);
+  assert.match(table,/Avg rolling 1Y SD/);
+  assert.match(table,/Avg rolling 3Y SD/);
+  assert.match(table,/Selected Large Cap Direct Growth/);
+  assert.match(table,/Peer average/);
+  assert.match(table,/9\.30%/);
+  assert.match(table,/10\.40%/);
+  assert.match(table,/New Peer Direct Growth[\s\S]*Full NAV history unavailable/);
+  assert.doesNotMatch(table,/NaN%|0\.00%/);
+});
+
+test('design system uses Manrope, one brand palette and reduced-motion fallbacks', () => {
+  assert.match(html,/family=Manrope:wght@400;500;600;700;800/);
+  assert.match(html,/--font-body:'Manrope'/);
+  assert.match(html,/\.kpi-card\.grad:hover\{transform:translateY\(-7px\) scale\(1\.025\)/);
+  assert.match(html,/animation:riseIn \.5s var\(--ease-premium\) backwards/);
+  assert.match(html,/\.fx-compare-table tr\.selected/);
+  assert.match(html,/prefers-reduced-motion:reduce/);
+  assert.doesNotMatch(html,/linear-gradient\(150deg,#7C3AED|linear-gradient\(150deg,#E11D48/);
+});

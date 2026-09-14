@@ -2,6 +2,8 @@
 
 MF Sarthi is a web app for Indian mutual fund distributors and wealth managers. It includes client CRM, leads, meetings, follow-ups, statement import, calculators, a knowledge hub, and FolioXpert AI-assisted client reports. FolioXpert includes CAS holding detection and fund-level peer analysis.
 
+The interface uses Manrope and a navy, blue, brass, and emerald brand palette. Dashboard KPI cards, practice cards, forms, charts, and FolioXpert steps have short entrance and hover transitions; reduced-motion preferences disable these effects.
+
 ## What is in this folder
 
 - public/index.html: the complete frontend, including CRM and printable reports.
@@ -38,6 +40,7 @@ The SQLite database, client records, and local backups are stored under DATA_DIR
 - Before generating a report, the holdings step shows each selected scheme's available NAV coverage. The report always shows a portfolio matrix with holdings and current values. It only renders return/risk charts where enough history exists and explains missing periods beside the affected fund.
 - 1Y and 3Y rolling volatility are the averages of annualized daily-return standard deviations for the same windows. Sharpe and Sortino use the latest full 1Y CAGR and a fixed 5% annual risk-free assumption. Sortino measures downside daily returns relative to the equivalent daily 5% target. These are historical measures, not forecasts.
 - The peer sets are curated Direct Growth funds, with 20 large-cap references and broader mid-, small-, and flexi-cap sets. They are not claimed to be the 20 largest by assets. Each peer's current category, plan, NAV date, and window availability are checked at report time. The ranking uses average rolling 1Y return.
+- Each fund report has a comparison table with the selected scheme, the peer average, and date-aligned same-category peers. It shows average rolling 1Y and 3Y returns and average annualized rolling 1Y and 3Y standard deviations. Empty cells are displayed as dashes when full windows are unavailable; peer-average cells use only peers with a valid value for that metric. The portfolio matrix also contains both rolling standard-deviation columns.
 - CAMS, KFintech/Karvy and depository CAS PDFs are parsed on a best-effort basis. The app displays possible holdings and requires the advisor to confirm the exact scheme, plan and value. Scanned/image-only PDFs need OCR, which is not included. No statement password is stored.
 
 ## Local development

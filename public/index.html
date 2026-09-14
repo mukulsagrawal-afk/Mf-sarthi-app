@@ -6,29 +6,30 @@
 <title>MF Sarthi</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@500;600;700&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 /* ============================================================
    MF SARTHI - DESIGN SYSTEM (tokens)
    ============================================================ */
 :root{
-  --ink:#0A2647;            /* deep premium navy - primary */
-  --ink-2:#123B6B;
-  --gold:#C08A34;           /* richer antique gold - accent. Used sparingly. */
-  --gold-soft:#E0B563;
-  --gold-glow:rgba(192,138,52,.35);
-  --teal:#0E6B54;           /* secondary - growth */
-  --violet:#6D5BD0;         /* tertiary - data accent, used only in sparklines/highlights */
-  --violet-soft:rgba(109,91,208,.16);
-  --bg:#F6F7F9;             /* cool, minimal canvas */
+  --ink:#142B46;            /* brand navy */
+  --ink-2:#245276;
+  --action-bg:#1D4C6D; --action-hover:#286384; --action-text:#FFFFFF;
+  --gold:#B48345;           /* warm brass accent */
+  --gold-soft:#D9B679;
+  --gold-glow:rgba(180,131,69,.24);
+  --teal:#147B72;           /* growth / success accent */
+  --violet:#3D7197;         /* brand blue for charts and focus */
+  --violet-soft:rgba(61,113,151,.13);
+  --bg:#F3F6F8;
   --surface:#FFFFFF;
-  --surface-2:#EEF0F4;
-  --surface-3:#F9FAFB;
-  --border:#E5E7EC;
-  --border-strong:#D2D6E0;
-  --text:#0B0E14;
-  --text-muted:#5B6270;
-  --text-faint:#9AA1AC;
+  --surface-2:#EAF0F3;
+  --surface-3:#F8FAFB;
+  --border:#DFE7EC;
+  --border-strong:#C9D7E0;
+  --text:#17283B;
+  --text-muted:#5C6D7C;
+  --text-faint:#8192A1;
   --success:#188857;
   --success-bg:#E7F4ED;
   --warning:#B0741F;
@@ -45,9 +46,9 @@
   --radius-md:12px;
   --radius-lg:18px;
   --radius-xl:22px;
-  --font-display:'Instrument Sans',ui-sans-serif,system-ui,-apple-system,sans-serif;
-  --font-body:'Inter',ui-sans-serif,system-ui,-apple-system,sans-serif;
-  --font-mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,monospace;
+  --font-display:'Manrope',ui-sans-serif,system-ui,-apple-system,sans-serif;
+  --font-body:'Manrope',ui-sans-serif,system-ui,-apple-system,sans-serif;
+  --font-mono:'Manrope',ui-sans-serif,system-ui,-apple-system,sans-serif;
   --ease-premium:cubic-bezier(.16,1,.3,1);
   --sidebar-w:236px;
   /* sidebar reads as part of the same light canvas - a quiet rail, not a colour block */
@@ -63,13 +64,14 @@
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --ink:#E7D9B8; --ink-2:#F2E7C9;
-    --gold:#E0B15C; --gold-soft:#EFCB86; --gold-glow:rgba(224,177,92,.35);
-    --teal:#39B48D;
-    --violet:#9C8CF0; --violet-soft:rgba(156,140,240,.20);
-    --bg:#0A0B10; --surface:#121319; --surface-2:#181A22; --surface-3:#1E212B;
-    --border:#242732; --border-strong:#333744;
-    --text:#F1EEE6; --text-muted:#A7A395; --text-faint:#716C60;
+    --ink:#DCE9F2; --ink-2:#B5D5EA;
+    --action-bg:#346788; --action-hover:#4683A7; --action-text:#FFFFFF;
+    --gold:#DAB574; --gold-soft:#EBCB91; --gold-glow:rgba(218,181,116,.25);
+    --teal:#66C6B4;
+    --violet:#82B9D9; --violet-soft:rgba(130,185,217,.18);
+    --bg:#0E1825; --surface:#142333; --surface-2:#1D3246; --surface-3:#192B3D;
+    --border:#294157; --border-strong:#3E5B71;
+    --text:#EDF4F7; --text-muted:#B0C2CE; --text-faint:#8BA1B0;
     --success:#4FCE9B; --success-bg:#12291F;
     --warning:#E7AE5F; --warning-bg:#332510;
     --error:#E88178; --error-bg:#341E1B;
@@ -85,13 +87,14 @@
   }
 }
 :root[data-theme="dark"]{
-  --ink:#E7D9B8; --ink-2:#F2E7C9;
-  --gold:#E0B15C; --gold-soft:#EFCB86; --gold-glow:rgba(224,177,92,.35);
-  --teal:#39B48D;
-  --violet:#9C8CF0; --violet-soft:rgba(156,140,240,.20);
-  --bg:#0A0B10; --surface:#121319; --surface-2:#181A22; --surface-3:#1E212B;
-  --border:#242732; --border-strong:#333744;
-  --text:#F1EEE6; --text-muted:#A7A395; --text-faint:#716C60;
+  --ink:#DCE9F2; --ink-2:#B5D5EA;
+  --action-bg:#346788; --action-hover:#4683A7; --action-text:#FFFFFF;
+  --gold:#DAB574; --gold-soft:#EBCB91; --gold-glow:rgba(218,181,116,.25);
+  --teal:#66C6B4;
+  --violet:#82B9D9; --violet-soft:rgba(130,185,217,.18);
+  --bg:#0E1825; --surface:#142333; --surface-2:#1D3246; --surface-3:#192B3D;
+  --border:#294157; --border-strong:#3E5B71;
+  --text:#EDF4F7; --text-muted:#B0C2CE; --text-faint:#8BA1B0;
   --success:#4FCE9B; --success-bg:#12291F;
   --warning:#E7AE5F; --warning-bg:#332510;
   --error:#E88178; --error-bg:#341E1B;
@@ -284,7 +287,7 @@ input,select,textarea{font-family:inherit;font-size:inherit;color:inherit;}
   position:relative;overflow:hidden;background:var(--surface);border:1px solid var(--border);
   border-radius:var(--radius-lg);padding:16px 16px 38px;box-shadow:var(--shadow-sm);
   transition:box-shadow .3s var(--ease-premium),transform .3s var(--ease-premium),border-color .3s;
-  animation:riseIn .5s var(--ease-premium) both;
+  animation:riseIn .5s var(--ease-premium) backwards;
 }
 .kpi-grid .kpi-card:nth-child(1){animation-delay:.02s}
 .kpi-grid .kpi-card:nth-child(2){animation-delay:.06s}
@@ -317,7 +320,7 @@ input,select,textarea{font-family:inherit;font-size:inherit;color:inherit;}
 
 .dash-grid{display:grid;grid-template-columns:1.6fr 1fr;gap:16px;align-items:start;}
 .dash-col{display:flex;flex-direction:column;gap:16px;}
-.dash-col .card{animation:riseIn .45s var(--ease-premium) both;}
+.dash-col .card{animation:riseIn .45s var(--ease-premium) backwards;}
 .dash-col:first-child .card:nth-child(1){animation-delay:.08s}
 .dash-col:first-child .card:nth-child(2){animation-delay:.14s}
 .dash-col:first-child .card:nth-child(3){animation-delay:.20s}
@@ -385,16 +388,16 @@ input,select,textarea{font-family:inherit;font-size:inherit;color:inherit;}
 .kpi-card.grad .kpi-ico-chip{background:rgba(255,255,255,.18);}
 .kpi-card.grad .kpi-ico-chip svg{color:#fff;}
 .kpi-card.grad:hover{box-shadow:var(--shadow-lift);}
-.kpi-card.grad-purple{background:linear-gradient(150deg,#7C3AED,#4338CA 85%);}
-.kpi-card.grad-blue{background:linear-gradient(150deg,#2563EB,#1E3A8A 85%);}
-.kpi-card.grad-gold{background:linear-gradient(150deg,#D89A3E,#8A5A1E 88%);}
-.kpi-card.grad-teal{background:linear-gradient(150deg,#0D9488,#065F46 88%);}
-.kpi-card.grad-indigo{background:linear-gradient(150deg,#6366F1,#312E81 88%);}
-.kpi-card.grad-rose{background:linear-gradient(150deg,#E11D48,#881337 88%);}
+.kpi-card.grad-purple{background:linear-gradient(145deg,#23496B,#142F4C 88%);}
+.kpi-card.grad-blue{background:linear-gradient(145deg,#39769A,#1F567C 88%);}
+.kpi-card.grad-gold{background:linear-gradient(145deg,#B78D58,#89663F 88%);}
+.kpi-card.grad-teal{background:linear-gradient(145deg,#278F84,#12695F 88%);}
+.kpi-card.grad-indigo{background:linear-gradient(145deg,#3D668D,#294766 88%);}
+.kpi-card.grad-rose{background:linear-gradient(145deg,#897054,#6B5542 88%);}
 
 /* ---- premium chart row: AUM trend + donuts ---- */
 .chart-grid{display:grid;grid-template-columns:1.6fr 1fr;gap:16px;align-items:stretch;margin-bottom:16px;}
-.chart-card{animation:riseIn .45s var(--ease-premium) both;}
+.chart-card{animation:riseIn .45s var(--ease-premium) backwards;}
 .chart-card .chart-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:4px;}
 .chart-card .chart-title{font-size:13.5px;font-weight:700;color:var(--text-muted);}
 .chart-card .chart-figure{font-family:var(--font-display);font-size:26px;font-weight:700;letter-spacing:-.01em;margin-top:2px;}
@@ -795,7 +798,7 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;bac
 .picker-dd.open{display:block;animation:pickerReveal .23s cubic-bezier(.2,.8,.2,1) both;}
 .picker-dd .pdd-heading,.picker-dd .pdd-footer{padding:9px 11px;color:var(--text-muted);font-size:10px;font-weight:700;letter-spacing:.075em;text-transform:uppercase;}
 .picker-dd .pdd-footer{border-top:1px solid var(--border);font-weight:500;letter-spacing:0;text-transform:none;}
-.picker-dd .pdd-item{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:10px 11px;margin:1px 0;font:inherit;line-height:1.4;cursor:pointer;border:1px solid transparent;border-radius:10px;background:transparent;color:var(--text);animation:pickerItem .22s ease both;animation-delay:var(--item-delay,0ms);transition:background .16s,border-color .16s,transform .16s;}
+.picker-dd .pdd-item{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:10px 11px;margin:1px 0;font:inherit;line-height:1.4;cursor:pointer;border:1px solid transparent;border-radius:10px;background:transparent;color:var(--text);animation:pickerItem .22s ease backwards;animation-delay:var(--item-delay,0ms);transition:background .16s,border-color .16s,transform .16s;}
 .picker-dd .pdd-item:hover,.picker-dd .pdd-item.active,.picker-dd .pdd-item:focus-visible{background:var(--surface-3);border-color:var(--border);transform:translateX(2px);outline:none;}
 .picker-dd .pdd-icon{display:grid;place-items:center;flex:none;width:31px;height:31px;border-radius:9px;background:var(--violet-soft);color:var(--violet);font-size:15px;font-weight:700;}
 .picker-dd .pdd-copy{min-width:0;flex:1;font-size:12px;font-weight:600;overflow-wrap:anywhere;}
@@ -897,7 +900,7 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
 .ai-hero-badge{display:inline-flex;align-items:center;gap:7px;position:relative;z-index:1;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.22);border-radius:999px;padding:5px 11px;margin-bottom:11px;color:#F4DCB2;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;}
 .ai-hero h1{position:relative;z-index:1;color:#fff;font-size:clamp(28px,3vw,38px);letter-spacing:-.04em;line-height:1.1;margin:0 0 9px;}
 .ai-hero p{position:relative;z-index:1;color:rgba(255,255,255,.82);font-size:14px;max-width:650px;line-height:1.6;}
-.fx-rp-fund-card{background:var(--surface);border:1px solid var(--border);padding:22px 24px;box-shadow:var(--shadow-sm);animation:riseIn .36s ease both;}
+.fx-rp-fund-card{background:var(--surface);border:1px solid var(--border);padding:22px 24px;box-shadow:var(--shadow-sm);animation:riseIn .36s ease backwards;}
 .fx-rp-fund-card h4{font-size:16px;line-height:1.35;margin-bottom:5px;}
 .fx-kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:10px;margin:18px 0;}
 .fx-kpi-grid>div{background:var(--surface-3);border:1px solid var(--border);border-radius:14px;padding:13px 14px;min-width:0;}
@@ -963,19 +966,89 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
 .crm-overview small,.crm-overview span{display:block;color:var(--text-muted);font-size:11px;}
 .crm-overview small{font-weight:700;letter-spacing:.04em;text-transform:uppercase;}
 .crm-overview b{display:block;font-family:var(--font-display);font-size:27px;letter-spacing:-.05em;color:var(--ink);margin:3px 0;}
+/* One card language across the practice: quiet depth at rest, deliberate motion on interaction. */
+@keyframes pageReveal{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes cardReveal{from{opacity:0;transform:translateY(16px) scale(.985)}to{opacity:1;transform:none}}
+@keyframes stepHalo{from{box-shadow:0 0 0 0 var(--gold-glow)}to{box-shadow:0 0 0 8px transparent}}
+.view.active{animation:pageReveal .38s var(--ease-premium) backwards;}
+.view.active>.page-head,.view.active>.crm-toolbar,.view.active>.calc-work,.view.active>.kb-layout,.view.active>.chart-grid,.view.active>.table-wrap,.view.active>.card,.view.active>.ai-hero,.view.active>.fx-steps{animation:cardReveal .5s var(--ease-premium) backwards;}
+.view.active>.card:nth-child(2),.view.active>.chart-grid:nth-child(2),.view.active>.table-wrap:nth-child(2){animation-delay:70ms;}
+.view.active>.card:nth-child(3),.view.active>.table-wrap:nth-child(3){animation-delay:130ms;}
+.card,.table-wrap,.article-card,.calc-tile,.health-box,.stat-box,.crm-overview button,.fx-goal-card,.fx-rp-fund-card{box-shadow:var(--shadow-sm);}
+.card.card-pad,.article-card,.calc-tile,.health-box,.stat-box,.crm-overview button,.fx-goal-card,.fx-rp-fund-card{transition:transform .32s var(--ease-premium),box-shadow .32s var(--ease-premium),border-color .24s,background .24s;}
+.card.card-pad:hover,.article-card:hover,.calc-tile:hover,.health-box:hover,.stat-box:hover,.crm-overview button:hover,.fx-goal-card:hover,.fx-rp-fund-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);border-color:var(--border-strong);}
+.card,.table-wrap,.article-card,.calc-tile,.health-box,.stat-box,.fx-rp-fund-card{background-image:linear-gradient(155deg,rgba(255,255,255,.035),transparent 52%);}
+.btn,.pill,.nav-item,.icon-btn,.ai-mode-btn{transition:transform .25s var(--ease-premium),box-shadow .25s var(--ease-premium),background .2s,border-color .2s,color .2s;}
+.btn:hover,.pill:hover{transform:translateY(-2px);box-shadow:var(--shadow-sm);}
+.btn:active,.pill:active,.ai-mode-btn:active{transform:translateY(0) scale(.98);}
+.nav-item:hover{transform:translateX(3px);}
+.topbar-search input,.crm-search input,.form-field input,.form-field select,.form-field textarea,.fx-holding-row input,.fx-goal-row input{transition:border-color .22s,box-shadow .22s,background .22s;}
+.topbar-search input:focus,.crm-search input:focus,.form-field input:focus,.form-field select:focus,.form-field textarea:focus,.fx-holding-row input:focus,.fx-goal-row input:focus{border-color:var(--violet);box-shadow:0 0 0 3px var(--violet-soft);outline:none;}
+.fx-step.active .n{animation:stepHalo 1.6s ease-out infinite;}
+.fx-steps{background:var(--surface);border:1px solid var(--border);border-radius:15px;padding:7px 10px;box-shadow:var(--shadow-sm);width:fit-content;max-width:100%;}
+.fx-step{transition:color .25s,transform .25s;}
+.fx-step.active{transform:translateY(-1px);}
+.fx-goal-row,.fx-holding-row{transition:background .25s,border-color .25s,transform .25s;border-radius:10px;}
+.fx-goal-row:hover,.fx-holding-row:hover{background:var(--surface-3);}
+.fx-kpi-grid>div{transition:transform .28s var(--ease-premium),box-shadow .28s,border-color .28s;}
+.fx-kpi-grid>div:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);border-color:var(--border-strong);}
+.fx-chart-line{stroke-dasharray:1000;animation:chartDraw 1.25s var(--ease-premium) both;}
+@keyframes chartDraw{from{stroke-dashoffset:1000}to{stroke-dashoffset:0}}
+.fx-peer-track>div,.crm-aum-row i,.goal-bar-fill,.fx-gap-bar-fill{transform-origin:left center;animation:barGrow .8s var(--ease-premium) both;}
+@keyframes barGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.kpi-card.grad{isolation:isolate;transform-origin:center bottom;}
+.kpi-card.grad::before{content:'';position:absolute;inset:-65%;z-index:0;background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.19) 50%,transparent 65%);transform:translateX(-65%) rotate(-12deg);transition:transform .7s var(--ease-premium);pointer-events:none;}
+.kpi-card.grad>.kpi-ico-chip,.kpi-card.grad>.lbl,.kpi-card.grad>.val,.kpi-card.grad>.delta{position:relative;z-index:1;}
+.kpi-card.grad>.kpi-spark{z-index:1;}
+.kpi-card.grad:hover::before{transform:translateX(65%) rotate(-12deg);}
+.kpi-card.grad:hover{transform:translateY(-7px) scale(1.025);box-shadow:0 24px 44px -19px rgba(20,43,70,.45);}
+.kpi-card.grad:hover .val{transform:translateY(-2px) scale(1.045);}
+.kpi-card .val{display:inline-block;transform-origin:left center;transition:transform .3s var(--ease-premium);font-variant-numeric:tabular-nums;}
+.kpi-card.grad .kpi-spark{transition:transform .45s var(--ease-premium),opacity .45s;}
+.kpi-card.grad:hover .kpi-spark{transform:translateY(-3px) scaleY(1.18);opacity:1;}
+.fx-peer-comparison{margin:18px 0;border:1px solid var(--border);border-radius:17px;overflow:hidden;background:var(--surface);box-shadow:var(--shadow-sm);}
+.fx-compare-head{display:flex;justify-content:space-between;align-items:end;gap:12px;padding:17px 19px 14px;background:linear-gradient(110deg,var(--surface-3),var(--surface));}
+.fx-compare-head h5{font-family:var(--font-display);color:var(--text);font-size:16px;letter-spacing:-.025em;margin:3px 0 0;}
+.fx-compare-head>span{color:var(--text-muted);font-size:11px;white-space:nowrap;}
+.fx-peer-comparison .fx-scroll{max-height:470px;overflow:auto;}
+.fx-compare-table{min-width:800px;width:100%;table-layout:fixed;}
+.fx-compare-table th:first-child,.fx-compare-table td:first-child{width:32%;white-space:normal;}
+.fx-compare-table th{position:sticky;top:0;z-index:1;background:var(--surface-2);text-transform:none;letter-spacing:0;white-space:normal;line-height:1.35;color:var(--text-muted);}
+.fx-compare-table td{font-size:11.5px;padding:11px 13px;text-align:left;font-variant-numeric:tabular-nums;}
+.fx-compare-table td strong{display:block;font-size:11px;line-height:1.35;}
+.fx-compare-table td small{display:block;font-size:10px;color:var(--text-muted);margin-top:3px;}
+.fx-compare-table tr.selected{background:var(--info-bg);}
+.fx-compare-table tr.selected td:first-child{box-shadow:inset 3px 0 var(--violet);}
+.fx-compare-table tr.average{background:var(--warning-bg);font-weight:700;}
+.fx-compare-table tr.average td:first-child{box-shadow:inset 3px 0 var(--gold);}
+.fx-compare-number{font-weight:700;color:var(--text);white-space:nowrap;}
+.fx-compare-number.positive{color:var(--teal);}
+.fx-compare-number.negative{color:var(--error);}
+.btn-primary:not(.btn-gold),.pill.active,.chip-opt.sel,.lang-switch button.active{background:var(--action-bg);border-color:var(--action-bg);color:var(--action-text);}
+.btn-primary:not(.btn-gold):hover{background:var(--action-hover);border-color:var(--action-hover);}
+@media(max-width:700px){.fx-steps{width:100%;justify-content:space-between}.fx-step{padding:7px 3px;font-size:10px;gap:4px}.fx-step-sep{width:8px}.fx-compare-head{align-items:start;flex-direction:column}}
 @media(max-width:900px){.crm-overview{grid-template-columns:repeat(2,minmax(0,1fr));}}
 @media(max-width:1050px){.fx-kpi-grid{grid-template-columns:repeat(3,minmax(0,1fr));}}
 @media(max-width:700px){.fx-kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr));}.fx-chart-grid,.fx-import-controls{grid-template-columns:1fr;}.fx-rp-fund-card{padding:16px;}.ai-hero{padding:24px;}.fx-peer-bar-row{grid-template-columns:minmax(80px,1fr) minmax(50px,1fr) 55px;gap:5px;}}
-@media(prefers-reduced-motion:reduce){.view.active,.picker-dd.open,.picker-dd .pdd-item,.picker-dd .pdd-spinner,.ai-hero::after,.fx-rp-fund-card{animation:none}.nav-item:hover,.btn:hover,.card.card-pad:hover,.picker-dd .pdd-item:hover{transform:none}}
+@media(prefers-reduced-motion:reduce){.view.active,.view.active>* , .picker-dd.open,.picker-dd .pdd-item,.picker-dd .pdd-spinner,.ai-hero::after,.fx-rp-fund-card,.fx-chart-line,.fx-peer-track>div,.crm-aum-row i,.goal-bar-fill,.fx-gap-bar-fill{animation:none}.nav-item:hover,.btn:hover,.card.card-pad:hover,.picker-dd .pdd-item:hover,.kpi-card.grad:hover{transform:none}}
 @media print{
+  :root{--surface:#fff;--surface-2:#eef2f4;--surface-3:#f8fafb;--text:#17283B;--text-muted:#5C6D7C;--border:#DCE3E7;--ink:#142B46;--violet:#3D7197;--info-bg:#EAF0F4;--warning-bg:#F8F0E5}
+  .report-page{--surface:#fff;--surface-2:#eef2f4;--surface-3:#f8fafb;--text:#17283B;--text-muted:#5C6D7C;--border:#DCE3E7;--ink:#142B46;--violet:#3D7197;--info-bg:#EAF0F4;--warning-bg:#F8F0E5}
   .fx-chart,.fx-peer-chart,.fx-kpi-grid>div,.fx-matrix tr{break-inside:avoid}
-  .fx-chart-line{stroke:#5441A3}.fx-peer-track>div{background:#5441A3}
+  .fx-chart-line{stroke:#3D7197}.fx-peer-track>div{background:#3D7197}
   .fx-matrix .fx-scroll{overflow:visible}
   .fx-matrix table{min-width:0;table-layout:fixed}
   .fx-matrix th,.fx-matrix td{white-space:normal!important;overflow-wrap:anywhere;font-size:8px!important;padding:5px!important}
   .fx-matrix td:first-child{min-width:0!important}
-  .fx-matrix th:nth-child(6),.fx-matrix td:nth-child(6),.fx-matrix th:nth-child(7),.fx-matrix td:nth-child(7),.fx-matrix th:nth-child(8),.fx-matrix td:nth-child(8){display:none}
-  .fx-rp-fund-card,.ai-hero::after,.picker-dd .pdd-item{animation:none}
+  .fx-matrix th:nth-child(3),.fx-matrix td:nth-child(3),.fx-matrix th:nth-child(8),.fx-matrix td:nth-child(8),.fx-matrix th:nth-child(9),.fx-matrix td:nth-child(9){display:none}
+  .fx-peer-comparison .fx-scroll{max-height:none;overflow:visible}
+  .fx-compare-table{min-width:0;table-layout:fixed}
+  .fx-compare-table th,.fx-compare-table td{font-size:8px;padding:5px;white-space:normal}
+  .fx-compare-table td strong{font-size:8px}
+  .fx-compare-table thead{display:table-header-group}
+  .fx-compare-table tr{break-inside:avoid}
+  .fx-rp-fund-card.fx-has-peers{break-inside:auto;page-break-inside:auto}
+  .fx-rp-fund-card,.ai-hero::after,.picker-dd .pdd-item,.fx-chart-line,.fx-peer-track>div,.crm-aum-row i{animation:none}
 }
 </style>
 </head>
@@ -1751,7 +1824,7 @@ function pipelineCounts(){
 }
 function riskProfileCounts(){
   const order = ['Conservative','Moderate','Aggressive'];
-  const colors = {Conservative:'#0D9488',Moderate:'#D89A3E',Aggressive:'#7C3AED'};
+  const colors = {Conservative:'#278F84',Moderate:'#B78D58',Aggressive:'#39769A'};
   return order.map(label=>({
     label, color: colors[label],
     value: clients.filter(c=>(c.riskProfile||'Moderate')===label).length,
@@ -1759,7 +1832,7 @@ function riskProfileCounts(){
 }
 function pipelineDonutSegments(){
   const p = pipelineCounts();
-  const colors = ['#2563EB','#0D9488','#D89A3E','#7C3AED','#E11D48'];
+  const colors = ['#39769A','#278F84','#B78D58','#23496B','#897054'];
   return p.stages.map((s,i)=>({label:s, color:colors[i%colors.length], value:p.counts[i]})).filter(s=>s.value>0);
 }
 
@@ -1801,7 +1874,7 @@ function donutCard(title, segments){
 }
 
 /* ---- top clients by AUM ---- */
-const TC_PALETTE = ['#7C3AED','#2563EB','#0D9488','#D89A3E','#E11D48','#4F46E5','#0EA5E9','#059669'];
+const TC_PALETTE = ['#23496B','#39769A','#278F84','#B78D58','#3D668D','#897054','#6598B5','#4D978B'];
 function renderTopClients(){
   const top = clients.slice().sort((a,b)=>b.aumL-a.aumL).slice(0,6);
   if(!top.length) return emptyState('i-crm','No clients yet','Add your first client to see them ranked here by AUM.');
@@ -3406,7 +3479,23 @@ function fxPeerBars(f, p) {
   rows.sort((a,b) => Number(b.value) - Number(a.value));
   if (!rows.length) return '';
   const low = Math.min(0,...rows.map(x => Number(x.value))), high = Math.max(0,...rows.map(x => Number(x.value))), span = high-low || 1;
-  return '<div class="fx-peer-chart"><div class="fx-chart-heading"><b>Average 1Y rolling return across the peer universe</b><span>' + rows.length + ' comparable funds</span></div>' + rows.map(x => '<div class="fx-peer-bar-row' + (x.selected ? ' selected' : '') + '"><span title="' + esc(x.schemeName) + '">' + esc(x.schemeName) + '</span><div class="fx-peer-track"><div style="width:' + Math.max(2,(Number(x.value)-low)/span*100).toFixed(1) + '%"></div></div><b>' + fxPct(x.value) + '</b></div>').join('') + '</div>';
+  const visible = rows.slice(0,7);
+  if (!visible.some(x => x.selected)) visible.push(rows.find(x => x.selected));
+  visible.sort((a,b) => Number(b.value) - Number(a.value));
+  return '<div class="fx-peer-chart"><div class="fx-chart-heading"><b>1Y rolling return snapshot</b><span>Leading peers' + (visible.length < rows.length ? ' + your fund' : '') + '</span></div>' + visible.map(x => '<div class="fx-peer-bar-row' + (x.selected ? ' selected' : '') + '"><span title="' + esc(x.schemeName) + '">' + esc(x.schemeName) + '</span><div class="fx-peer-track"><div style="width:' + Math.max(2,(Number(x.value)-low)/span*100).toFixed(1) + '%"></div></div><b>' + fxPct(x.value) + '</b></div>').join('') + '</div>';
+}
+function fxPeerComparisonTable(f, p) {
+  if (!p?.peers?.length) return '';
+  const valid = n => n !== null && n !== undefined && Number.isFinite(Number(n));
+  const peers = p.peers.slice().sort((a,b) => (valid(b.metrics?.rolling1Y?.avgPct) ? Number(b.metrics.rolling1Y.avgPct) : -Infinity) - (valid(a.metrics?.rolling1Y?.avgPct) ? Number(a.metrics.rolling1Y.avgPct) : -Infinity));
+  const fields = [m => m.rolling1Y?.avgPct, m => m.rolling3Y?.avgPct, m => m.stdDev1YAvg, m => m.stdDev3YAvg];
+  const average = fields.map(field => { const values = peers.map(x => field(x.metrics || {})).filter(valid).map(Number); return values.length ? values.reduce((sum,n) => sum+n,0)/values.length : null; });
+  const cell = (value, isReturn) => valid(value) ? '<span class="fx-compare-number' + (isReturn ? Number(value) >= 0 ? ' positive' : ' negative' : '') + '">' + fxPct(value) + '</span>' : '<span class="fx-missing" title="Full NAV history unavailable">—</span>';
+  const row = (name, metrics, type, detail) => '<tr class="' + type + '"><td><strong>' + esc(name) + '</strong><small>' + esc(detail) + '</small></td>' + fields.map((field,i) => '<td>' + cell(field(metrics),i<2) + '</td>').join('') + '</tr>';
+  const own = row(f.schemeName,f.metrics || {},'selected','Selected holding · ' + (f.metrics?.rolling1Y?.sampleCount || 0) + ' 1Y windows');
+  const avgRow = '<tr class="average"><td><strong>Peer average</strong><small>Available, date-aligned peers</small></td>' + average.map((n,i) => '<td>' + cell(n,i<2) + '</td>').join('') + '</tr>';
+  const peerRows = peers.map((x,i) => row(x.schemeName,x.metrics || {},'peer','Peer ' + (i+1))).join('');
+  return '<div class="fx-peer-comparison"><div class="fx-compare-head"><div><span class="fx-eyebrow">Same category · ' + esc(p.category || f.normalizedCategory || 'Peer set') + '</span><h5>Fund comparison</h5></div><span>' + peers.length + ' verified peers</span></div><div class="fx-scroll"><table class="fx-compare-table"><thead><tr><th>Fund</th><th title="Average of full one-year return windows ending in the latest year">Avg rolling 1Y return</th><th title="Average of full three-year return windows ending in the latest year">Avg rolling 3Y return</th><th title="Average annualized standard deviation over one-year rolling windows">Avg rolling 1Y SD</th><th title="Average annualized standard deviation over three-year rolling windows">Avg rolling 3Y SD</th></tr></thead><tbody>' + own + avgRow + peerRows + '</tbody></table></div><p class="fx-matrix-foot">Returns: higher is better historically. Standard deviation (SD): lower means less NAV fluctuation. All four figures use complete rolling windows; a dash means insufficient history. Past performance does not predict future results.</p></div>';
 }
 function fxCoverageText(m) {
   const years = Number(m?.historyYears || 0), points = Number(m?.dataPoints || 0);
@@ -3423,18 +3512,19 @@ function fxPortfolioMatrix(funds) {
     const m = f.metrics || {}, p = f.peerComparison;
     const cell = value => value === null || value === undefined ? '<span class="fx-missing">—</span>' : fxPct(value);
     const status = m.rolling1Y && m.rolling3Y ? 'Full analysis' : m.return1Y ? 'Partial history' : 'History limited';
-    return '<tr><td><strong>' + esc(f.schemeName) + '</strong><small>' + esc(f.category || 'Category unknown') + '</small></td><td>' + fxMoney(f.currentValue) + '</td><td>' + cell(m.return1Y?.cagrPct) + '</td><td>' + cell(m.rolling1Y?.avgPct) + '</td><td>' + cell(m.rolling3Y?.avgPct) + '</td><td>' + cell(m.stdDev1YAvg) + '</td><td>' + (m.sharpe1Y === null || m.sharpe1Y === undefined ? '<span class="fx-missing">—</span>' : fxMetric(m.sharpe1Y)) + '</td><td>' + (p?.rank ? p.rank + ' / ' + p.outOf : '<span class="fx-missing">—</span>') + '</td><td><span class="fx-status ' + (m.rolling1Y && m.rolling3Y ? 'ready' : 'limited') + '">' + status + '</span></td></tr>';
+    return '<tr><td><strong>' + esc(f.schemeName) + '</strong><small>' + esc(f.category || 'Category unknown') + '</small></td><td>' + fxMoney(f.currentValue) + '</td><td>' + cell(m.return1Y?.cagrPct) + '</td><td>' + cell(m.rolling1Y?.avgPct) + '</td><td>' + cell(m.rolling3Y?.avgPct) + '</td><td>' + cell(m.stdDev1YAvg) + '</td><td>' + cell(m.stdDev3YAvg) + '</td><td>' + (m.sharpe1Y === null || m.sharpe1Y === undefined ? '<span class="fx-missing">—</span>' : fxMetric(m.sharpe1Y)) + '</td><td>' + (p?.rank ? p.rank + ' / ' + p.outOf : '<span class="fx-missing">—</span>') + '</td><td><span class="fx-status ' + (m.rolling1Y && m.rolling3Y ? 'ready' : 'limited') + '">' + status + '</span></td></tr>';
   }).join('');
-  return '<div class="fx-matrix"><div class="fx-matrix-head"><div><span class="fx-eyebrow">Performance at a glance</span><h3>Portfolio matrix</h3></div><span>' + ready + ' of ' + funds.length + ' funds have full rolling history</span></div><div class="fx-scroll"><table><thead><tr><th>Holding</th><th>Value</th><th>1Y CAGR</th><th>Avg rolling 1Y</th><th>Avg rolling 3Y</th><th>1Y volatility</th><th>Sharpe</th><th>Peer rank</th><th>Coverage</th></tr></thead><tbody>' + rows + '</tbody></table></div><p class="fx-matrix-foot">A dash means the required NAV history or comparable category data is unavailable. Select a scheme to review its coverage before generating a report.</p></div>';
+  return '<div class="fx-matrix"><div class="fx-matrix-head"><div><span class="fx-eyebrow">Performance at a glance</span><h3>Portfolio matrix</h3></div><span>' + ready + ' of ' + funds.length + ' funds have full rolling history</span></div><div class="fx-scroll"><table><thead><tr><th>Holding</th><th>Value</th><th>1Y CAGR</th><th>Avg rolling 1Y</th><th>Avg rolling 3Y</th><th>Avg rolling 1Y SD</th><th>Avg rolling 3Y SD</th><th>Sharpe</th><th>Peer rank</th><th>Coverage</th></tr></thead><tbody>' + rows + '</tbody></table></div><p class="fx-matrix-foot">A dash means the required NAV history or comparable category data is unavailable. Select a scheme to review its coverage before generating a report.</p></div>';
 }
 function fxFundAnalysisCard(f) {
   const m = f.metrics || {}, p = f.peerComparison, b = f.benchmarkComparison;
   const check = f.navVerification || {}, checkLabel = check.status === 'matched' ? 'AMFI NAV matched' : check.status === 'mismatch' ? 'AMFI NAV mismatch' : check.status === 'provider_lag' ? 'Provider NAV lag' : 'AMFI check unavailable';
-  let out = '<div class="fx-rp-fund-card"><div class="fx-fund-heading"><div><span class="fx-eyebrow">' + esc(f.normalizedCategory || f.category || 'Fund review') + '</span><h4>' + esc(f.schemeName) + '</h4></div><span class="fx-nav-tag">NAV ' + esc(m.asOfDate || 'date unknown') + '</span></div>';
+  let out = '<div class="fx-rp-fund-card' + (p?.peers?.length ? ' fx-has-peers' : '') + '"><div class="fx-fund-heading"><div><span class="fx-eyebrow">' + esc(f.normalizedCategory || f.category || 'Fund review') + '</span><h4>' + esc(f.schemeName) + '</h4></div><span class="fx-nav-tag">NAV ' + esc(m.asOfDate || 'date unknown') + '</span></div>';
   out += '<p class="fx-help">' + fxMetric(m.dataPoints) + ' published NAVs · ' + esc(f.dataFreshness || 'unknown') + ' data · ' + esc(checkLabel) + '</p>';
   if (!m.return1Y && !m.rolling1Y && !m.rolling3Y) {
     out += '<div class="fx-data-state"><div><strong>Performance history is too short for a fund-level comparison</strong><p>' + esc(fxCoverageText(m)) + ' This holding and its value remain in the portfolio matrix. No return or risk figure has been estimated.</p></div></div>';
     if (!f.normalizedCategory) out += '<p class="fx-help">A same-category peer set is not configured for this scheme category.</p>';
+    if (p?.peers?.length) out += fxPeerComparisonTable(f,p);
     return out + '</div>';
   }
   const tiles = [];
@@ -3460,6 +3550,7 @@ function fxFundAnalysisCard(f) {
   if (b && (Number.isFinite(b.return1Y) || Number.isFinite(b.return3Y))) comparison.push('<div class="rp-box"><div class="k">Index ETF proxy</div>' + fxRow('Index',esc(b.indexName)) + fxRow('Proxy',esc(b.proxySchemeName)) + (Number.isFinite(b.return1Y) ? fxRow('1Y return',fxPct(b.return1Y)) : '') + (Number.isFinite(b.return3Y) ? fxRow('3Y return',fxPct(b.return3Y)) : '') + '</div>');
   if (comparison.length) out += '<div class="rp-grid">' + comparison.join('') + '</div>';
   else out += '<p class="fx-help">Comparable peer and index data are unavailable for this category or NAV date.</p>';
+  if (p?.peers?.length) out += fxPeerComparisonTable(f,p);
   if (p?.peers?.length && m.rolling1Y) out += fxPeerBars(f,p);
   return out + '</div>';
 }

@@ -43,6 +43,8 @@ test('full-history report populates rolling returns, ranking, and the portfolio 
   assert.equal(report.health.totalValue, 10000);
   assert.ok(fund.metrics.rolling1Y.sampleCount >= 250);
   assert.ok(fund.metrics.rolling3Y.sampleCount >= 250);
+  assert.ok(Number.isFinite(fund.metrics.stdDev1YAvg));
+  assert.ok(Number.isFinite(fund.metrics.stdDev3YAvg));
   assert.ok(fund.peerComparison.peers.length >= 19);
   assert.ok(fund.peerComparison.rank >= 1);
   assert.ok(fund.benchmarkComparison.return1Y !== null);
