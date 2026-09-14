@@ -1,6 +1,6 @@
 // Field-level encryption for sensitive data (PAN numbers) at rest.
 // Uses AES-256-GCM. The key comes from the ENCRYPTION_KEY env var (32 bytes, base64).
-// If ENCRYPTION_KEY is missing, the server refuses to start (see server/index.js) —
+// If ENCRYPTION_KEY is missing, the server refuses to start (see server/index.js) -
 // we never silently store sensitive fields in plaintext.
 
 const crypto = require('crypto');
@@ -29,7 +29,7 @@ function encrypt(plainText) {
 function decrypt(stored) {
   if (!stored) return null;
   const parts = stored.split('.');
-  if (parts.length !== 3) return null; // not our format — treat as unreadable rather than throw
+  if (parts.length !== 3) return null; // not our format - treat as unreadable rather than throw
   const [ivB64, tagB64, dataB64] = parts;
   try {
     const key = getKey();
@@ -41,7 +41,7 @@ function decrypt(stored) {
     const dec = Buffer.concat([decipher.update(data), decipher.final()]);
     return dec.toString('utf8');
   } catch (e) {
-    return null; // wrong key / tampered data — never crash the request over one bad field
+    return null; // wrong key / tampered data - never crash the request over one bad field
   }
 }
 

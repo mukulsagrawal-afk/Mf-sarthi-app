@@ -1,10 +1,10 @@
 // Parses an uploaded monthly CAS / commission statement (CSV or Excel export from
 // CAMS, KFintech, or a broker back-office) into plain rows: { name, mobile, pan, aum, sip }.
 //
-// This deliberately does NOT try to parse the official password-protected CAS PDF —
+// This deliberately does NOT try to parse the official password-protected CAS PDF -
 // that format is inconsistent across RTAs and needs its own project. Advisors can
 // export their statement to Excel/CSV from the CAMS/KFintech portal (a standard
-// option) and upload that instead — this covers the "get real numbers in" need
+// option) and upload that instead - this covers the "get real numbers in" need
 // without waiting on a live API integration.
 
 const { parse } = require('csv-parse/sync');
@@ -81,7 +81,7 @@ async function parseStatementFile(buffer, originalName) {
     });
     return rowsFromMatrix(matrix);
   }
-  throw new Error('Unsupported file type — please upload a .csv or .xlsx export from your RTA/back-office portal.');
+  throw new Error('Unsupported file type - please upload a .csv or .xlsx export from your RTA/back-office portal.');
 }
 
 module.exports = { parseStatementFile };

@@ -8,7 +8,7 @@ const { parseStatementFile } = require('../utils/statementParser');
 const router = express.Router();
 router.use(requireAuth);
 
-// Memory storage only — we parse the file and discard the raw bytes immediately.
+// Memory storage only - we parse the file and discard the raw bytes immediately.
 // A monthly statement contains AUM/PAN for many clients at once, so we deliberately
 // don't retain the original file on disk (smaller blast radius if the server is ever
 // compromised). Only an anonymous row-count summary is kept, in statement_imports.

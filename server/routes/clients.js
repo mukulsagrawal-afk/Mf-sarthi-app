@@ -29,9 +29,9 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
   const row = db.prepare('SELECT * FROM clients WHERE id = ? AND user_id = ?').get(req.params.id, req.user.id);
   if (!row) return res.status(404).json({ error: 'Client not found' });
-  const notes = db.prepare('SELECT * FROM notes WHERE client_id = ? ORDER BY created_at DESC').all(row.id);
-  const meetings = db.prepare('SELECT * FROM meetings WHERE client_id = ? ORDER BY scheduled_at DESC').all(row.id);
-  const followups = db.prepare('SELECT * FROM followups WHERE client_id = ? ORDER BY due_date ASC').all(row.id);
+  const notes = db.prepare('SELECT * FROM notes WHERE client_id = ? AND user_id = ? ORDER BY created_at DESC').all(row.id, req.user.id);
+  const meetings = db.prepare('SELECT * FROM meetings WHERE client_id = ? AND user_id = ? ORDER BY scheduled_at DESC').all(row.id, req.user.id);
+  const followups = db.prepare('SELECT * FROM followups WHERE client_id = ? AND user_id = ? ORDER BY due_date ASC').all(row.id, req.user.id);
   res.json({ client: rowToClient(row, { full: true }), notes, meetings, followups });
 });
 

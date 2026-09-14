@@ -7,7 +7,11 @@ router.use(requireAuth);
 
 router.get('/', (req, res) => {
   const { from, to } = req.query;
-  let sql = 'SELECT m.*, c.name as client_name FROM meetings m LEFT JOIN clients c ON c.id = m.client_id WHERE m.user_id = ?';
+  let sql = `
+    SELECT m.*, c.name as client_name
+    FROM meetings m LEFT JOIN clients c ON c.id = m.client_id AND c.user_id = m.user_id
+    WHERE m.user_id = ?
+  `;
   const params = [req.user.id];
   if (from) { sql += ' AND m.scheduled_at >= ?'; params.push(from); }
   if (to) { sql += ' AND m.scheduled_at <= ?'; params.push(to); }
@@ -18,6 +22,16 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
   const b = req.body || {};
   if (!b.title || !b.scheduledAt) return res.status(400).json({ error: 'Title and scheduled time are required' });
+  // Ownership check: a clientId/leadId must belong to the signed-in user, otherwise
+  // someone could link a meeting to another MFD's client/lead by guessing their id.
+  if (b.clientId) {
+    const owned = db.prepare('SELECT id FROM clients WHERE id = ? AND user_id = ?').get(b.clientId, req.user.id);
+    if (!owned) return res.status(404).json({ error: 'Client not found' });
+  }
+  if (b.leadId) {
+    const owned = db.prepare('SELECT id FROM leads WHERE id = ? AND user_id = ?').get(b.leadId, req.user.id);
+    if (!owned) return res.status(404).json({ error: 'Lead not found' });
+  }
   const info = db.prepare(`
     INSERT INTO meetings (user_id, client_id, lead_id, title, type, scheduled_at, status)
     VALUES (?, ?, ?, ?, ?, ?, 'Upcoming')

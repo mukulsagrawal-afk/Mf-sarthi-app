@@ -53,7 +53,7 @@ router.post('/signup', authLimiter, (req, res) => {
   const user = { id: info.lastInsertRowid, email: emailNorm, name: String(name).trim() };
   const token = signToken(user);
   setAuthCookie(res, token);
-  res.json({ token, user });
+  res.json({ user });
 });
 
 router.post('/login', authLimiter, (req, res) => {
@@ -62,7 +62,7 @@ router.post('/login', authLimiter, (req, res) => {
   const emailNorm = String(email).trim().toLowerCase();
   const row = db.prepare('SELECT * FROM users WHERE email = ?').get(emailNorm);
 
-  // Same generic error whether the email doesn't exist or the password is wrong —
+  // Same generic error whether the email doesn't exist or the password is wrong -
   // never reveal which one it was, that's an account-enumeration leak.
   if (!row || !bcrypt.compareSync(String(password), row.password_hash)) {
     return res.status(401).json({ error: 'Invalid email or password' });
@@ -72,7 +72,7 @@ router.post('/login', authLimiter, (req, res) => {
   const user = { id: row.id, email: row.email, name: row.name };
   const token = signToken(user);
   setAuthCookie(res, token);
-  res.json({ token, user });
+  res.json({ user });
 });
 
 router.post('/logout', (req, res) => {

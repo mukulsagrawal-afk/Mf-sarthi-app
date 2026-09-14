@@ -47,7 +47,7 @@ router.put('/:id', (req, res) => {
   res.json({ lead: db.prepare('SELECT * FROM leads WHERE id = ?').get(req.params.id) });
 });
 
-// Convert a lead into a client (common CRM action — keep it a first-class endpoint, not a UI trick)
+// Convert a lead into a client (common CRM action - keep it a first-class endpoint, not a UI trick)
 router.post('/:id/convert', (req, res) => {
   const lead = db.prepare('SELECT * FROM leads WHERE id = ? AND user_id = ?').get(req.params.id, req.user.id);
   if (!lead) return res.status(404).json({ error: 'Lead not found' });

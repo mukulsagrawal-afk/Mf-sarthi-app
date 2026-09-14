@@ -10,8 +10,8 @@ router.get('/', (req, res) => {
   let sql = `
     SELECT f.*, c.name as client_name, l.name as lead_name
     FROM followups f
-    LEFT JOIN clients c ON c.id = f.client_id
-    LEFT JOIN leads l ON l.id = f.lead_id
+    LEFT JOIN clients c ON c.id = f.client_id AND c.user_id = f.user_id
+    LEFT JOIN leads l ON l.id = f.lead_id AND l.user_id = f.user_id
     WHERE f.user_id = ?
   `;
   const params = [req.user.id];
@@ -23,6 +23,15 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
   const b = req.body || {};
   if (!b.reason || !b.dueDate) return res.status(400).json({ error: 'Reason and due date are required' });
+  // Ownership check: prevent linking a follow-up to another MFD's client/lead.
+  if (b.clientId) {
+    const owned = db.prepare('SELECT id FROM clients WHERE id = ? AND user_id = ?').get(b.clientId, req.user.id);
+    if (!owned) return res.status(404).json({ error: 'Client not found' });
+  }
+  if (b.leadId) {
+    const owned = db.prepare('SELECT id FROM leads WHERE id = ? AND user_id = ?').get(b.leadId, req.user.id);
+    if (!owned) return res.status(404).json({ error: 'Lead not found' });
+  }
   const info = db.prepare(`
     INSERT INTO followups (user_id, client_id, lead_id, reason, due_date) VALUES (?, ?, ?, ?, ?)
   `).run(req.user.id, b.clientId || null, b.leadId || null, b.reason, b.dueDate);

@@ -33,22 +33,22 @@ async function runDailyReminders() {
     lines.push(`Good morning ${user.name.split(' ')[0]},`, '');
     if (meetingsToday.length) {
       lines.push(`TODAY'S MEETINGS (${meetingsToday.length})`);
-      meetingsToday.forEach((m) => lines.push(`  • ${new Date(m.scheduled_at).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })} — ${m.client_name || 'Prospect'} (${m.type})`));
+      meetingsToday.forEach((m) => lines.push(`  • ${new Date(m.scheduled_at).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })} - ${m.client_name || 'Prospect'} (${m.type})`));
       lines.push('');
     }
     if (followups.length) {
       lines.push(`FOLLOW-UPS DUE (${followups.length})`);
-      followups.forEach((f) => lines.push(`  • ${f.client_name || f.lead_name || 'Unknown'} — ${f.reason} (due ${f.due_date})`));
+      followups.forEach((f) => lines.push(`  • ${f.client_name || f.lead_name || 'Unknown'} - ${f.reason} (due ${f.due_date})`));
       lines.push('');
     }
-    lines.push('— Sent automatically by MF Sarthi');
+    lines.push('- Sent automatically by MF Sarthi');
 
     const text = lines.join('\n');
     const html = '<pre style="font:14px/1.5 -apple-system,sans-serif;white-space:pre-wrap">' + text.replace(/</g, '&lt;') + '</pre>';
 
     const outcome = await sendMail({
       to: user.email,
-      subject: `MF Sarthi — ${followups.length} follow-up(s), ${meetingsToday.length} meeting(s) today`,
+      subject: `MF Sarthi - ${followups.length} follow-up(s), ${meetingsToday.length} meeting(s) today`,
       text, html,
     });
 

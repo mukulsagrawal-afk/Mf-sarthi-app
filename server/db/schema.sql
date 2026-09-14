@@ -106,6 +106,24 @@ CREATE TABLE IF NOT EXISTS statement_imports (
   imported_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
 
+CREATE TABLE IF NOT EXISTS mf_nav_cache (
+  scheme_code INTEGER PRIMARY KEY,
+  scheme_name TEXT,
+  fund_house TEXT,
+  scheme_category TEXT,
+  isin_growth TEXT,
+  nav_json TEXT NOT NULL,       -- JSON array of {date, nav}, oldest first
+  fetched_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+CREATE TABLE IF NOT EXISTS mf_scheme_index (
+  scheme_code INTEGER PRIMARY KEY,
+  scheme_name TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS mf_scheme_index_meta (
+  id INTEGER PRIMARY KEY CHECK (id = 1),
+  fetched_at TEXT
+);
+
 CREATE INDEX IF NOT EXISTS idx_clients_user ON clients(user_id);
 CREATE INDEX IF NOT EXISTS idx_leads_user ON leads(user_id);
 CREATE INDEX IF NOT EXISTS idx_meetings_user ON meetings(user_id);
@@ -113,3 +131,4 @@ CREATE INDEX IF NOT EXISTS idx_meetings_time ON meetings(scheduled_at);
 CREATE INDEX IF NOT EXISTS idx_followups_user ON followups(user_id);
 CREATE INDEX IF NOT EXISTS idx_followups_due ON followups(due_date);
 CREATE INDEX IF NOT EXISTS idx_notes_client ON notes(client_id);
+CREATE INDEX IF NOT EXISTS idx_mf_scheme_index_name ON mf_scheme_index(scheme_name);

@@ -1,6 +1,6 @@
 require('dotenv').config();
 
-// Fail loudly, not silently, if the secrets required for security are missing —
+// Fail loudly, not silently, if the secrets required for security are missing -
 // a financial app must never fall back to "no encryption" or "no session signing".
 for (const key of ['JWT_SECRET', 'ENCRYPTION_KEY']) {
   if (!process.env[key]) {
@@ -26,6 +26,7 @@ const statementRoutes = require('./routes/statements');
 const exportRoutes = require('./routes/export');
 const reminderRoutes = require('./routes/reminders');
 const bootstrapRoutes = require('./routes/bootstrap');
+const mfRoutes = require('./routes/mf');
 const { runDailyReminders } = require('./utils/reminders');
 const { runBackup } = require('./utils/backup');
 
@@ -54,6 +55,7 @@ app.use('/api/statements', statementRoutes);
 app.use('/api/export', exportRoutes);
 app.use('/api/reminders', reminderRoutes);
 app.use('/api/bootstrap', bootstrapRoutes);
+app.use('/api/mf', mfRoutes);
 
 app.get('/api/health', (req, res) => res.json({ ok: true, time: new Date().toISOString() }));
 
@@ -64,7 +66,7 @@ app.get('/*splat', (req, res, next) => {
   res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
 });
 
-// Central error handler — never leak stack traces to the client
+// Central error handler - never leak stack traces to the client
 app.use((err, req, res, next) => {
   console.error(err);
   res.status(500).json({ error: 'Something went wrong on our end. Please try again.' });
@@ -86,4 +88,4 @@ cron.schedule('0 2 * * *', () => {
 });
 
 // Also take one backup on boot, so day-one deployments aren't unprotected for 24h
-try { runBackup(); } catch (e) { /* no data yet on first run — fine */ }
+try { runBackup(); } catch (e) { /* no data yet on first run - fine */ }

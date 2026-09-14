@@ -7,7 +7,7 @@ const { decrypt, maskPan } = require('../utils/crypto');
 const router = express.Router();
 router.use(requireAuth);
 
-// Full client list — the everyday "give me a CSV of my book" export.
+// Full client list - the everyday "give me a CSV of my book" export.
 router.get('/clients.csv', (req, res) => {
   const rows = db.prepare('SELECT * FROM clients WHERE user_id = ? ORDER BY name ASC').all(req.user.id);
   const data = rows.map((r) => ({
@@ -30,7 +30,7 @@ router.get('/clients.csv', (req, res) => {
   res.send(csv);
 });
 
-// Portfolio-level summary — one row per client with AUM/SIP, useful for a management view.
+// Portfolio-level summary - one row per client with AUM/SIP, useful for a management view.
 router.get('/portfolio.csv', (req, res) => {
   const rows = db.prepare('SELECT * FROM clients WHERE user_id = ? ORDER BY aum DESC').all(req.user.id);
   const totalAUM = rows.reduce((s, r) => s + (r.aum || 0), 0);

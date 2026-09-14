@@ -12,7 +12,7 @@ router.post('/run-now', async (req, res) => {
   const results = await runDailyReminders();
   const mine = results.find((r) => r.userId === req.user.id);
   res.json({
-    emailMode: isConfigured() ? 'live (SMTP configured)' : 'dry_run (logged, not actually emailed — add SMTP credentials to .env to send for real)',
+    emailMode: isConfigured() ? 'live (SMTP configured)' : 'dry_run (logged, not actually emailed - add SMTP credentials to .env to send for real)',
     sent: mine || { followups: 0, meetings: 0, message: 'Nothing due today' },
   });
 });
