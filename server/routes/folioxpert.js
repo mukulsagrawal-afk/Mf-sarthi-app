@@ -2,11 +2,20 @@
 // is in utils/folioEngine.js.
 
 const express = require('express');
+const multer = require('multer');
 const { requireAuth } = require('../middleware/auth');
 const { buildReport } = require('../utils/folioEngine');
+const { extractCandidatesFromPdf } = require('../utils/casExtract');
 
 const router = express.Router();
 router.use(requireAuth);
+const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 15 * 1024 * 1024 } });
+
+router.post('/extract-cas', upload.single('file'), async (req, res) => {
+  if (!req.file) return res.status(400).json({ error: 'Choose a CAS PDF first.' });
+  try { res.json(await extractCandidatesFromPdf(req.file.buffer, req.body.password || undefined)); }
+  catch (e) { res.status(400).json({ error: e.message || 'Could not read this statement.' }); }
+});
 
 router.post('/report', async (req, res) => {
   const body = req.body || {};

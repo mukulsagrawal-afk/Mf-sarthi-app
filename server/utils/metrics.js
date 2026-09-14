@@ -1,229 +1,80 @@
-// Financial metrics engine for the Portfolio Analyzer.
-//
-// Everything here takes `series`: an array of { date: 'YYYY-MM-DD', nav: number },
-// oldest-first (this is the shape mfapi.js normalizes MFAPI's NAV history into).
-//
-// Methodology, spelled out because these numbers go in front of clients:
-// - Trailing / point-to-point return: CAGR between the NAV closest to `asOfDate - years`
-//   and the latest NAV. For windows under 1 year, this is a simple (not annualized) return.
-// - Rolling returns: sample a trailing-return window starting at every ~21st NAV point
-//   (roughly monthly) across the whole history, report avg / min / max / % of windows
-//   that were positive. This is the standard "rolling return" an MFD means by the term -
-//   not just the single most-recent window.
-// - Annualized standard deviation: stdev of daily returns over the trailing 1Y, x sqrt(252).
-// - Downside deviation: same, but only over the negative daily returns, still divided by
-//   the TOTAL number of return observations (not just the negative ones) - this is the
-//   standard Sortino-ratio convention, not a mistake.
-// - Sharpe / Sortino: (annualized return - risk-free rate) / (std dev / downside dev).
-// - Risk-free rate: fixed assumption, not live-fetched (see DEFAULT_RISK_FREE_RATE below).
-//   Surfaced in the response so nobody mistakes it for a live rate.
-
-const DEFAULT_RISK_FREE_RATE = 0.065; // 6.5% - roughly the prevailing short-term G-Sec/repo level
-const TRADING_DAYS_PER_YEAR = 252;
-const MIN_DATA_POINTS = 30; // below this, "metrics" would just be noise - refuse instead
-
-function toDate(d) {
-  // MFAPI dates are 'DD-MM-YYYY'
-  const [dd, mm, yyyy] = d.split('-').map(Number);
-  return new Date(Date.UTC(yyyy, mm - 1, dd));
+// NAV-based performance measures. Rolling observations end on each published NAV
+// date in the latest year and start on the closest preceding NAV 1Y/3Y earlier.
+const DEFAULT_RISK_FREE_RATE = 0.05;
+const DAY_MS = 86400000;
+const round2 = n => Number.isFinite(n) ? Math.round(n * 100) / 100 : null;
+function toDate(value) {
+  const s = String(value || '');
+  const p = /^\d{4}-\d{2}-\d{2}$/.test(s) ? s.split('-').map(Number) : s.split('-').reverse().map(Number);
+  const d = new Date(Date.UTC(p[0], p[1] - 1, p[2]));
+  return Number.isFinite(d.getTime()) && d.getUTCFullYear() === p[0] && d.getUTCMonth() === p[1] - 1 && d.getUTCDate() === p[2] ? d : new Date(NaN);
 }
-
-// Nearest series entry to a target date, searching backward first (the closest trading
-// day on/before the target), falling back to the earliest point if the fund is younger
-// than the requested window.
-function nearestOnOrBefore(series, targetDate) {
-  let best = null;
-  for (const pt of series) {
-    const d = toDate(pt.date);
-    if (d <= targetDate) {
-      if (!best || d > toDate(best.date)) best = pt;
-    }
-  }
-  return best || series[0] || null;
+function yearsBefore(ms, years) { const d = new Date(ms); d.setUTCFullYear(d.getUTCFullYear() - years); return d.getTime(); }
+function prepare(series) {
+  return (series || []).map(p => ({ ...p, nav: Number(p.nav), ms: toDate(p.date).getTime() }))
+    .filter(p => Number.isFinite(p.ms) && Number.isFinite(p.nav) && p.nav > 0)
+    .sort((a, b) => a.ms - b.ms).filter((p, i, a) => i === a.length - 1 || p.ms !== a[i + 1].ms);
 }
-
-function round2(n) { return n === null || n === undefined || !isFinite(n) ? null : Math.round(n * 100) / 100; }
-
-// Point-to-point trailing return ending at the latest NAV in `series`, over `years`.
-// Returns { cagrPct, startDate, startNav, endDate, endNav, isAnnualized } or null.
+function onOrBefore(points, target) {
+  let lo = 0, hi = points.length - 1, found = -1;
+  while (lo <= hi) { const mid = (lo + hi) >> 1; if (points[mid].ms <= target) { found = mid; lo = mid + 1; } else hi = mid - 1; }
+  return found;
+}
+function windowStart(points, end, years) {
+  const target = yearsBefore(points[end].ms, years), index = onOrBefore(points, target);
+  return index >= 0 && target - points[index].ms <= 7 * DAY_MS ? index : -1;
+}
+function returnAt(points, start, end) {
+  const a = points[start], b = points[end], actualYears = (b.ms - a.ms) / (365.25 * DAY_MS);
+  return { cagrPct: round2((Math.pow(b.nav / a.nav, 1 / actualYears) - 1) * 100), startDate: a.date, startNav: a.nav, endDate: b.date, endNav: b.nav, actualYears: round2(actualYears), isAnnualized: true };
+}
 function trailingReturn(series, years) {
-  if (!series.length) return null;
-  const end = series[series.length - 1];
-  const endDate = toDate(end.date);
-  const targetStart = new Date(endDate);
-  targetStart.setUTCFullYear(targetStart.getUTCFullYear() - years);
-  const start = nearestOnOrBefore(series, targetStart);
-  if (!start || start.nav <= 0 || start.date === end.date) return null;
-
-  const actualYears = (endDate - toDate(start.date)) / (365.25 * 24 * 60 * 60 * 1000);
-  const growth = end.nav / start.nav;
-  let cagrPct;
-  if (actualYears >= 0.95) {
-    // Long enough to annualize meaningfully.
-    cagrPct = (Math.pow(growth, 1 / actualYears) - 1) * 100;
-  } else {
-    // Young fund / short window - report the plain (non-annualized) point-to-point return
-    // instead of an annualization that would wildly exaggerate a few months of data.
-    cagrPct = (growth - 1) * 100;
-  }
-  return {
-    cagrPct: round2(cagrPct),
-    startDate: start.date, startNav: start.nav,
-    endDate: end.date, endNav: end.nav,
-    isAnnualized: actualYears >= 0.95,
-    actualYears: round2(actualYears),
-  };
+  const p = prepare(series); if (p.length < 2) return null;
+  const start = windowStart(p, p.length - 1, years); return start < 0 ? null : returnAt(p, start, p.length - 1);
 }
-
-// Rolling N-year returns sampled roughly monthly across the full history.
-function rollingReturns(series, years) {
-  if (series.length < 2) return null;
-  const stepDays = 21; // ~1 trading month
-  const windowMs = years * 365.25 * 24 * 60 * 60 * 1000;
-  const samples = [];
-
-  for (let i = 0; i < series.length; i += stepDays) {
-    const windowStart = series[i];
-    const windowStartDate = toDate(windowStart.date);
-    const windowEndTarget = new Date(windowStartDate.getTime() + windowMs);
-    // Find the series point on/after the target end date.
-    let endPt = null;
-    for (let j = i; j < series.length; j++) {
-      if (toDate(series[j].date) >= windowEndTarget) { endPt = series[j]; break; }
-    }
-    if (!endPt || windowStart.nav <= 0) continue;
-    const actualYears = (toDate(endPt.date) - windowStartDate) / (365.25 * 24 * 60 * 60 * 1000);
-    if (actualYears < years * 0.9) continue; // don't count a truncated window near the end of history
-    const cagr = (Math.pow(endPt.nav / windowStart.nav, 1 / actualYears) - 1) * 100;
-    samples.push(cagr);
-  }
-
-  if (!samples.length) return null;
-  const avg = samples.reduce((a, b) => a + b, 0) / samples.length;
-  const min = Math.min(...samples);
-  const max = Math.max(...samples);
-  const positivePct = (samples.filter((s) => s > 0).length / samples.length) * 100;
-  return {
-    avgPct: round2(avg), minPct: round2(min), maxPct: round2(max),
-    positivePct: round2(positivePct), sampleCount: samples.length,
-  };
+function prefixes(p) {
+  const sum = [0], square = [0], downside = [0];
+  for (let i = 1; i < p.length; i++) { const r = p[i].nav / p[i - 1].nav - 1; sum.push(sum[i - 1] + r); square.push(square[i - 1] + r * r); downside.push(downside[i - 1] + Math.min(r, 0) ** 2); }
+  return { sum, square, downside };
 }
-
-// Daily returns over the trailing `years` window (for std dev / Sharpe / Sortino).
-function dailyReturns(series, years) {
-  if (series.length < 2) return [];
-  const end = series[series.length - 1];
-  const endDate = toDate(end.date);
-  const targetStart = new Date(endDate);
-  targetStart.setUTCFullYear(targetStart.getUTCFullYear() - years);
-
-  let startIdx = series.findIndex((p) => toDate(p.date) >= targetStart);
-  if (startIdx === -1) startIdx = 0;
-  const slice = series.slice(startIdx);
-
-  const rets = [];
-  for (let i = 1; i < slice.length; i++) {
-    if (slice[i - 1].nav > 0) rets.push(slice[i].nav / slice[i - 1].nav - 1);
-  }
-  return rets;
+function windowRisk(pre, start, end) {
+  const n = end - start; if (n < 30) return null;
+  const sum = pre.sum[end] - pre.sum[start], sq = pre.square[end] - pre.square[start];
+  return { stdDevPct: Math.sqrt(Math.max(0, (sq - sum * sum / n) / (n - 1)) * 252) * 100, downsidePct: Math.sqrt((pre.downside[end] - pre.downside[start]) / n * 252) * 100 };
 }
-
-// Maximum peak-to-trough decline over the trailing `years` window (or the fund's full
-// history if it's younger than that) - the worst-case drawdown a client actually would
-// have sat through, not a synthetic worst-day figure. Returns null only when there's
-// truly nothing to compute (fewer than 2 points).
+function rollingFromPoints(p, years, pre) {
+  if (p.length < 2) return null;
+  const firstEndpoint = yearsBefore(p.at(-1).ms, 1), samples = [];
+  for (let end = 1; end < p.length; end++) {
+    if (p[end].ms < firstEndpoint) continue;
+    const start = windowStart(p, end, years); if (start < 0) continue;
+    samples.push({ date: p[end].date, returnPct: returnAt(p, start, end).cagrPct, stdDevPct: windowRisk(pre, start, end)?.stdDevPct ?? null });
+  }
+  // Do not present a truncated endpoint year as a full rolling-year average.
+  if (samples.length < 200 || toDate(samples[0].date).getTime() - firstEndpoint > 7 * DAY_MS) return null;
+  const vals = samples.map(s => s.returnPct), risks = samples.map(s => s.stdDevPct).filter(Number.isFinite);
+  const stride = Math.max(1, Math.ceil(samples.length / 48));
+  return { avgPct: round2(vals.reduce((a, b) => a + b, 0) / vals.length), minPct: round2(Math.min(...vals)), maxPct: round2(Math.max(...vals)), positivePct: round2(vals.filter(v => v > 0).length / vals.length * 100), stdDevAvgPct: risks.length ? round2(risks.reduce((a, b) => a + b, 0) / risks.length) : null, sampleCount: samples.length, firstEndDate: samples[0].date, lastEndDate: samples.at(-1).date, chart: samples.filter((_, i) => i % stride === 0 || i === samples.length - 1).map(s => ({ date: s.date, returnPct: s.returnPct })) };
+}
+function rollingReturns(series, years) { const p = prepare(series); return rollingFromPoints(p, years, prefixes(p)); }
+function annualizedStdDev(rets) { if (!rets || rets.length < 2) return null; const mean = rets.reduce((a, b) => a + b, 0) / rets.length; return Math.sqrt(rets.reduce((a, b) => a + (b - mean) ** 2, 0) / (rets.length - 1) * 252); }
+function annualizedDownsideDeviation(rets, targetDaily = 0) { return rets?.length >= 2 ? Math.sqrt(rets.reduce((a, r) => a + Math.min(r - targetDaily, 0) ** 2, 0) / rets.length * 252) : null; }
 function maxDrawdown(series, years) {
-  if (!series || series.length < 2) return null;
-  const end = series[series.length - 1];
-  const endDate = toDate(end.date);
-  const targetStart = new Date(endDate);
-  targetStart.setUTCFullYear(targetStart.getUTCFullYear() - years);
-  let startIdx = series.findIndex((p) => toDate(p.date) >= targetStart);
-  if (startIdx === -1) startIdx = 0;
-  const slice = series.slice(startIdx);
-  if (slice.length < 2) return null;
-
-  let peak = slice[0].nav, peakDate = slice[0].date;
-  let maxDD = 0, ddPeakDate = slice[0].date, ddTroughDate = slice[0].date;
-  for (const pt of slice) {
-    if (pt.nav > peak) { peak = pt.nav; peakDate = pt.date; }
-    const dd = peak > 0 ? (pt.nav / peak - 1) * 100 : 0; // negative or zero
-    if (dd < maxDD) { maxDD = dd; ddPeakDate = peakDate; ddTroughDate = pt.date; }
-  }
-  const actualYears = (toDate(slice[slice.length - 1].date) - toDate(slice[0].date)) / (365.25 * 24 * 60 * 60 * 1000);
-  return {
-    maxDrawdownPct: round2(maxDD),
-    peakDate: ddPeakDate, troughDate: ddTroughDate,
-    windowYears: round2(actualYears), // the ACTUAL span examined - may be less than `years` for a young fund
-  };
+  const p = prepare(series); if (p.length < 2) return null;
+  let start = p.findIndex(x => x.ms >= yearsBefore(p.at(-1).ms, years)); if (start < 0) start = 0;
+  let peak = p[start], max = 0, peakDate = peak.date, troughDate = peak.date;
+  for (let i = start; i < p.length; i++) { const x = p[i]; if (x.nav > peak.nav) peak = x; const dd = (x.nav / peak.nav - 1) * 100; if (dd < max) { max = dd; peakDate = peak.date; troughDate = x.date; } }
+  return { maxDrawdownPct: round2(max), peakDate, troughDate, windowYears: round2((p.at(-1).ms - p[start].ms) / (365.25 * DAY_MS)) };
 }
-
-// True span of history available, in years - lets callers know whether a "3Y" or "5Y"
-// figure is a full, honest window or a truncated one that should be labeled as such.
-function historyYears(series) {
-  if (!series || series.length < 2) return 0;
-  const ms = toDate(series[series.length - 1].date) - toDate(series[0].date);
-  return round2(ms / (365.25 * 24 * 60 * 60 * 1000));
-}
-
-function annualizedStdDev(rets) {
-  if (rets.length < 2) return null;
-  const mean = rets.reduce((a, b) => a + b, 0) / rets.length;
-  const variance = rets.reduce((a, b) => a + (b - mean) ** 2, 0) / (rets.length - 1);
-  return Math.sqrt(variance) * Math.sqrt(TRADING_DAYS_PER_YEAR);
-}
-
-// Downside deviation, standard Sortino convention: only negative returns contribute to
-// the sum of squares, but the divisor is still the TOTAL number of observations - not
-// just the count of negative ones. This is intentional, not a bug.
-function annualizedDownsideDeviation(rets) {
-  if (rets.length < 2) return null;
-  const downside = rets.filter((r) => r < 0);
-  if (!downside.length) return 0;
-  const sumSq = downside.reduce((a, b) => a + b ** 2, 0);
-  const variance = sumSq / rets.length;
-  return Math.sqrt(variance) * Math.sqrt(TRADING_DAYS_PER_YEAR);
-}
-
+function historyYears(series) { const p = prepare(series); return p.length < 2 ? 0 : round2((p.at(-1).ms - p[0].ms) / (365.25 * DAY_MS)); }
 function computeMetrics(series, { riskFreeRate = DEFAULT_RISK_FREE_RATE } = {}) {
-  if (!Array.isArray(series) || series.length < MIN_DATA_POINTS) {
-    return { insufficientHistory: true, dataPoints: series ? series.length : 0 };
-  }
-
-  const return1Y = trailingReturn(series, 1);
-  const return3Y = trailingReturn(series, 3);
-  const return5Y = trailingReturn(series, 5);
-  const rolling1Y = rollingReturns(series, 1);
-  const rolling3Y = rollingReturns(series, 3);
-  const rolling5Y = rollingReturns(series, 5);
-  const maxDrawdown5Y = maxDrawdown(series, 5);
-
-  const rets1Y = dailyReturns(series, 1);
-  const stdDev1Y = annualizedStdDev(rets1Y);
-  const downsideDeviation1Y = annualizedDownsideDeviation(rets1Y);
-
-  const annReturn1Y = return1Y ? return1Y.cagrPct / 100 : null;
-  const sharpe1Y = (annReturn1Y !== null && stdDev1Y) ? round2((annReturn1Y - riskFreeRate) / stdDev1Y) : null;
-  const sortino1Y = (annReturn1Y !== null && downsideDeviation1Y) ? round2((annReturn1Y - riskFreeRate) / downsideDeviation1Y) : (annReturn1Y !== null && downsideDeviation1Y === 0 ? null : null);
-
-  return {
-    asOfDate: series[series.length - 1].date,
-    latestNav: series[series.length - 1].nav,
-    dataPoints: series.length,
-    historyYears: historyYears(series), // true span of data available - callers use this to label a 3Y/5Y figure as partial when the fund is younger than the window
-    return1Y, return3Y, return5Y,
-    rolling1Y, rolling3Y, rolling5Y,
-    maxDrawdown5Y,
-    stdDev1Y: stdDev1Y !== null ? round2(stdDev1Y * 100) : null, // as a %, e.g. 14.28
-    downsideDeviation1Y: downsideDeviation1Y !== null ? round2(downsideDeviation1Y * 100) : null,
-    sharpe1Y,
-    sortino1Y,
-    riskFreeRateUsed: riskFreeRate,
-  };
+  const p = prepare(series); if (p.length < 30) return { insufficientHistory: true, dataPoints: p.length };
+  const pre = prefixes(p), end = p.length - 1, tr = years => { const start = windowStart(p, end, years); return start < 0 ? null : returnAt(p, start, end); };
+  const return1Y = tr(1), return3Y = tr(3), return5Y = tr(5), rolling1Y = rollingFromPoints(p, 1, pre), rolling3Y = rollingFromPoints(p, 3, pre);
+  const start1Y = windowStart(p, end, 1), risk = start1Y < 0 ? null : windowRisk(pre, start1Y, end), excess = return1Y ? return1Y.cagrPct / 100 - riskFreeRate : null;
+  const dailyTarget = Math.pow(1 + riskFreeRate, 1 / 252) - 1;
+  const rets1Y = start1Y < 0 ? [] : p.slice(start1Y + 1).map((x, i) => x.nav / p[start1Y + i].nav - 1);
+  const downside = annualizedDownsideDeviation(rets1Y, dailyTarget);
+  return { asOfDate: p[end].date, latestNav: p[end].nav, dataPoints: p.length, historyYears: round2((p[end].ms - p[0].ms) / (365.25 * DAY_MS)), return1Y, return3Y, return5Y, rolling1Y, rolling3Y, maxDrawdown5Y: maxDrawdown(p, 5), stdDev1Y: risk ? round2(risk.stdDevPct) : null, stdDev1YAvg: rolling1Y?.stdDevAvgPct ?? null, stdDev3YAvg: rolling3Y?.stdDevAvgPct ?? null, downsideDeviation1Y: downside === null ? null : round2(downside * 100), sharpe1Y: excess !== null && risk?.stdDevPct > 0 ? round2(excess / (risk.stdDevPct / 100)) : null, sortino1Y: excess !== null && downside > 0 ? round2(excess / downside) : null, riskFreeRateUsed: riskFreeRate };
 }
-
-module.exports = {
-  computeMetrics, trailingReturn, rollingReturns, annualizedStdDev, annualizedDownsideDeviation,
-  maxDrawdown, historyYears,
-  DEFAULT_RISK_FREE_RATE,
-};
+module.exports = { computeMetrics, trailingReturn, rollingReturns, annualizedStdDev, annualizedDownsideDeviation, maxDrawdown, historyYears, DEFAULT_RISK_FREE_RATE, toDate };

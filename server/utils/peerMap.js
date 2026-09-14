@@ -1,45 +1,24 @@
-// Curated peer groups for the "compare against category" feature.
-//
-// MFAPI has no "list all schemes in category X" endpoint - scheme_category only comes
-// back when you fetch an individual scheme. Building a live, complete category index
-// would mean crawling all ~10-16k schemes, which is heavy and unnecessary for what an
-// MFD actually needs: a handful of well-known, large, comparable peers to benchmark
-// against, not an exhaustive list. So this is a small, hand-curated set of real,
-// verified scheme codes (Direct Plan - Growth) per category, grown over time.
-//
-// category here is our own normalized label - matched against MFAPI's scheme_category
-// string with a loose "contains" check in mf.js, since MFAPI's own category strings are
-// inconsistent in wording (e.g. "Equity Scheme - Large Cap Fund" vs "Large Cap Fund").
-
-module.exports = {
-  'Large Cap': [
-    { schemeCode: 120586, schemeName: 'ICICI Prudential Large Cap Fund - Direct Plan - Growth' },
-    { schemeCode: 119018, schemeName: 'HDFC Large Cap Fund - Direct Plan - Growth Option' },
-    { schemeCode: 118632, schemeName: 'Nippon India Large Cap Fund - Direct Plan - Growth Option' },
-  ],
-  'Mid Cap': [
-    { schemeCode: 118989, schemeName: 'HDFC Mid Cap Fund - Direct Plan - Growth Option' },
-    { schemeCode: 120505, schemeName: 'Axis Midcap Fund - Direct Plan - Growth Option' },
-  ],
-  'Small Cap': [
-    { schemeCode: 125497, schemeName: 'SBI Small Cap Fund - Direct Plan - Growth' },
-    { schemeCode: 118778, schemeName: 'Nippon India Small Cap Fund - Direct Plan - Growth Option' },
-  ],
-  'Flexi Cap': [
-    { schemeCode: 122639, schemeName: 'Parag Parikh Flexi Cap Fund - Direct Plan - Growth' },
-    { schemeCode: 118955, schemeName: 'HDFC Flexi Cap Fund - Direct Plan - Growth Option' },
-  ],
+// MFapi scheme codes checked against its public scheme directory in September 2026.
+// Curated breadth, not an AUM or performance league table. Metadata is validated at
+// report time because names and categories can change.
+const groups = {
+  'Large Cap': [120586,119018,119598,118479,150797,118632,118825,120465,120152,119250,119528,120656,118269,118531,118617,119160,120392,120030,150440,148507],
+  'Mid Cap': [118989,120505,118533,118668,119071,119178,119581,119620,119716,119775,120381,120403,118872,119392],
+  'Small Cap': [125497,118778,118525,119212,119556,120077,120164,120591,120828,125354,130503,145137,145206,146130,147946],
+  'Flexi Cap': [122639,118955,118275,118424,118535,119076,119718,120046,120166,120564,120662,120843,129046,140353,141925],
 };
-
-// Loose match from MFAPI's raw scheme_category string to our normalized labels above.
+for (const [category, codes] of Object.entries(groups)) groups[category] = codes.map(schemeCode => ({ schemeCode }));
 function normalizeCategory(rawCategory) {
   const c = String(rawCategory || '').toLowerCase();
-  if (c.includes('large') && c.includes('mid')) return null; // large & mid cap - no curated peer group yet, avoid a misleading comparison
-  if (c.includes('large cap')) return 'Large Cap';
-  if (c.includes('mid cap') || c.includes('midcap')) return 'Mid Cap';
-  if (c.includes('small cap') || c.includes('smallcap')) return 'Small Cap';
-  if (c.includes('flexi cap') || c.includes('flexicap') || c.includes('multi cap') || c.includes('multicap')) return 'Flexi Cap';
+  if (/large\s*(?:&|and)\s*mid|multi\s*cap/.test(c)) return null;
+  if (/large\s*cap/.test(c)) return 'Large Cap';
+  if (/mid\s*cap|midcap/.test(c)) return 'Mid Cap';
+  if (/small\s*cap|smallcap/.test(c)) return 'Small Cap';
+  if (/flexi\s*cap|flexicap/.test(c)) return 'Flexi Cap';
   return null;
 }
-
-module.exports.normalizeCategory = normalizeCategory;
+function isComparable(meta, category) {
+  const name = String(meta?.scheme_name || '');
+  return normalizeCategory(meta?.scheme_category) === category && /direct/i.test(name) && /growth/i.test(name) && !/idcw|dividend|bonus|segregated|series\s*\d/i.test(name);
+}
+module.exports = { ...groups, normalizeCategory, isComparable };

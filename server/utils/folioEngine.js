@@ -10,9 +10,10 @@
 // silently drop them.
 
 const { getSchemeData } = require('./mfapi');
-const { computeMetrics } = require('./metrics');
+const { computeMetrics, toDate } = require('./metrics');
 const peerMap = require('./peerMap');
 const benchmarkMap = require('./benchmarkMap');
+const { checkLatestNav } = require('./amfiCheck');
 
 function round2(n) { return n === null || n === undefined || !isFinite(n) ? null : Math.round(n * 100) / 100; }
 function round0(n) { return n === null || n === undefined || !isFinite(n) ? null : Math.round(n); }
@@ -34,10 +35,26 @@ function classifyAssetClass(rawCategory) {
   return { assetClass: 'Unclassified', estimatedEquityPct: null };
 }
 
-async function fetchWithMetrics(schemeCode) {
-  const { meta, data, fromCache, stale } = await getSchemeData(schemeCode);
-  const metrics = computeMetrics(data);
-  return { schemeCode: Number(schemeCode), meta, metrics, dataFreshness: stale ? 'stale_fallback' : fromCache ? 'cached' : 'live' };
+const metricCache = new Map();
+let activeFetches = 0;
+const fetchQueue = [];
+async function limitedFetch(task) {
+  if (activeFetches >= 8) await new Promise(resolve => fetchQueue.push(resolve));
+  activeFetches++;
+  try { return await task(); }
+  finally { activeFetches--; fetchQueue.shift()?.(); }
+}
+function fetchWithMetrics(schemeCode) {
+  const code = Number(schemeCode), cached = metricCache.get(code);
+  if (cached && cached.expires > Date.now()) return cached.promise;
+  const promise = limitedFetch(async () => {
+    const { meta, data, fromCache, stale } = await getSchemeData(code);
+    return { schemeCode: code, meta, metrics: computeMetrics(data), dataFreshness: stale ? 'stale_fallback' : fromCache ? 'cached' : 'live' };
+  });
+  metricCache.set(code, { promise, expires: Date.now() + 5 * 60 * 1000 });
+  promise.catch(() => metricCache.delete(code));
+  if (metricCache.size > 250) metricCache.delete(metricCache.keys().next().value);
+  return promise;
 }
 
 // Percentage-point lag/lead of `metrics` versus a comparator return figure, only when both
@@ -53,35 +70,44 @@ async function buildFundMirror(holding, warnings) {
   const fetched = await fetchWithMetrics(schemeCode);
   const { meta, metrics } = fetched;
   const category = peerMap.normalizeCategory(meta.scheme_category);
+  const officialCheck = metrics.asOfDate ? checkLatestNav(schemeCode, metrics.asOfDate, metrics.latestNav) : Promise.resolve({ status: 'unavailable', source: 'AMFI daily NAV file' });
+  if (fetched.dataFreshness === 'stale_fallback') warnings.push(`${meta.scheme_name}: NAV provider was unavailable; cached data was used. Check the NAV as-of date before sharing this report.`);
+  if (metrics.asOfDate && Date.now() - toDate(metrics.asOfDate).getTime() > 7 * 86400000) warnings.push(`${meta.scheme_name}: latest NAV is more than 7 days old (${metrics.asOfDate}). Refresh before relying on the comparison.`);
 
   if (metrics.insufficientHistory) {
     warnings.push(`${meta.scheme_name}: only ${metrics.dataPoints} NAV data points available - too little history for reliable return/risk metrics. Shown with holdings data only.`);
   }
 
-  // Peers (reuse the same curated peer set as the Portfolio Analyzer).
+  // Same-category, same-plan peers. Discard codes whose live metadata changed.
   let peerComparison = null;
   if (category) {
     const peers = peerMap[category].filter((p) => p.schemeCode !== Number(schemeCode));
     const peerResults = await Promise.all(peers.map(async (p) => {
       try { return await fetchWithMetrics(p.schemeCode); } catch (e) { return null; }
     }));
-    const validPeers = peerResults.filter(Boolean);
+    const selectedDate = metrics.asOfDate ? toDate(metrics.asOfDate).getTime() : NaN;
+    const validPeers = peerResults.filter(p => p && peerMap.isComparable(p.meta, category) && Number.isFinite(selectedDate) && p.metrics.asOfDate && Math.abs(toDate(p.metrics.asOfDate).getTime() - selectedDate) <= 7 * 86400000);
+    if (validPeers.length < peers.length) warnings.push(`${meta.scheme_name}: ${peers.length - validPeers.length} curated peers were unavailable, reclassified, or had NAV dates more than 7 days apart; they were excluded.`);
     if (validPeers.length) {
       const returns1Y = validPeers.filter((p) => p.metrics.return1Y).map((p) => p.metrics.return1Y.cagrPct);
       const returns3Y = validPeers.filter((p) => p.metrics.return3Y && p.metrics.return3Y.isAnnualized).map((p) => p.metrics.return3Y.cagrPct);
-      const sharpes = validPeers.filter((p) => p.metrics.sharpe1Y !== null).map((p) => p.metrics.sharpe1Y);
+      const sharpes = validPeers.filter((p) => Number.isFinite(p.metrics.sharpe1Y)).map((p) => p.metrics.sharpe1Y);
+      const rolling1 = validPeers.map(p => p.metrics.rolling1Y?.avgPct).filter(Number.isFinite);
+      const rolling3 = validPeers.map(p => p.metrics.rolling3Y?.avgPct).filter(Number.isFinite);
+      const mean = values => values.length ? round2(values.reduce((a, b) => a + b, 0) / values.length) : null;
       const categoryAvg1Y = returns1Y.length ? round2(returns1Y.reduce((a, b) => a + b, 0) / returns1Y.length) : null;
       const categoryAvg3Y = returns3Y.length ? round2(returns3Y.reduce((a, b) => a + b, 0) / returns3Y.length) : null;
       const categoryAvgSharpe1Y = sharpes.length ? round2(sharpes.reduce((a, b) => a + b, 0) / sharpes.length) : null;
-      const ranked = [{ schemeCode: Number(schemeCode), return1Y: metrics.return1Y ? metrics.return1Y.cagrPct : null }, ...validPeers.map((p) => ({ schemeCode: p.schemeCode, return1Y: p.metrics.return1Y ? p.metrics.return1Y.cagrPct : null }))]
+      const categoryAvgRolling1Y = mean(rolling1), categoryAvgRolling3Y = mean(rolling3);
+      const ranked = [{ schemeCode: Number(schemeCode), return1Y: metrics.rolling1Y?.avgPct ?? null }, ...validPeers.map((p) => ({ schemeCode: p.schemeCode, return1Y: p.metrics.rolling1Y?.avgPct ?? null }))]
         .filter((r) => r.return1Y !== null).sort((a, b) => b.return1Y - a.return1Y);
       const rank = ranked.findIndex((r) => r.schemeCode === Number(schemeCode)) + 1;
       if (validPeers.length < 2) warnings.push(`${meta.scheme_name}: fewer than 2 peers available in the "${category}" comparison set - peer ranking shown but treat it as indicative only.`);
       peerComparison = {
-        category, categoryAvg1Y, categoryAvg3Y, categoryAvgSharpe1Y,
+        category, categoryAvg1Y, categoryAvg3Y, categoryAvgSharpe1Y, categoryAvgRolling1Y, categoryAvgRolling3Y,
         rank: rank || null, outOf: ranked.length,
-        lagVs1Y: ppDiff(metrics.return1Y, categoryAvg1Y),
-        lagVs3Y: ppDiff(metrics.return3Y, categoryAvg3Y),
+        lagVs1Y: metrics.rolling1Y && categoryAvgRolling1Y !== null ? round2(metrics.rolling1Y.avgPct - categoryAvgRolling1Y) : null,
+        lagVs3Y: metrics.rolling3Y && categoryAvgRolling3Y !== null ? round2(metrics.rolling3Y.avgPct - categoryAvgRolling3Y) : null,
         peers: validPeers.map((p) => ({ schemeCode: p.schemeCode, schemeName: p.meta.scheme_name, metrics: p.metrics })),
       };
     }
@@ -94,6 +120,7 @@ async function buildFundMirror(holding, warnings) {
   if (category && benchmarkMap[category]) {
     try {
       const bm = await fetchWithMetrics(benchmarkMap[category].schemeCode);
+      if (!bm.metrics.asOfDate || !metrics.asOfDate || Math.abs(toDate(bm.metrics.asOfDate).getTime() - toDate(metrics.asOfDate).getTime()) > 7 * 86400000) throw new Error('benchmark NAV date is too far from the fund NAV date');
       const bmHistoryYears = bm.metrics.historyYears || 0;
       benchmarkComparison = {
         indexName: benchmarkMap[category].indexName,
@@ -108,20 +135,23 @@ async function buildFundMirror(holding, warnings) {
       };
       if (bmHistoryYears < 4.9) warnings.push(`${meta.scheme_name}: the ${benchmarkMap[category].indexName} benchmark proxy only has ${bmHistoryYears} years of history - 5Y benchmark comparison omitted, shorter windows shown where they have full coverage.`);
     } catch (e) {
-      warnings.push(`${meta.scheme_name}: could not fetch benchmark data (${benchmarkMap[category].indexName}) - benchmark comparison omitted for this fund.`);
+      warnings.push(`${meta.scheme_name}: benchmark proxy NAV was unavailable or dated more than 7 days apart - benchmark comparison omitted.`);
     }
   } else if (category) {
     warnings.push(`${meta.scheme_name}: no benchmark proxy configured for "${category}" yet - benchmark comparison omitted.`);
   }
 
   const { assetClass, estimatedEquityPct } = classifyAssetClass(meta.scheme_category);
+  const navVerification = await officialCheck;
+  if (navVerification.status === 'mismatch') warnings.push(`${meta.scheme_name}: MFapi NAV does not match AMFI for ${metrics.asOfDate}. Verify the scheme code and NAV before sharing.`);
+  if (navVerification.status === 'provider_lag') warnings.push(`${meta.scheme_name}: AMFI has a newer NAV dated ${navVerification.officialDate}; MFapi may be behind.`);
 
   return {
     schemeCode: Number(schemeCode), schemeName: meta.scheme_name, fundHouse: meta.fund_house,
     category: meta.scheme_category, normalizedCategory: category, assetClass, estimatedEquityPct,
     currentValue: currentValue || null,
     metrics, peerComparison, benchmarkComparison,
-    dataFreshness: fetched.dataFreshness,
+    dataFreshness: fetched.dataFreshness, navVerification,
   };
 }
 
@@ -136,7 +166,7 @@ function classifyFund(fund) {
   const signals = [];
   const pc = fund.peerComparison, bc = fund.benchmarkComparison;
 
-  if (pc && pc.lagVs3Y !== null && pc.lagVs3Y < -2) signals.push({ type: 'peer_lag_3y', magnitude: pc.lagVs3Y, text: `trailing 3Y return is ${Math.abs(pc.lagVs3Y).toFixed(1)} percentage points behind the category average` });
+  if (pc && pc.lagVs3Y !== null && pc.lagVs3Y < -2) signals.push({ type: 'peer_lag_3y', magnitude: pc.lagVs3Y, text: `average rolling 3Y return is ${Math.abs(pc.lagVs3Y).toFixed(1)} percentage points behind the peer average` });
   if (bc && bc.lagVs3Y !== null && bc.lagVs3Y < -2) signals.push({ type: 'benchmark_lag_3y', magnitude: bc.lagVs3Y, text: `trailing 3Y return is ${Math.abs(bc.lagVs3Y).toFixed(1)} percentage points behind the ${bc.indexName} benchmark` });
   if (fund.metrics.rolling3Y && fund.metrics.rolling3Y.positivePct !== null && fund.metrics.rolling3Y.positivePct < 60) signals.push({ type: 'weak_consistency', magnitude: fund.metrics.rolling3Y.positivePct, text: `only ${fund.metrics.rolling3Y.positivePct.toFixed(0)}% of rolling 3-year periods were positive` });
   if (pc && pc.categoryAvgSharpe1Y !== null && fund.metrics.sharpe1Y !== null && fund.metrics.sharpe1Y < pc.categoryAvgSharpe1Y - 0.15) signals.push({ type: 'weak_risk_adjusted', magnitude: round2(fund.metrics.sharpe1Y - pc.categoryAvgSharpe1Y), text: `Sharpe ratio (${fund.metrics.sharpe1Y}) trails the category average (${pc.categoryAvgSharpe1Y})` });

@@ -7,13 +7,14 @@
 // it for every dashboard view would be both slow and unnecessarily hard on a free service.
 
 const db = require('../db');
+const { toDate } = require('./metrics');
 
 const BASE = 'https://api.mfapi.in';
 const NAV_TTL_MS = 24 * 60 * 60 * 1000;        // re-fetch a scheme's NAV history once a day
 const SCHEME_INDEX_TTL_MS = 7 * 24 * 60 * 60 * 1000; // refresh the full scheme list weekly
 
 async function fetchJson(path) {
-  const res = await fetch(BASE + path, { headers: { Accept: 'application/json' } });
+  const res = await fetch(BASE + path, { headers: { Accept: 'application/json' }, signal: AbortSignal.timeout(20000) });
   if (!res.ok) throw new Error(`MFAPI request failed (${res.status}) for ${path}`);
   return res.json();
 }
@@ -55,12 +56,15 @@ async function getSchemeData(schemeCodeRaw, { forceRefresh = false } = {}) {
 
   try {
     const live = await fetchJson(`/mf/${schemeCode}`);
-    if (!live || !live.meta || !Array.isArray(live.data)) throw new Error('Unexpected MFAPI response shape');
-    // MFAPI returns newest-first; store oldest-first, which every metrics calc below expects.
-    const navAsc = live.data
-      .map((d) => ({ date: d.date, nav: parseFloat(d.nav) }))
-      .filter((d) => isFinite(d.nav))
-      .reverse();
+    if (!live || !live.meta || !Array.isArray(live.data) || Number(live.meta.scheme_code) !== schemeCode) throw new Error('Unexpected MFAPI response or scheme code mismatch');
+    // Sort and deduplicate by parsed date. The API order is not part of the calculation.
+    const byDate = new Map();
+    for (const row of live.data) {
+      const date = toDate(row.date), nav = Number(row.nav);
+      if (Number.isFinite(date.getTime()) && Number.isFinite(nav) && nav > 0) byDate.set(date.toISOString().slice(0, 10), nav);
+    }
+    const navAsc = [...byDate].sort(([a], [b]) => a.localeCompare(b)).map(([date, nav]) => ({ date, nav }));
+    if (!navAsc.length) throw new Error('MFAPI returned no valid NAV observations');
     db.prepare(`
       INSERT INTO mf_nav_cache (scheme_code, scheme_name, fund_house, scheme_category, isin_growth, nav_json, fetched_at)
       VALUES (?, ?, ?, ?, ?, ?, datetime('now'))
@@ -83,7 +87,7 @@ async function getSchemeData(schemeCodeRaw, { forceRefresh = false } = {}) {
           fund_house: cached.fund_house, scheme_category: cached.scheme_category,
           isin_growth: cached.isin_growth,
         },
-        data: JSON.parse(cached.nav_json),
+      data: JSON.parse(cached.nav_json),
         fromCache: true,
         stale: true,
       };
@@ -130,22 +134,24 @@ async function searchSchemes(query, limit = 25) {
 
   const localCount = db.prepare('SELECT COUNT(*) AS n FROM mf_scheme_index').get().n;
   if (localCount > 0) {
-    const like = `%${q}%`;
     const startsWith = `${q}%`;
     const wordBoundary = `% ${q}%`;
+    const terms = q.split(/\s+/).filter(Boolean).slice(0, 6);
+    const tokenWhere = terms.map(() => 'scheme_name LIKE ?').join(' AND ');
     const localResults = db.prepare(`
       SELECT scheme_code AS schemeCode, scheme_name AS schemeName FROM mf_scheme_index
-      WHERE scheme_name LIKE ?
+      WHERE ${tokenWhere}
       ORDER BY
         CASE
           WHEN scheme_name LIKE ? THEN 0
           WHEN scheme_name LIKE ? THEN 1
           ELSE 2
         END,
+        CASE WHEN scheme_name LIKE '%Growth%' AND scheme_name LIKE '%Direct%' THEN 0 ELSE 1 END,
         LENGTH(scheme_name) ASC,
         scheme_name ASC
       LIMIT ?
-    `).all(like, startsWith, wordBoundary, limit);
+    `).all(...terms.map(t => `%${t}%`), startsWith, wordBoundary, limit);
 
     // The local index only refreshes on a schedule (daily, see index.js), so a scheme
     // that was newly listed on MFAPI since the last refresh won't be in it yet. Rather

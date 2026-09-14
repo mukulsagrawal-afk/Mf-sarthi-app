@@ -1,0 +1,23 @@
+# Optional Render Blueprint for a new production service. This creates paid compute
+# and a persistent disk because the CRM stores client data in SQLite.
+services:
+  - type: web
+    name: mf-sarthi
+    runtime: node
+    plan: starter
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /api/health
+    disk:
+      name: crm-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: DATA_DIR
+        value: /var/data
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true
+      - key: ENCRYPTION_KEY
+        generateValue: true

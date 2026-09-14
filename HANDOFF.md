@@ -1,6 +1,6 @@
 # MF Sarthi - Full Project Handover
 
-Historical note (September 2026): This handover describes the state before the FolioXpert AI frontend was built. The frontend wizard, six-section report, print/PDF preview, and demo handler are now included in public/index.html. Section 13 below is completed. See README.md for current deployment steps.
+Historical note (September 2026): This document describes an older build and is retained for background only. The separate Portfolio Analyzer has since been removed, CAS import lives in FolioXpert, daily rolling 1Y/3Y metrics and broader validated peer sets replaced the older method, and the risk-free assumption is now 5%. The frontend wizard and printable report are included. See README.md for current behavior and deployment steps.
 
 You are taking over development of a working, deployed product. Read this whole document
 before writing any code. The attached zip is the complete source (no `node_modules`).
