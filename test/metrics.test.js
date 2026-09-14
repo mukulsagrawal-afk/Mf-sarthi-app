@@ -32,6 +32,14 @@ test('missing full history remains unavailable instead of showing a partial 3Y f
   assert.ok(m.rolling1Y.sampleCount > 200);
 });
 
+test('a new fund still exposes NAV coverage and date for a clear report explanation', () => {
+  const m = computeMetrics(weekdays('2026-07-01', '2026-07-22'));
+  assert.equal(m.insufficientHistory, true);
+  assert.equal(m.firstNavDate, '2026-07-01');
+  assert.equal(m.asOfDate, '2026-07-22');
+  assert.equal(m.rolling1Y, null);
+});
+
 test('input order, duplicate dates and invalid NAVs cannot change a result', () => {
   const clean = weekdays('2021-08-01', '2026-08-01');
   const dirty = clean.slice().reverse().concat([{ ...clean[100] }, { date: 'bogus', nav: 2 }, { date: '2025-01-01', nav: 0 }]);

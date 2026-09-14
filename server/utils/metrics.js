@@ -68,13 +68,15 @@ function maxDrawdown(series, years) {
 }
 function historyYears(series) { const p = prepare(series); return p.length < 2 ? 0 : round2((p.at(-1).ms - p[0].ms) / (365.25 * DAY_MS)); }
 function computeMetrics(series, { riskFreeRate = DEFAULT_RISK_FREE_RATE } = {}) {
-  const p = prepare(series); if (p.length < 30) return { insufficientHistory: true, dataPoints: p.length };
+  const p = prepare(series);
+  const identity = { asOfDate: p.at(-1)?.date || null, latestNav: p.at(-1)?.nav ?? null, firstNavDate: p[0]?.date || null, dataPoints: p.length, historyYears: p.length < 2 ? 0 : round2((p.at(-1).ms - p[0].ms) / (365.25 * DAY_MS)) };
+  if (p.length < 30) return { ...identity, insufficientHistory: true, return1Y:null, return3Y:null, rolling1Y:null, rolling3Y:null, stdDev1Y:null, stdDev1YAvg:null, stdDev3YAvg:null, sharpe1Y:null, sortino1Y:null, riskFreeRateUsed:riskFreeRate };
   const pre = prefixes(p), end = p.length - 1, tr = years => { const start = windowStart(p, end, years); return start < 0 ? null : returnAt(p, start, end); };
   const return1Y = tr(1), return3Y = tr(3), return5Y = tr(5), rolling1Y = rollingFromPoints(p, 1, pre), rolling3Y = rollingFromPoints(p, 3, pre);
   const start1Y = windowStart(p, end, 1), risk = start1Y < 0 ? null : windowRisk(pre, start1Y, end), excess = return1Y ? return1Y.cagrPct / 100 - riskFreeRate : null;
   const dailyTarget = Math.pow(1 + riskFreeRate, 1 / 252) - 1;
   const rets1Y = start1Y < 0 ? [] : p.slice(start1Y + 1).map((x, i) => x.nav / p[start1Y + i].nav - 1);
   const downside = annualizedDownsideDeviation(rets1Y, dailyTarget);
-  return { asOfDate: p[end].date, latestNav: p[end].nav, dataPoints: p.length, historyYears: round2((p[end].ms - p[0].ms) / (365.25 * DAY_MS)), return1Y, return3Y, return5Y, rolling1Y, rolling3Y, maxDrawdown5Y: maxDrawdown(p, 5), stdDev1Y: risk ? round2(risk.stdDevPct) : null, stdDev1YAvg: rolling1Y?.stdDevAvgPct ?? null, stdDev3YAvg: rolling3Y?.stdDevAvgPct ?? null, downsideDeviation1Y: downside === null ? null : round2(downside * 100), sharpe1Y: excess !== null && risk?.stdDevPct > 0 ? round2(excess / (risk.stdDevPct / 100)) : null, sortino1Y: excess !== null && downside > 0 ? round2(excess / downside) : null, riskFreeRateUsed: riskFreeRate };
+  return { ...identity, return1Y, return3Y, return5Y, rolling1Y, rolling3Y, maxDrawdown5Y: maxDrawdown(p, 5), stdDev1Y: risk ? round2(risk.stdDevPct) : null, stdDev1YAvg: rolling1Y?.stdDevAvgPct ?? null, stdDev3YAvg: rolling3Y?.stdDevAvgPct ?? null, downsideDeviation1Y: downside === null ? null : round2(downside * 100), sharpe1Y: excess !== null && risk?.stdDevPct > 0 ? round2(excess / (risk.stdDevPct / 100)) : null, sortino1Y: excess !== null && downside > 0 ? round2(excess / downside) : null, riskFreeRateUsed: riskFreeRate };
 }
 module.exports = { computeMetrics, trailingReturn, rollingReturns, annualizedStdDev, annualizedDownsideDeviation, maxDrawdown, historyYears, DEFAULT_RISK_FREE_RATE, toDate };

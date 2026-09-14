@@ -76,6 +76,8 @@ async function buildFundMirror(holding, warnings) {
 
   if (metrics.insufficientHistory) {
     warnings.push(`${meta.scheme_name}: only ${metrics.dataPoints} NAV data points available - too little history for reliable return/risk metrics. Shown with holdings data only.`);
+  } else if (!metrics.rolling1Y || !metrics.rolling3Y) {
+    warnings.push(`${meta.scheme_name}: ${metrics.historyYears || 0} years of NAV history available. Average rolling 1Y requires roughly 2 years and rolling 3Y roughly 4 years with sufficient trading-date coverage; unavailable metrics were omitted.`);
   }
 
   // Same-category, same-plan peers. Discard codes whose live metadata changed.
@@ -160,6 +162,9 @@ async function buildFundMirror(holding, warnings) {
 // lagged its category over the last year but is otherwise consistent and reasonably
 // priced-in on risk terms should not be flagged from that alone.
 function classifyFund(fund) {
+  if (!fund.metrics?.return1Y || !fund.metrics?.rolling1Y || !fund.metrics?.rolling3Y) {
+    return { verdict: 'Insufficient data', signals: [], reason: 'The scheme does not have the full NAV history needed for a 1Y and 3Y rolling comparison. No Keep or Review call is made.' };
+  }
   if (!fund.peerComparison && !fund.benchmarkComparison) {
     return { verdict: 'Insufficient data', signals: [], reason: 'Not enough peer or benchmark data to evaluate this fund yet.' };
   }

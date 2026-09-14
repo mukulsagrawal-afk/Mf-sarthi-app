@@ -788,6 +788,25 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;bac
 #authScreen.loading .auth-card{opacity:.5;pointer-events:none;}
 
 /* ================= FOLIOXPERT AI ================= */
+.ai-mode-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--border-strong);border-radius:11px;padding:10px 16px;background:var(--surface);color:var(--text-muted);font-size:12.5px;font-weight:700;transition:background .2s,border-color .2s,box-shadow .2s;}
+.ai-mode-btn:hover{border-color:var(--gold);background:var(--surface-3);}
+.ai-mode-btn.active{color:var(--ink);border-color:var(--gold);background:var(--warning-bg);box-shadow:inset 0 0 0 1px rgba(192,138,52,.18);}
+.picker-dd{display:none;position:absolute;z-index:35;top:calc(100% + 8px);left:0;right:0;max-height:330px;overflow-y:auto;overscroll-behavior:contain;background:var(--surface);border:1px solid var(--border-strong);border-radius:16px;box-shadow:0 20px 45px rgba(19,35,68,.16),0 3px 8px rgba(19,35,68,.05);padding:5px;transform-origin:top center;}
+.picker-dd.open{display:block;animation:pickerReveal .23s cubic-bezier(.2,.8,.2,1) both;}
+.picker-dd .pdd-heading,.picker-dd .pdd-footer{padding:9px 11px;color:var(--text-muted);font-size:10px;font-weight:700;letter-spacing:.075em;text-transform:uppercase;}
+.picker-dd .pdd-footer{border-top:1px solid var(--border);font-weight:500;letter-spacing:0;text-transform:none;}
+.picker-dd .pdd-item{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:10px 11px;margin:1px 0;font:inherit;line-height:1.4;cursor:pointer;border:1px solid transparent;border-radius:10px;background:transparent;color:var(--text);animation:pickerItem .22s ease both;animation-delay:var(--item-delay,0ms);transition:background .16s,border-color .16s,transform .16s;}
+.picker-dd .pdd-item:hover,.picker-dd .pdd-item.active,.picker-dd .pdd-item:focus-visible{background:var(--surface-3);border-color:var(--border);transform:translateX(2px);outline:none;}
+.picker-dd .pdd-icon{display:grid;place-items:center;flex:none;width:31px;height:31px;border-radius:9px;background:var(--violet-soft);color:var(--violet);font-size:15px;font-weight:700;}
+.picker-dd .pdd-copy{min-width:0;flex:1;font-size:12px;font-weight:600;overflow-wrap:anywhere;}
+.picker-dd .pdd-meta{display:block;margin-top:3px;color:var(--text-muted);font-size:10px;font-weight:500;}
+.picker-dd .pdd-arrow{color:var(--gold);font-size:17px;opacity:0;transform:translateX(-4px);transition:opacity .16s,transform .16s;}
+.picker-dd .pdd-item:hover .pdd-arrow,.picker-dd .pdd-item.active .pdd-arrow,.picker-dd .pdd-item:focus-visible .pdd-arrow{opacity:1;transform:none;}
+.picker-dd .pdd-empty{display:flex;align-items:center;justify-content:center;gap:9px;padding:18px 12px;font-size:12px;color:var(--text-muted);text-align:center;}
+.picker-dd .pdd-spinner{display:inline-block;width:15px;height:15px;border:2px solid var(--border-strong);border-top-color:var(--violet);border-radius:50%;animation:pickerSpin .8s linear infinite;}
+@keyframes pickerReveal{from{opacity:0;transform:translateY(-7px) scale(.985)}to{opacity:1;transform:none}}
+@keyframes pickerItem{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+@keyframes pickerSpin{to{transform:rotate(360deg)}}
 .fx-steps{display:flex;align-items:center;gap:0;margin-bottom:20px;flex-wrap:wrap;}
 .fx-step{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;color:var(--text-faint);padding:8px 14px 8px 8px;}
 .fx-step .n{width:22px;height:22px;border-radius:50%;background:var(--surface-2);color:var(--text-faint);display:flex;align-items:center;justify-content:center;font-size:11px;flex:none;}
@@ -869,35 +888,25 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;bac
   .fx-table thead{display:table-header-group;}
   .fx-table tr{break-inside:avoid;}
 }
-/* Premium workspace polish: a restrained canvas, strong hierarchy and quiet motion. */
-body{background:radial-gradient(circle at 88% -12%,rgba(109,91,208,.07),transparent 30%),var(--bg);}
-.sidebar{box-shadow:8px 0 32px rgba(16,31,65,.035);}
-.nav-item{border:1px solid transparent;transition:background .22s var(--ease-premium),color .22s var(--ease-premium),transform .22s var(--ease-premium);}
-.nav-item:hover{transform:translateX(3px);}
-.nav-item.active{border-color:rgba(180,130,60,.15);box-shadow:inset 3px 0 0 var(--sidebar-accent);}
-.topbar{backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);}
-.view.active{animation:workspaceEnter .42s var(--ease-premium);}
-@keyframes workspaceEnter{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}
-.card,.table-wrap,.fx-rp-fund-card{border-radius:20px;}
-.card{box-shadow:0 2px 6px rgba(15,23,42,.025),0 14px 36px rgba(15,23,42,.035);}
-.card.card-pad:hover{transform:translateY(-2px);box-shadow:0 14px 38px rgba(15,23,42,.09);}
-.card.card-pad{transition:transform .3s var(--ease-premium),box-shadow .3s var(--ease-premium);}
-.btn{transition:transform .2s var(--ease-premium),background .2s,border-color .2s,box-shadow .2s;}
-.btn:hover{transform:translateY(-1px);}
-.btn:active{transform:translateY(0);}
+/* Focus and data views retain the established MF Sarthi visual system. */
 input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible,.nav-item:focus-visible{outline:2px solid var(--violet);outline-offset:2px;}
 .table-wrap{box-shadow:var(--shadow-sm);}
-tbody tr:hover{background:rgba(109,91,208,.055);}
-.ai-hero{background:linear-gradient(120deg,#101A3A 0%,#242059 56%,#3A245D 100%);padding:34px 38px;border-radius:24px;}
-.ai-hero h1{font-size:clamp(28px,3vw,38px);letter-spacing:-.04em;}
-.ai-hero p{font-size:14px;max-width:650px;}
-.fx-rp-fund-card{background:var(--surface);border:1px solid var(--border);padding:22px 24px;box-shadow:var(--shadow-sm);}
+.ai-hero{position:relative;isolation:isolate;overflow:hidden;background:linear-gradient(117deg,#101D3C 0%,#1B2B52 66%,#35426D 100%);padding:32px 38px;border-radius:22px;margin-bottom:20px;color:#fff;box-shadow:0 18px 38px rgba(15,31,64,.13);}
+.ai-hero::before{content:'';position:absolute;z-index:-1;width:360px;height:360px;right:-70px;top:-160px;border:1px solid rgba(255,255,255,.12);border-radius:50%;box-shadow:0 0 0 48px rgba(255,255,255,.025),0 0 0 108px rgba(255,255,255,.018);}
+.ai-hero::after{content:'';position:absolute;width:6px;height:6px;right:165px;top:48px;border-radius:50%;background:#D9B575;box-shadow:0 0 22px 8px rgba(217,181,117,.22);animation:glowBreathe 5s ease-in-out infinite;}
+.ai-hero-badge{display:inline-flex;align-items:center;gap:7px;position:relative;z-index:1;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.22);border-radius:999px;padding:5px 11px;margin-bottom:11px;color:#F4DCB2;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;}
+.ai-hero h1{position:relative;z-index:1;color:#fff;font-size:clamp(28px,3vw,38px);letter-spacing:-.04em;line-height:1.1;margin:0 0 9px;}
+.ai-hero p{position:relative;z-index:1;color:rgba(255,255,255,.82);font-size:14px;max-width:650px;line-height:1.6;}
+.fx-rp-fund-card{background:var(--surface);border:1px solid var(--border);padding:22px 24px;box-shadow:var(--shadow-sm);animation:riseIn .36s ease both;}
 .fx-rp-fund-card h4{font-size:16px;line-height:1.35;margin-bottom:5px;}
-.fx-kpi-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin:18px 0;}
+.fx-kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:10px;margin:18px 0;}
 .fx-kpi-grid>div{background:var(--surface-3);border:1px solid var(--border);border-radius:14px;padding:13px 14px;min-width:0;}
 .fx-kpi-grid small,.fx-kpi-grid em{display:block;color:var(--text-muted);font-size:10.5px;font-style:normal;line-height:1.35;}
 .fx-kpi-grid b{display:block;color:var(--ink);font-family:var(--font-display);font-size:20px;letter-spacing:-.04em;margin:5px 0;white-space:nowrap;}
-.fx-chart-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:14px 0 20px;}
+.fx-chart-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin:14px 0 20px;}
+.fx-fund-heading{display:flex;align-items:start;justify-content:space-between;gap:14px;}
+.fx-fund-heading h4{margin-top:4px;}
+.fx-nav-tag{white-space:nowrap;border:1px solid var(--border);border-radius:999px;padding:5px 9px;font-size:10px;color:var(--text-muted);background:var(--surface-3);}
 .fx-chart,.fx-chart-empty,.fx-peer-chart{background:var(--surface-3);border:1px solid var(--border);border-radius:16px;padding:14px;}
 .fx-chart-heading,.fx-chart-foot{display:flex;justify-content:space-between;gap:8px;align-items:center;}
 .fx-chart-heading{font-size:11.5px;color:var(--text);margin-bottom:6px;}
@@ -920,6 +929,28 @@ tbody tr:hover{background:rgba(109,91,208,.055);}
 .fx-cas-item{display:grid;grid-template-columns:78px minmax(0,1fr);gap:10px;align-items:center;padding:10px;border:1px solid var(--border);border-radius:12px;background:var(--surface-3);}
 .fx-cas-item label{font-size:11px;font-weight:700;white-space:nowrap;}
 .fx-cas-raw{font-size:11px;color:var(--text-muted);margin-bottom:5px;overflow-wrap:anywhere;}
+.fx-coverage{font-size:11px;color:var(--teal);line-height:1.35;margin-top:5px;}
+.fx-matrix{border:1px solid var(--border);background:var(--surface);border-radius:18px;margin:23px 0 28px;overflow:hidden;box-shadow:var(--shadow-sm);}
+.fx-matrix-head{display:flex;justify-content:space-between;align-items:end;gap:15px;padding:18px 20px 13px;}
+.fx-eyebrow{font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:800;color:var(--teal);}
+.fx-matrix-head h3{font-size:19px;letter-spacing:-.035em;margin-top:2px;}
+.fx-matrix-head>span{font-size:11px;color:var(--text-muted);text-align:right;}
+.fx-matrix table{min-width:980px;width:100%;border-collapse:collapse;}
+.fx-matrix thead th{background:var(--surface-3);font-size:10px;letter-spacing:.04em;padding:10px 12px;}
+.fx-matrix tbody td{font-size:11.5px;padding:13px 12px;white-space:nowrap;}
+.fx-matrix tbody td:first-child{min-width:220px;white-space:normal;line-height:1.3;}
+.fx-matrix tbody td:first-child small{display:block;color:var(--text-muted);font-size:10px;margin-top:4px;}
+.fx-matrix tbody tr{transition:background .18s ease;}
+.fx-matrix tbody tr:hover{background:var(--surface-3);}
+.fx-missing{color:var(--text-faint);font-size:15px;}
+.fx-status{display:inline-flex;border-radius:999px;padding:4px 8px;font-size:10px;font-weight:700;}
+.fx-status.ready{background:var(--success-bg);color:var(--success);}
+.fx-status.limited{background:var(--warning-bg);color:var(--warning);}
+.fx-matrix-foot{padding:11px 20px;border-top:1px solid var(--border);font-size:11px;color:var(--text-muted);}
+.fx-data-state{display:flex;align-items:flex-start;gap:14px;border:1px solid var(--border);border-radius:14px;padding:18px;margin:15px 0;background:var(--surface-3);}
+.fx-data-state::before{content:'i';display:grid;place-items:center;flex:none;width:25px;height:25px;border-radius:50%;background:var(--info-bg);color:var(--info);font-family:var(--font-display);font-weight:800;}
+.fx-data-state strong{font-size:13px;display:block;margin-bottom:4px;}
+.fx-data-state p{font-size:12px;color:var(--text-muted);line-height:1.6;}
 .crm-aum-bars{display:grid;gap:14px;margin:18px 0 4px;}
 .crm-aum-row{display:grid;grid-template-columns:minmax(85px,1fr) minmax(100px,3fr) 85px;align-items:center;gap:12px;font-size:12px;}
 .crm-aum-row>span{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;color:var(--text-muted);}
@@ -935,8 +966,17 @@ tbody tr:hover{background:rgba(109,91,208,.055);}
 @media(max-width:900px){.crm-overview{grid-template-columns:repeat(2,minmax(0,1fr));}}
 @media(max-width:1050px){.fx-kpi-grid{grid-template-columns:repeat(3,minmax(0,1fr));}}
 @media(max-width:700px){.fx-kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr));}.fx-chart-grid,.fx-import-controls{grid-template-columns:1fr;}.fx-rp-fund-card{padding:16px;}.ai-hero{padding:24px;}.fx-peer-bar-row{grid-template-columns:minmax(80px,1fr) minmax(50px,1fr) 55px;gap:5px;}}
-@media(prefers-reduced-motion:reduce){.view.active{animation:none}.nav-item:hover,.btn:hover,.card.card-pad:hover{transform:none}}
-@media print{.fx-chart,.fx-peer-chart,.fx-kpi-grid>div{break-inside:avoid}.fx-chart-line{stroke:#5441A3}.fx-peer-track>div{background:#5441A3}}
+@media(prefers-reduced-motion:reduce){.view.active,.picker-dd.open,.picker-dd .pdd-item,.picker-dd .pdd-spinner,.ai-hero::after,.fx-rp-fund-card{animation:none}.nav-item:hover,.btn:hover,.card.card-pad:hover,.picker-dd .pdd-item:hover{transform:none}}
+@media print{
+  .fx-chart,.fx-peer-chart,.fx-kpi-grid>div,.fx-matrix tr{break-inside:avoid}
+  .fx-chart-line{stroke:#5441A3}.fx-peer-track>div{background:#5441A3}
+  .fx-matrix .fx-scroll{overflow:visible}
+  .fx-matrix table{min-width:0;table-layout:fixed}
+  .fx-matrix th,.fx-matrix td{white-space:normal!important;overflow-wrap:anywhere;font-size:8px!important;padding:5px!important}
+  .fx-matrix td:first-child{min-width:0!important}
+  .fx-matrix th:nth-child(6),.fx-matrix td:nth-child(6),.fx-matrix th:nth-child(7),.fx-matrix td:nth-child(7),.fx-matrix th:nth-child(8),.fx-matrix td:nth-child(8){display:none}
+  .fx-rp-fund-card,.ai-hero::after,.picker-dd .pdd-item{animation:none}
+}
 </style>
 </head>
 <body>
@@ -1012,7 +1052,7 @@ tbody tr:hover{background:rgba(109,91,208,.055);}
       <a class="nav-item" data-view="meetings"><svg viewBox="0 0 24 24"><use href="#i-cal"/></svg>Meetings &amp; Reviews<span class="nav-badge" id="nav-overdue-badge">8</span></a>
       <a class="nav-item" data-view="calculators"><svg viewBox="0 0 24 24"><use href="#i-calc"/></svg>Calculators</a>
       <a class="nav-item" data-view="knowledge"><svg viewBox="0 0 24 24"><use href="#i-book"/></svg>Knowledge Hub</a>
-      <a class="nav-item nav-item-ai" data-view="folioxpert"><svg viewBox="0 0 24 24"><use href="#i-target"/></svg>FolioXpert AI<span class="ai-chip-mini">AI</span></a>
+      <a class="nav-item nav-item-ai" data-view="folioxpert"><svg viewBox="0 0 24 24"><use href="#i-target"/></svg>FolioXpert AI</a>
       <div class="nav-label">Practice</div>
       <a class="nav-item" data-view="insights"><svg viewBox="0 0 24 24"><use href="#i-insight"/></svg>Insights</a>
       <a class="nav-item" data-view="reports"><svg viewBox="0 0 24 24"><use href="#i-report"/></svg>Reports</a>
@@ -1365,6 +1405,10 @@ async function demoApi(path, opts) {
       isinsFound: ['INF109K01Z48','INF179K01VY8','INF200K01UV3','INF879O01023'],
       schemeIndexReady: true,
     };
+  }
+  if (path.startsWith('/mf/preview/')) {
+    const fund = DEMO_MF_SCHEMES[Number(path.split('/').pop())];
+    return fund ? {historyYears:6,dataPoints:fund.metrics.dataPoints,asOfDate:fund.metrics.asOfDate,return1YAvailable:true,rolling1YAvailable:true,rolling3YAvailable:true} : {historyYears:0,dataPoints:0,return1YAvailable:false,rolling1YAvailable:false,rolling3YAvailable:false};
   }
 
   return { ok: true };
@@ -3083,7 +3127,7 @@ function renderFolioXpert() {
   const root = document.getElementById('view-folioxpert');
   if (!root) return;
   const names = ['Client', 'Goals', 'Holdings', 'Report'];
-  let html = '<div class="ai-hero"><div class="ai-hero-badge">AI-assisted advisor workspace</div><h1>FolioXpert AI</h1><p>Turn confirmed holdings and real NAV history into a clear, comparison-led client review.</p></div>';
+  let html = '<div class="ai-hero"><div class="ai-hero-badge">Portfolio intelligence</div><h1>FolioXpert AI</h1><p>Turn confirmed holdings and real NAV history into a clear, comparison-led client review.</p></div>';
   html += '<div class="fx-steps">' + names.map(function(name,i){
     return '<div class="fx-step ' + (i === fxStep ? 'active' : i < fxStep ? 'done' : '') + '"><span class="n">' + (i+1) + '</span>' + name + '</div>' + (i < 3 ? '<span class="fx-step-sep"></span>' : '');
   }).join('') + '</div>';
@@ -3134,14 +3178,16 @@ function fxHoldingsStepHtml() {
   }
   html += '</div><div class="card card-pad" style="margin-top:16px"><div class="section-head"><div class="section-title">Confirm current holdings</div></div><p class="fx-help">Search or import up to 12 schemes. Enter current value in rupees from the statement. NAV history alone does not reveal the client’s holding value.</p>';
   html += fxHoldings.map(function(h,i){
-    return '<div class="fx-holding-row"><div class="fx-search"><label class="fx-label">Scheme ' + (i+1) + '</label><input data-fx-scheme="' + i + '" placeholder="Search scheme name..." value="' + (h.scheme ? esc(h.scheme.schemeName) : '') + '" ' + (h.scheme ? 'readonly' : '') + '><div class="picker-dd" data-fx-dd="' + i + '"></div></div><div><label class="fx-label">Current value (₹)</label><input type="number" min="0" data-fx-value="' + i + '" value="' + fxValue(h.currentValue) + '"></div><button class="fx-remove-btn" data-fx-remove-holding="' + i + '" title="' + (h.scheme ? 'Clear holding' : 'Remove row') + '" aria-label="Remove holding">×</button></div>';
+    const preview = h.preview;
+    const coverage = h.scheme ? (preview?.error ? 'NAV coverage could not be checked; review the report carefully.' : preview ? (preview.historyYears || 0) + ' years of NAV history · ' + (preview.rolling3YAvailable ? '1Y and 3Y rolling analysis ready' : preview.rolling1YAvailable ? '1Y rolling analysis ready; 3Y needs 4 years of history' : preview.return1YAvailable ? '1Y CAGR ready; rolling analysis needs 2 years of history' : 'Less than 1 year of NAV history; risk and return metrics will be limited') : 'Checking NAV coverage...') : '';
+    return '<div class="fx-holding-row"><div class="fx-search"><label class="fx-label">Scheme ' + (i+1) + '</label><input data-fx-scheme="' + i + '" placeholder="Search scheme name..." value="' + (h.scheme ? esc(h.scheme.schemeName) : '') + '" ' + (h.scheme ? 'readonly' : '') + '><div class="picker-dd" data-fx-dd="' + i + '"></div>' + (coverage ? '<div class="fx-coverage">' + esc(coverage) + '</div>' : '') + '</div><div><label class="fx-label">Current value (₹)</label><input type="number" min="0" data-fx-value="' + i + '" value="' + fxValue(h.currentValue) + '"></div><button class="fx-remove-btn" data-fx-remove-holding="' + i + '" title="' + (h.scheme ? 'Clear holding' : 'Remove row') + '" aria-label="Remove holding">×</button></div>';
   }).join('');
   html += '<div class="fx-actions"><button class="btn" id="fxAddHolding"' + (fxHoldings.length >= 12 ? ' disabled' : '') + '>Add holding</button><button class="btn" id="fxBack">Back</button><button class="btn btn-primary btn-gold" id="fxGenerate"' + (fxBusy ? ' disabled' : '') + '>' + (fxBusy ? 'Building report...' : 'Generate report') + '</button></div></div>';
   return html;
 }
 function fxReportStepHtml() {
   if (!fxReport) return '<div class="card card-pad"><p>No report has been generated yet.</p><button class="btn" id="fxBack">Back to holdings</button></div>';
-  let html = '<div class="fx-actions"><button class="btn" id="fxEdit">Edit inputs</button><button class="btn btn-primary btn-gold" id="fxPreview">Print / Save as PDF</button></div>';
+  let html = '<div class="fx-actions"><button class="btn" id="fxEditHoldings">Edit holdings</button><button class="btn" id="fxEdit">Client &amp; goals</button><button class="btn btn-primary btn-gold" id="fxPreview">Print / Save as PDF</button></div>';
   html += '<div class="card card-pad">' + fxReportBody(fxReport) + '</div>';
   html += '<div class="card card-pad" style="margin-top:16px"><div class="section-head"><div class="section-title">Compare proposed replacements</div></div><p class="fx-help">Optional. Choose a replacement for any holding, then update the report. A comparison of past returns is an illustration, not a forecast. Check exit load and tax before acting.</p>';
   html += fxReport.funds.map(function(f){
@@ -3152,29 +3198,72 @@ function fxReportStepHtml() {
   return html;
 }
 function fxWireSearch(input, dd, selected) {
-  let timer, sequence = 0;
+  let timer, sequence = 0, results = [], activeIndex = -1;
+  dd.id = 'scheme-list-' + (input.dataset.fxScheme || 'replacement-' + input.dataset.fxReplacement);
+  dd.setAttribute('role','listbox');
+  dd.setAttribute('aria-label','Matching mutual fund schemes');
+  input.setAttribute('role','combobox');
+  input.setAttribute('aria-autocomplete','list');
+  input.setAttribute('aria-controls',dd.id);
+  input.setAttribute('aria-expanded','false');
+  function show() { dd.classList.add('open'); input.setAttribute('aria-expanded','true'); }
+  function hide() { dd.classList.remove('open'); input.setAttribute('aria-expanded','false'); input.removeAttribute('aria-activedescendant'); activeIndex = -1; }
+  function activate(index) {
+    activeIndex = index;
+    dd.querySelectorAll('[data-fx-result]').forEach((item,i) => {
+      item.classList.toggle('active',i === index);
+      item.setAttribute('aria-selected',i === index ? 'true' : 'false');
+      if (i === index) { input.setAttribute('aria-activedescendant',item.id); item.scrollIntoView({block:'nearest'}); }
+    });
+  }
+  input.onkeydown = function(e) {
+    if (e.key === 'Escape') { hide(); return; }
+    if (!dd.classList.contains('open') || !results.length) return;
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault(); activate(activeIndex < 0 ? (e.key === 'ArrowDown' ? 0 : results.length - 1) : (activeIndex + (e.key === 'ArrowDown' ? 1 : -1) + results.length) % results.length);
+    } else if (e.key === 'Enter' && activeIndex >= 0) {
+      e.preventDefault(); const choice = results[activeIndex]; hide(); selected(choice);
+    }
+  };
   input.oninput = function() {
     const q = input.value.trim();
     clearTimeout(timer);
     const request = ++sequence;
-    if (q.length < 2) { dd.classList.remove('open'); return; }
-    dd.innerHTML = '<div class="pdd-empty">Searching...</div>';
-    dd.classList.add('open');
+    results = []; activeIndex = -1; input.removeAttribute('aria-activedescendant');
+    if (q.length < 2) { hide(); return; }
+    dd.innerHTML = '<div class="pdd-empty" role="status"><span class="pdd-spinner" aria-hidden="true"></span>Searching schemes...</div>';
+    show();
     timer = setTimeout(async function() {
       try {
         const response = await api('/mf/search?q=' + encodeURIComponent(q));
         if (request !== sequence || !document.body.contains(input)) return;
-        const results = response.results || [];
-        dd.innerHTML = results.length ? results.map(function(s,i){ return '<div class="pdd-item" data-fx-result="' + i + '">' + esc(s.schemeName) + '</div>'; }).join('') : '<div class="pdd-empty">No matching schemes found</div>';
+        results = response.results || [];
+        dd.innerHTML = results.length ? '<div class="pdd-heading" role="presentation">Matching schemes · ' + results.length + '</div>' + results.map(function(s,i){
+          const name = String(s.schemeName || '');
+          const plan = /\bdirect\b/i.test(name) ? 'Direct' : /\bregular\b/i.test(name) ? 'Regular' : '';
+          const option = /\bidcw\b|dividend/i.test(name) ? 'IDCW' : /\bgrowth\b/i.test(name) ? 'Growth' : '';
+          const detail = [plan,option].filter(Boolean).join(' · ') || 'Mutual fund scheme';
+          return '<button type="button" role="option" aria-selected="false" id="' + dd.id + '-option-' + i + '" class="pdd-item" data-fx-result="' + i + '" style="--item-delay:' + Math.min(i,6) * 22 + 'ms"><span class="pdd-icon" aria-hidden="true">↗</span><span class="pdd-copy">' + esc(name) + '<span class="pdd-meta">' + detail + '</span></span><span class="pdd-arrow" aria-hidden="true">→</span></button>';
+        }).join('') + '<div class="pdd-footer" role="presentation">↑ ↓ to navigate · Enter to select</div>' : '<div class="pdd-empty" role="status">No matching schemes. Try a more specific fund name.</div>';
         dd.querySelectorAll('[data-fx-result]').forEach(function(item){
-          item.onclick = function(){ selected(results[Number(item.dataset.fxResult)]); };
+          item.onclick = function(){ hide(); selected(results[Number(item.dataset.fxResult)]); };
         });
       } catch(e) {
-        if (request === sequence) dd.innerHTML = '<div class="pdd-empty">Could not search schemes. Try again.</div>';
+        if (request === sequence) dd.innerHTML = '<div class="pdd-empty" role="status">Could not search schemes. Try again.</div>';
       }
     }, 320);
   };
-  input.onblur = function(){ setTimeout(function(){ dd.classList.remove('open'); }, 180); };
+  input.onblur = function(){ setTimeout(hide,180); };
+}
+async function fxLoadPreview(code) {
+  try {
+    const preview = await api('/mf/preview/' + code);
+    const current = fxHoldings.find(h => h.scheme && Number(h.scheme.schemeCode) === code);
+    if (current) { current.preview = preview; if (fxStep === 2) renderFolioXpert(); }
+  } catch (_) {
+    const current = fxHoldings.find(h => h.scheme && Number(h.scheme.schemeCode) === code);
+    if (current) { current.preview = {error:true}; if (fxStep === 2) renderFolioXpert(); }
+  }
 }
 function fxWireStep(root) {
   const get = function(id){ return root.querySelector('#' + id); };
@@ -3244,6 +3333,7 @@ function fxWireStep(root) {
       fxHoldings = occupied.concat(unique.map(c => ({scheme:{schemeCode:Number(c.chosen.schemeCode),schemeName:c.chosen.schemeName},currentValue:''})));
       if (!fxHoldings.length) fxHoldings = [{scheme:null,currentValue:''}];
       fxCasCandidates = []; fxError = ''; renderFolioXpert();
+      unique.forEach(c => fxLoadPreview(Number(c.chosen.schemeCode)));
     };
     get('fxAddHolding').onclick = function(){ if (fxHoldings.length < 12) { fxHoldings.push({scheme:null,currentValue:''}); renderFolioXpert(); } };
     root.querySelectorAll('[data-fx-value]').forEach(function(input){
@@ -3252,7 +3342,9 @@ function fxWireStep(root) {
     root.querySelectorAll('[data-fx-scheme]').forEach(function(input){
       const i = Number(input.dataset.fxScheme);
       if (!fxHoldings[i].scheme) fxWireSearch(input, root.querySelector('[data-fx-dd="' + i + '"]'), function(s){
-        fxHoldings[i].scheme = {schemeCode:Number(s.schemeCode),schemeName:s.schemeName}; fxError = ''; renderFolioXpert();
+        const code = Number(s.schemeCode);
+        fxHoldings[i].scheme = {schemeCode:code,schemeName:s.schemeName}; fxHoldings[i].preview = null; fxError = ''; renderFolioXpert();
+        fxLoadPreview(code);
       });
     });
     root.querySelectorAll('[data-fx-remove-holding]').forEach(function(btn){
@@ -3262,6 +3354,7 @@ function fxWireStep(root) {
   }
   if (fxStep === 3 && fxReport) {
     get('fxEdit').onclick = function(){fxStep = 0; fxError = ''; renderFolioXpert();};
+    get('fxEditHoldings').onclick = function(){fxStep = 2; fxError = ''; renderFolioXpert();};
     get('fxPreview').onclick = fxOpenReport;
     root.querySelectorAll('[data-fx-replacement]').forEach(function(input){
       const code = Number(input.dataset.fxReplacement);
@@ -3315,6 +3408,61 @@ function fxPeerBars(f, p) {
   const low = Math.min(0,...rows.map(x => Number(x.value))), high = Math.max(0,...rows.map(x => Number(x.value))), span = high-low || 1;
   return '<div class="fx-peer-chart"><div class="fx-chart-heading"><b>Average 1Y rolling return across the peer universe</b><span>' + rows.length + ' comparable funds</span></div>' + rows.map(x => '<div class="fx-peer-bar-row' + (x.selected ? ' selected' : '') + '"><span title="' + esc(x.schemeName) + '">' + esc(x.schemeName) + '</span><div class="fx-peer-track"><div style="width:' + Math.max(2,(Number(x.value)-low)/span*100).toFixed(1) + '%"></div></div><b>' + fxPct(x.value) + '</b></div>').join('') + '</div>';
 }
+function fxCoverageText(m) {
+  const years = Number(m?.historyYears || 0), points = Number(m?.dataPoints || 0);
+  if (!points) return 'No usable NAV observations were returned for this scheme. Verify the scheme and try again later.';
+  if (years < 1) return 'Only ' + points + ' NAV observations from ' + (m.firstNavDate || 'an unknown date') + ' are available. A full 1Y CAGR needs one year of history; rolling 1Y and 3Y need roughly two and four years.';
+  if (years < 2) return 'About ' + years.toFixed(1) + ' years of NAV history are available. Latest 1Y CAGR can be shown, while a complete average rolling 1Y requires two years.';
+  if (years < 4) return 'About ' + years.toFixed(1) + ' years of NAV history are available. Average rolling 3Y needs roughly four years of data.';
+  if (!m.rolling1Y || !m.rolling3Y) return 'NAV history spans ' + years.toFixed(1) + ' years, but date gaps or too few matching trading-day windows prevent a complete rolling average. Check the scheme and provider history.';
+  return 'NAV observations from ' + (m.firstNavDate || 'inception') + ' to ' + (m.asOfDate || 'the latest date') + '.';
+}
+function fxPortfolioMatrix(funds) {
+  const ready = funds.filter(f => f.metrics?.rolling1Y && f.metrics?.rolling3Y).length;
+  const rows = funds.map(f => {
+    const m = f.metrics || {}, p = f.peerComparison;
+    const cell = value => value === null || value === undefined ? '<span class="fx-missing">—</span>' : fxPct(value);
+    const status = m.rolling1Y && m.rolling3Y ? 'Full analysis' : m.return1Y ? 'Partial history' : 'History limited';
+    return '<tr><td><strong>' + esc(f.schemeName) + '</strong><small>' + esc(f.category || 'Category unknown') + '</small></td><td>' + fxMoney(f.currentValue) + '</td><td>' + cell(m.return1Y?.cagrPct) + '</td><td>' + cell(m.rolling1Y?.avgPct) + '</td><td>' + cell(m.rolling3Y?.avgPct) + '</td><td>' + cell(m.stdDev1YAvg) + '</td><td>' + (m.sharpe1Y === null || m.sharpe1Y === undefined ? '<span class="fx-missing">—</span>' : fxMetric(m.sharpe1Y)) + '</td><td>' + (p?.rank ? p.rank + ' / ' + p.outOf : '<span class="fx-missing">—</span>') + '</td><td><span class="fx-status ' + (m.rolling1Y && m.rolling3Y ? 'ready' : 'limited') + '">' + status + '</span></td></tr>';
+  }).join('');
+  return '<div class="fx-matrix"><div class="fx-matrix-head"><div><span class="fx-eyebrow">Performance at a glance</span><h3>Portfolio matrix</h3></div><span>' + ready + ' of ' + funds.length + ' funds have full rolling history</span></div><div class="fx-scroll"><table><thead><tr><th>Holding</th><th>Value</th><th>1Y CAGR</th><th>Avg rolling 1Y</th><th>Avg rolling 3Y</th><th>1Y volatility</th><th>Sharpe</th><th>Peer rank</th><th>Coverage</th></tr></thead><tbody>' + rows + '</tbody></table></div><p class="fx-matrix-foot">A dash means the required NAV history or comparable category data is unavailable. Select a scheme to review its coverage before generating a report.</p></div>';
+}
+function fxFundAnalysisCard(f) {
+  const m = f.metrics || {}, p = f.peerComparison, b = f.benchmarkComparison;
+  const check = f.navVerification || {}, checkLabel = check.status === 'matched' ? 'AMFI NAV matched' : check.status === 'mismatch' ? 'AMFI NAV mismatch' : check.status === 'provider_lag' ? 'Provider NAV lag' : 'AMFI check unavailable';
+  let out = '<div class="fx-rp-fund-card"><div class="fx-fund-heading"><div><span class="fx-eyebrow">' + esc(f.normalizedCategory || f.category || 'Fund review') + '</span><h4>' + esc(f.schemeName) + '</h4></div><span class="fx-nav-tag">NAV ' + esc(m.asOfDate || 'date unknown') + '</span></div>';
+  out += '<p class="fx-help">' + fxMetric(m.dataPoints) + ' published NAVs · ' + esc(f.dataFreshness || 'unknown') + ' data · ' + esc(checkLabel) + '</p>';
+  if (!m.return1Y && !m.rolling1Y && !m.rolling3Y) {
+    out += '<div class="fx-data-state"><div><strong>Performance history is too short for a fund-level comparison</strong><p>' + esc(fxCoverageText(m)) + ' This holding and its value remain in the portfolio matrix. No return or risk figure has been estimated.</p></div></div>';
+    if (!f.normalizedCategory) out += '<p class="fx-help">A same-category peer set is not configured for this scheme category.</p>';
+    return out + '</div>';
+  }
+  const tiles = [];
+  const tile = (label,value,detail) => '<div><small>' + label + '</small><b>' + value + '</b><em>' + detail + '</em></div>';
+  if (m.rolling1Y) tiles.push(tile('Average rolling 1Y',fxPct(m.rolling1Y.avgPct),m.rolling1Y.sampleCount + ' daily windows'));
+  if (m.rolling3Y) tiles.push(tile('Average rolling 3Y',fxPct(m.rolling3Y.avgPct),m.rolling3Y.sampleCount + ' daily windows'));
+  if (m.return1Y) tiles.push(tile('Latest 1Y CAGR',fxReturn(m.return1Y,1),'Point to point'));
+  if (m.stdDev1YAvg !== null && m.stdDev1YAvg !== undefined) tiles.push(tile('1Y volatility average',fxPct(m.stdDev1YAvg),'Annualized'));
+  if (m.stdDev3YAvg !== null && m.stdDev3YAvg !== undefined) tiles.push(tile('3Y volatility average',fxPct(m.stdDev3YAvg),'Annualized'));
+  out += '<div class="fx-kpi-grid">' + tiles.join('') + '</div>';
+  if (!m.rolling1Y || !m.rolling3Y) out += '<div class="fx-data-state"><div><strong>Some rolling windows are still building</strong><p>' + esc(fxCoverageText(m)) + '</p></div></div>';
+  const charts = [m.rolling1Y?.chart ? fxRollingChart(m.rolling1Y.chart,'1Y rolling return') : '',m.rolling3Y?.chart ? fxRollingChart(m.rolling3Y.chart,'3Y rolling return') : ''].filter(Boolean);
+  if (charts.length) out += '<div class="fx-chart-grid">' + charts.join('') + '</div>';
+  [1,3].forEach(years => { const rolling = m['rolling' + years + 'Y']; if (rolling) out += '<div class="fx-rp-metric-row"><span>Rolling ' + years + 'Y range <b>' + fxPct(rolling.minPct) + ' to ' + fxPct(rolling.maxPct) + '</b></span><span>Positive windows <b>' + fxPct(rolling.positivePct) + '</b></span></div>'; });
+  const ratios = [];
+  if (m.stdDev1Y !== null && m.stdDev1Y !== undefined) ratios.push('<span>Latest 1Y volatility <b>' + fxPct(m.stdDev1Y) + '</b></span>');
+  if (m.downsideDeviation1Y !== null && m.downsideDeviation1Y !== undefined) ratios.push('<span>Downside deviation <b>' + fxPct(m.downsideDeviation1Y) + '</b></span>');
+  if (m.sharpe1Y !== null && m.sharpe1Y !== undefined) ratios.push('<span>Sharpe <b>' + fxMetric(m.sharpe1Y) + '</b></span>');
+  if (m.sortino1Y !== null && m.sortino1Y !== undefined) ratios.push('<span>Sortino <b>' + fxMetric(m.sortino1Y) + '</b></span>');
+  if (ratios.length) out += '<div class="fx-rp-metric-row">' + ratios.join('') + '</div><p class="fx-help">Sharpe and Sortino use a fixed 5% annual risk-free assumption; volatility is annualized from daily NAV changes.</p>';
+  const comparison = [];
+  if (p && (Number.isFinite(p.categoryAvgRolling1Y) || Number.isFinite(p.categoryAvgRolling3Y))) comparison.push('<div class="rp-box"><div class="k">Same-category peers</div>' + (Number.isFinite(p.categoryAvgRolling1Y) ? fxRow('Average rolling 1Y',fxPct(p.categoryAvgRolling1Y)) : '') + (Number.isFinite(p.categoryAvgRolling3Y) ? fxRow('Average rolling 3Y',fxPct(p.categoryAvgRolling3Y)) : '') + (p.rank ? fxRow('1Y rank',p.rank + ' of ' + p.outOf) : '') + (Number.isFinite(p.lagVs1Y) ? fxRow('1Y difference',fxMetric(p.lagVs1Y) + ' pp') : '') + (Number.isFinite(p.lagVs3Y) ? fxRow('3Y difference',fxMetric(p.lagVs3Y) + ' pp') : '') + '</div>');
+  if (b && (Number.isFinite(b.return1Y) || Number.isFinite(b.return3Y))) comparison.push('<div class="rp-box"><div class="k">Index ETF proxy</div>' + fxRow('Index',esc(b.indexName)) + fxRow('Proxy',esc(b.proxySchemeName)) + (Number.isFinite(b.return1Y) ? fxRow('1Y return',fxPct(b.return1Y)) : '') + (Number.isFinite(b.return3Y) ? fxRow('3Y return',fxPct(b.return3Y)) : '') + '</div>');
+  if (comparison.length) out += '<div class="rp-grid">' + comparison.join('') + '</div>';
+  else out += '<p class="fx-help">Comparable peer and index data are unavailable for this category or NAV date.</p>';
+  if (p?.peers?.length && m.rolling1Y) out += fxPeerBars(f,p);
+  return out + '</div>';
+}
 function fxReportBody(r) {
   const name = esc(r.client.name);
   const funds = r.funds || [], recs = r.recommendations || [], health = r.health || {};
@@ -3335,6 +3483,7 @@ function fxReportBody(r) {
   if (dupe.length) intro += '<p>' + dupe.length + ' category group' + (dupe.length === 1 ? '' : 's') + ' contain more than one holding. These may be candidates for consolidation, after reviewing costs and tax.</p>';
   intro += '</div>';
   let html = '<div class="rp-title">Portfolio review for ' + name + '</div><div class="rp-sub">Prepared ' + esc(fmtDate(r.generatedAt)) + ' · Fund performance is based on NAV history, not your personal investment return.</div>';
+  html += fxPortfolioMatrix(funds);
   html += fxSection(1,'Personal review',intro);
   let healthHtml = '<div class="rp-grid"><div class="rp-box"><div class="k">Portfolio</div>' +
     fxRow('Current value',fxMoney(value)) + fxRow('Holdings',String(funds.length)) +
@@ -3347,35 +3496,7 @@ function fxReportBody(r) {
     (health.byFund || []).map(function(f){return '<tr><td>' + esc(f.schemeName) + '</td><td>' + esc(f.fundHouse || '') + '</td><td>' + fxMoney(f.currentValue) + '</td><td>' + fxPct(f.weightPct) + '</td></tr>';}).join('') + '</tbody></table></div>';
   if (dupe.length) healthHtml += '<div class="rp-obs"><div class="t">Same-category holdings</div><ul>' + dupe.map(function(d){return '<li>' + esc(d.category) + ': ' + d.schemes.map(function(s){return esc(s.schemeName);}).join(', ') + '</li>';}).join('') + '</ul></div>';
   html += fxSection(2,'Portfolio health',healthHtml);
-  let comparison = funds.map(function(f){
-    const m = f.metrics || {}, p = f.peerComparison, b = f.benchmarkComparison;
-    const check = f.navVerification || {}, checkLabel = check.status === 'matched' ? 'AMFI NAV matched' : check.status === 'mismatch' ? 'AMFI NAV mismatch' : check.status === 'provider_lag' ? 'Provider NAV lag' : 'AMFI check unavailable';
-    let out = '<div class="fx-rp-fund-card"><h4>' + esc(f.schemeName) + '</h4><div class="fx-help">' + esc(f.category || 'Category not available') + ' · NAV as of ' + esc(m.asOfDate || 'not available') + ' · ' + esc(f.dataFreshness || 'unknown') + ' data · ' + esc(checkLabel) + '</div>';
-    out += '<div class="fx-kpi-grid"><div><small>Average rolling 1Y</small><b>' + fxPct(m.rolling1Y?.avgPct) + '</b><em>' + (m.rolling1Y?.sampleCount || 0) + ' daily windows</em></div><div><small>Average rolling 3Y</small><b>' + fxPct(m.rolling3Y?.avgPct) + '</b><em>' + (m.rolling3Y?.sampleCount || 0) + ' daily windows</em></div><div><small>Latest 1Y CAGR</small><b>' + fxReturn(m.return1Y,1) + '</b><em>Point to point</em></div><div><small>1Y volatility average</small><b>' + fxPct(m.stdDev1YAvg) + '</b><em>Annualized</em></div><div><small>3Y volatility average</small><b>' + fxPct(m.stdDev3YAvg) + '</b><em>Annualized</em></div></div>';
-    out += '<div class="fx-chart-grid">' + fxRollingChart(m.rolling1Y?.chart,'1Y rolling return') + fxRollingChart(m.rolling3Y?.chart,'3Y rolling return') + '</div>';
-    out += [1,3].map(function(years){
-      const rolling = m['rolling' + years + 'Y'];
-      return '<div class="fx-rp-metric-row"><span>Rolling ' + years + 'Y average <b>' + (rolling ? fxPct(rolling.avgPct) : 'Not available') +
-        '</b></span><span>Range <b>' + (rolling ? fxPct(rolling.minPct) + ' to ' + fxPct(rolling.maxPct) : 'Not available') +
-        '</b></span><span>Positive periods <b>' + (rolling ? fxPct(rolling.positivePct) : 'Not available') + '</b></span></div>';
-    }).join('');
-    out += '<div class="fx-rp-metric-row"><span>Latest 1Y standard deviation <b>' + fxPct(m.stdDev1Y) + '</b></span><span>Downside deviation <b>' + fxPct(m.downsideDeviation1Y) + '</b></span><span>Sharpe <b>' + fxMetric(m.sharpe1Y) + '</b></span><span>Sortino <b>' + fxMetric(m.sortino1Y) + '</b></span></div><p class="fx-help">Sharpe and Sortino use a fixed 5% annual risk-free assumption. Volatility is annualized from published NAV changes; trading dates without NAVs are omitted.</p>';
-    out += '<div class="rp-grid"><div class="rp-box"><div class="k">Curated peers</div>' +
-      fxRow('Rolling 1Y average',p ? fxPct(p.categoryAvgRolling1Y) : 'Not available') +
-      fxRow('Rolling 3Y average',p ? fxPct(p.categoryAvgRolling3Y) : 'Not available') +
-      fxRow('Rolling 1Y rank',p && p.rank ? p.rank + ' of ' + p.outOf : 'Not available') +
-      fxRow('Rolling 1Y difference',p && p.lagVs1Y !== null ? fxMetric(p.lagVs1Y) + ' pp' : 'Not available') +
-      fxRow('Rolling 3Y difference',p && p.lagVs3Y !== null ? fxMetric(p.lagVs3Y) + ' pp' : 'Not available') +
-      fxRow('Average 1Y Sharpe',p ? fxMetric(p.categoryAvgSharpe1Y) : 'Not available') +
-      '</div><div class="rp-box"><div class="k">Index comparison</div>' +
-      fxRow('Index',b ? esc(b.indexName) : 'Not available') +
-      fxRow('ETF proxy',b ? esc(b.proxySchemeName) : 'Not available') +
-      fxRow('1Y proxy return',b ? fxPct(b.return1Y) : 'Not available') +
-      fxRow('3Y proxy return',b ? fxPct(b.return3Y) : 'Not available') +
-      fxRow('1Y difference',b && b.lagVs1Y !== null ? fxMetric(b.lagVs1Y) + ' pp' : 'Not available') +
-      fxRow('3Y difference',b && b.lagVs3Y !== null ? fxMetric(b.lagVs3Y) + ' pp' : 'Not available') + '</div></div>' + fxPeerBars(f,p) + '</div>';
-    return out;
-  }).join('');
+  const comparison = funds.map(fxFundAnalysisCard).join('');
   html += fxSection(3,'Fund by fund comparison',comparison);
   const verdicts = recs.map(function(rec){
     const cls = rec.verdict === 'Keep' ? 'keep' : rec.verdict === 'Monitor' ? 'monitor' : rec.verdict === 'Review' ? 'review' : 'unknown';
