@@ -128,6 +128,44 @@ function dailyReturns(series, years) {
   return rets;
 }
 
+// Maximum peak-to-trough decline over the trailing `years` window (or the fund's full
+// history if it's younger than that) - the worst-case drawdown a client actually would
+// have sat through, not a synthetic worst-day figure. Returns null only when there's
+// truly nothing to compute (fewer than 2 points).
+function maxDrawdown(series, years) {
+  if (!series || series.length < 2) return null;
+  const end = series[series.length - 1];
+  const endDate = toDate(end.date);
+  const targetStart = new Date(endDate);
+  targetStart.setUTCFullYear(targetStart.getUTCFullYear() - years);
+  let startIdx = series.findIndex((p) => toDate(p.date) >= targetStart);
+  if (startIdx === -1) startIdx = 0;
+  const slice = series.slice(startIdx);
+  if (slice.length < 2) return null;
+
+  let peak = slice[0].nav, peakDate = slice[0].date;
+  let maxDD = 0, ddPeakDate = slice[0].date, ddTroughDate = slice[0].date;
+  for (const pt of slice) {
+    if (pt.nav > peak) { peak = pt.nav; peakDate = pt.date; }
+    const dd = peak > 0 ? (pt.nav / peak - 1) * 100 : 0; // negative or zero
+    if (dd < maxDD) { maxDD = dd; ddPeakDate = peakDate; ddTroughDate = pt.date; }
+  }
+  const actualYears = (toDate(slice[slice.length - 1].date) - toDate(slice[0].date)) / (365.25 * 24 * 60 * 60 * 1000);
+  return {
+    maxDrawdownPct: round2(maxDD),
+    peakDate: ddPeakDate, troughDate: ddTroughDate,
+    windowYears: round2(actualYears), // the ACTUAL span examined - may be less than `years` for a young fund
+  };
+}
+
+// True span of history available, in years - lets callers know whether a "3Y" or "5Y"
+// figure is a full, honest window or a truncated one that should be labeled as such.
+function historyYears(series) {
+  if (!series || series.length < 2) return 0;
+  const ms = toDate(series[series.length - 1].date) - toDate(series[0].date);
+  return round2(ms / (365.25 * 24 * 60 * 60 * 1000));
+}
+
 function annualizedStdDev(rets) {
   if (rets.length < 2) return null;
   const mean = rets.reduce((a, b) => a + b, 0) / rets.length;
@@ -153,9 +191,12 @@ function computeMetrics(series, { riskFreeRate = DEFAULT_RISK_FREE_RATE } = {}) 
   }
 
   const return1Y = trailingReturn(series, 1);
+  const return3Y = trailingReturn(series, 3);
   const return5Y = trailingReturn(series, 5);
   const rolling1Y = rollingReturns(series, 1);
+  const rolling3Y = rollingReturns(series, 3);
   const rolling5Y = rollingReturns(series, 5);
+  const maxDrawdown5Y = maxDrawdown(series, 5);
 
   const rets1Y = dailyReturns(series, 1);
   const stdDev1Y = annualizedStdDev(rets1Y);
@@ -169,8 +210,10 @@ function computeMetrics(series, { riskFreeRate = DEFAULT_RISK_FREE_RATE } = {}) 
     asOfDate: series[series.length - 1].date,
     latestNav: series[series.length - 1].nav,
     dataPoints: series.length,
-    return1Y, return5Y,
-    rolling1Y, rolling5Y,
+    historyYears: historyYears(series), // true span of data available - callers use this to label a 3Y/5Y figure as partial when the fund is younger than the window
+    return1Y, return3Y, return5Y,
+    rolling1Y, rolling3Y, rolling5Y,
+    maxDrawdown5Y,
     stdDev1Y: stdDev1Y !== null ? round2(stdDev1Y * 100) : null, // as a %, e.g. 14.28
     downsideDeviation1Y: downsideDeviation1Y !== null ? round2(downsideDeviation1Y * 100) : null,
     sharpe1Y,
@@ -181,5 +224,6 @@ function computeMetrics(series, { riskFreeRate = DEFAULT_RISK_FREE_RATE } = {}) 
 
 module.exports = {
   computeMetrics, trailingReturn, rollingReturns, annualizedStdDev, annualizedDownsideDeviation,
+  maxDrawdown, historyYears,
   DEFAULT_RISK_FREE_RATE,
 };

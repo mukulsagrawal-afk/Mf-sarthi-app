@@ -882,6 +882,89 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;bac
   .ai-hero h1{font-size:21px;}
   .ai-hero-stats{display:none;}
 }
+
+/* ================= FOLIOXPERT AI ================= */
+.fx-steps{display:flex;align-items:center;gap:0;margin-bottom:20px;flex-wrap:wrap;}
+.fx-step{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;color:var(--text-faint);padding:8px 14px 8px 8px;}
+.fx-step .n{width:22px;height:22px;border-radius:50%;background:var(--surface-2);color:var(--text-faint);display:flex;align-items:center;justify-content:center;font-size:11px;flex:none;}
+.fx-step.active{color:var(--ink);}
+.fx-step.active .n{background:linear-gradient(135deg,var(--violet),var(--gold));color:#fff;}
+.fx-step.done .n{background:var(--success);color:#fff;}
+.fx-step-sep{width:22px;height:1.5px;background:var(--border-strong);flex:none;}
+
+.fx-toggle{display:flex;gap:10px;margin-bottom:16px;}
+.fx-client-pick{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--border);border-radius:var(--radius-md);margin-bottom:8px;cursor:pointer;transition:.15s;}
+.fx-client-pick:hover{border-color:var(--gold-soft);background:var(--surface-2);}
+.fx-client-pick .av{width:34px;height:34px;border-radius:50%;background:var(--ink);color:var(--gold-soft);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12.5px;flex:none;}
+.fx-client-pick .mid{flex:1;min-width:0;}
+.fx-client-pick .nm{font-weight:700;font-size:13.5px;}
+.fx-client-pick .sub{font-size:11.5px;color:var(--text-muted);}
+
+.fx-goal-row{display:grid;grid-template-columns:1.4fr 1fr 1fr .9fr .9fr auto;gap:10px;align-items:end;padding:12px 0;border-bottom:1px solid var(--border);}
+.fx-goal-row:last-child{border-bottom:none;}
+.fx-goal-row label{display:block;font-size:10.5px;font-weight:700;color:var(--text-faint);text-transform:uppercase;letter-spacing:.03em;margin-bottom:4px;}
+.fx-goal-row input,.fx-goal-row select{width:100%;border:1px solid var(--border-strong);border-radius:var(--radius-sm);padding:8px 9px;font-size:12.5px;background:var(--surface);color:var(--text);}
+.fx-remove-btn{width:32px;height:32px;border-radius:var(--radius-sm);border:1px solid var(--border-strong);background:var(--surface);color:var(--error);display:flex;align-items:center;justify-content:center;flex:none;}
+
+.fx-holding-row{display:grid;grid-template-columns:2fr 1fr auto;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--border);position:relative;}
+.fx-holding-row:last-child{border-bottom:none;}
+.fx-holding-row input{width:100%;border:1px solid var(--border-strong);border-radius:var(--radius-sm);padding:9px 11px;font-size:12.5px;}
+
+.fx-warn-box{background:var(--warning-bg);border:1px solid rgba(176,116,31,.25);border-radius:var(--radius-md);padding:12px 14px;margin-bottom:16px;}
+.fx-warn-box .t{font-size:12px;font-weight:700;color:var(--warning);margin-bottom:6px;display:flex;align-items:center;gap:6px;}
+.fx-warn-box ul{margin:0;padding-left:18px;}
+.fx-warn-box li{font-size:12px;color:var(--text-muted);margin-bottom:3px;line-height:1.5;}
+
+.fx-verdict{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:800;padding:4px 11px;border-radius:999px;white-space:nowrap;}
+.fx-verdict.keep{color:var(--success);background:var(--success-bg);}
+.fx-verdict.monitor{color:var(--warning);background:var(--warning-bg);}
+.fx-verdict.review{color:var(--error);background:var(--error-bg);}
+.fx-verdict.unknown{color:var(--text-muted);background:var(--surface-2);}
+
+.fx-signal-list{margin:10px 0 0;padding-left:18px;}
+.fx-signal-list li{font-size:12.5px;color:var(--text-muted);margin-bottom:4px;line-height:1.5;}
+
+.fx-compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.fx-compare-col .hd{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--text-faint);margin-bottom:10px;padding-bottom:8px;border-bottom:2px solid var(--border);}
+.fx-compare-col.after .hd{color:var(--violet);border-color:var(--violet-soft);}
+@media(max-width:900px){.fx-compare-grid{grid-template-columns:1fr;}}
+
+.fx-goal-card{background:var(--surface-3);border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px 20px;margin-bottom:14px;}
+.fx-goal-card .hd{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;gap:10px;}
+.fx-goal-card h4{font-size:14.5px;font-weight:700;}
+.fx-gap-bar-track{height:10px;background:var(--surface-2);border-radius:999px;overflow:hidden;margin:10px 0 8px;}
+.fx-gap-bar-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--violet),var(--gold));}
+
+.fx-section-title{font-size:16.5px;font-weight:700;font-family:var(--font-display);margin:28px 0 14px;padding-top:20px;border-top:1px solid var(--border);}
+.fx-section-title:first-child{margin-top:0;padding-top:0;border-top:none;}
+.fx-opening{background:linear-gradient(160deg,rgba(109,91,208,.06),var(--surface) 60%);border:1px solid var(--border);border-radius:var(--radius-lg);padding:22px 24px;margin-bottom:8px;font-size:14.5px;line-height:1.75;}
+.fx-opening p{margin-bottom:12px;}
+.fx-opening p:last-child{margin-bottom:0;}
+
+/* print layout additions - reuse .report-page / rp-* from the existing report system */
+.fx-rp-fund-card{border:1px solid #ddd;border-radius:8px;padding:14px 16px;margin-bottom:14px;page-break-inside:avoid;}
+.fx-rp-fund-card h4{font-size:13.5px;margin-bottom:2px;}
+.fx-rp-metric-row{display:flex;gap:14px;flex-wrap:wrap;margin:8px 0;font-size:11.5px;}
+.fx-rp-metric-row b{font-size:12.5px;}
+.fx-help{font-size:12px;color:var(--text-muted);line-height:1.5;margin:8px 0 14px;}
+.fx-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:18px;}
+.fx-search{position:relative;min-width:0;}
+.fx-label{display:block;font-size:10.5px;font-weight:700;color:var(--text-faint);text-transform:uppercase;margin-bottom:4px;}
+.fx-scroll{overflow-x:auto;}
+.fx-table{width:100%;border-collapse:collapse;margin:10px 0 18px;font-size:11.5px;}
+.fx-table th,.fx-table td{padding:8px 9px;text-align:left;border-bottom:1px solid #ddd;vertical-align:top;}
+.fx-print-section{break-inside:auto;}
+.fx-print-section .fx-section-title{break-after:avoid;}
+.fx-print-section .rp-grid{margin-top:10px;}
+.fx-print-section .rp-box .row{gap:12px;align-items:flex-start;}
+.fx-print-section .rp-box .row b{text-align:right;overflow-wrap:anywhere;}
+@media(max-width:900px){.fx-goal-row{grid-template-columns:repeat(2,minmax(0,1fr));}.fx-holding-row{grid-template-columns:minmax(0,1fr);}}
+@media print{
+  .fx-rp-fund-card,.fx-goal-card,.rp-obs{break-inside:avoid;}
+  .fx-rp-fund-card,.fx-goal-card{box-shadow:none;}
+  .fx-table thead{display:table-header-group;}
+  .fx-table tr{break-inside:avoid;}
+}
 </style>
 </head>
 <body>
@@ -923,6 +1006,8 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;bac
 <g id="i-sparkle"><path d="M12 2.5l1.7 4.6 4.6 1.7-4.6 1.7L12 15.1l-1.7-4.6-4.6-1.7 4.6-1.7L12 2.5zM19 14l.9 2.3 2.3.9-2.3.9-.9 2.3-.9-2.3-2.3-.9 2.3-.9L19 14zM5 14.5l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7.7-1.8z" fill="currentColor"/></g>
 <g id="i-upload"><path d="M12 15V4M12 4l-4 4M12 4l4 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 15v3a2 2 0 002 2h12a2 2 0 002-2v-3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></g>
 <g id="i-trend-up"><path d="M3 17l6-6 4 4 8-9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 6h6v6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></g>
+<g id="i-target"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="4.8" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="1.3" fill="currentColor"/></g>
+<g id="i-swap"><path d="M4 8h13M17 8l-3.5-3.5M17 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 16H7M7 16l3.5-3.5M7 16l3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></g>
 </defs>
 </svg>
 
@@ -956,6 +1041,7 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;bac
       <a class="nav-item" data-view="calculators"><svg viewBox="0 0 24 24"><use href="#i-calc"/></svg>Calculators</a>
       <a class="nav-item" data-view="knowledge"><svg viewBox="0 0 24 24"><use href="#i-book"/></svg>Knowledge Hub</a>
       <a class="nav-item nav-item-ai" data-view="analyzer"><svg viewBox="0 0 24 24"><use href="#i-sparkle"/></svg>Portfolio Analyzer<span class="ai-chip-mini">AI</span></a>
+      <a class="nav-item nav-item-ai" data-view="folioxpert"><svg viewBox="0 0 24 24"><use href="#i-target"/></svg>FolioXpert AI<span class="ai-chip-mini">AI</span></a>
       <div class="nav-label">Practice</div>
       <a class="nav-item" data-view="insights"><svg viewBox="0 0 24 24"><use href="#i-insight"/></svg>Insights</a>
       <a class="nav-item" data-view="reports"><svg viewBox="0 0 24 24"><use href="#i-report"/></svg>Reports</a>
@@ -1010,6 +1096,9 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;bac
 
     <!-- ============ AI PORTFOLIO ANALYZER ============ -->
     <section class="view" id="view-analyzer"></section>
+
+    <!-- ============ FOLIOXPERT AI ============ -->
+    <section class="view" id="view-folioxpert"></section>
 
     <!-- ============ INSIGHTS ============ -->
     <section class="view" id="view-insights"></section>
@@ -1185,6 +1274,88 @@ function buildDemoDataset() {
 const DEMO_DB = DEMO_MODE ? buildDemoDataset() : null;
 let demoNextId = { client: 100, lead: 100, meeting: 100, followup: 100 };
 
+function demoFolioReport(body) {
+  const warnings = ['Demo report: fund figures are sample data. Do not give this preview to a client.'];
+  const input = (body.holdings || []).slice(0,12);
+  const funds = input.map(function(h){
+    const s = DEMO_MF_SCHEMES[h.schemeCode];
+    if (!s) throw new Error('This scheme is not in the demo dataset. Select one of the listed demo schemes.');
+    const category = (s.category || '').replace('Equity Scheme - ','').replace(' Fund','');
+    warnings.push(s.schemeName + ': 3Y fund, peer and benchmark history is unavailable in this demo. Those comparisons are omitted.');
+    return {
+      schemeCode:s.schemeCode, schemeName:s.schemeName, fundHouse:s.fundHouse,
+      category:s.category, normalizedCategory:category, assetClass:'Equity', estimatedEquityPct:100,
+      currentValue:Number(h.currentValue), metrics:s.metrics, peerComparison:null,
+      benchmarkComparison:null, dataFreshness:'demo'
+    };
+  });
+  const healthFor = function(list){
+    const total = list.reduce(function(a,f){return a+(Number(f.currentValue)||0);},0);
+    const byFund = list.map(function(f){return {
+      schemeCode:f.schemeCode, schemeName:f.schemeName, fundHouse:f.fundHouse,
+      currentValue:f.currentValue, weightPct:total ? Math.round(f.currentValue/total*10000)/100 : null
+    };});
+    const houses = {};
+    list.forEach(function(f){houses[f.fundHouse]=(houses[f.fundHouse]||0)+f.currentValue;});
+    const byFundHouse = Object.keys(houses).map(function(k){return {fundHouse:k,value:houses[k],weightPct:total?Math.round(houses[k]/total*10000)/100:null};}).sort(function(a,b){return b.value-a.value;});
+    const equity = list.reduce(function(a,f){return a+(f.estimatedEquityPct===100?f.currentValue:0);},0);
+    const debt = list.reduce(function(a,f){return a+(f.estimatedEquityPct===0?f.currentValue:0);},0);
+    return {
+      totalValue:total || null, missingValueCount:0, byFund:byFund, byFundHouse:byFundHouse,
+      equityDebtMix:{equityPct:total?Math.round(equity/total*10000)/100:null,debtPct:total?Math.round(debt/total*10000)/100:null,unclassifiedValue:null,hasHybridEstimate:false},
+      concentration:{maxSingleFund:byFund.slice().sort(function(a,b){return b.weightPct-a.weightPct;})[0]||null,maxFundHouse:byFundHouse[0]||null}
+    };
+  };
+  const health = healthFor(funds);
+  const categories = {};
+  funds.forEach(function(f){(categories[f.normalizedCategory]=categories[f.normalizedCategory]||[]).push(f);});
+  const duplication = Object.keys(categories).filter(function(k){return categories[k].length>1;}).map(function(k){return {
+    category:k, schemes:categories[k].map(function(f){return {schemeCode:f.schemeCode,schemeName:f.schemeName,currentValue:f.currentValue};})
+  };});
+  let horizonFit = null;
+  const years = Number(body.client && body.client.horizonYears);
+  if (years > 0 && health.equityDebtMix.equityPct !== null) {
+    const eq = health.equityDebtMix.equityPct;
+    const flag = years <= 3 && eq > 60 ? 'too_aggressive' : years >= 7 && eq < 40 ? 'too_conservative' : 'appropriate';
+    horizonFit = {flag:flag,text:'Equity exposure is ' + eq + '% against a ' + years + '-year horizon.'};
+  } else warnings.push('No investment horizon supplied - horizon-fit check omitted.');
+  const goals = (body.goals || []).map(function(g){
+    const months = Math.round(Number(g.years)*12), annual = Number(g.annualReturnPct)/100, monthly = annual/12;
+    const factor = monthly > 0 ? ((Math.pow(1+monthly,months)-1)/monthly)*(1+monthly) : months;
+    const lump = Number(g.currentValue||0)*Math.pow(1+annual,Number(g.years));
+    const sip = Number(g.monthlySip||0)*factor;
+    const projected = Math.round(lump+sip), gap = Math.round(Number(g.targetAmount)-projected);
+    return Object.assign({},g,{projection:{projectedValue:projected,fvFromCurrentHoldings:Math.round(lump),fvFromFutureSip:Math.round(sip),monthsUsed:months,monthlyRateUsed:Math.round(monthly*1000)/10,annualReturnPctUsed:Number(g.annualReturnPct)},
+      gap:gap,additionalMonthlySipRequired:gap<=0?0:Math.round(gap/factor),onTrack:gap<=0});
+  });
+  let beforeAfter = null;
+  const replacements = body.proposedReplacements || {};
+  if (Object.keys(replacements).length) {
+    const afterFunds = funds.map(function(f){
+      const code = replacements[f.schemeCode], s = code && DEMO_MF_SCHEMES[code];
+      if (!s) return f;
+      return Object.assign({},f,{schemeCode:s.schemeCode,schemeName:s.schemeName,fundHouse:s.fundHouse,category:s.category,
+        normalizedCategory:(s.category||'').replace('Equity Scheme - ','').replace(' Fund',''),metrics:s.metrics,
+        replacesSchemeCode:f.schemeCode,replacesSchemeName:f.schemeName});
+    });
+    const illustration = funds.map(function(f){
+      const s = DEMO_MF_SCHEMES[replacements[f.schemeCode]];
+      if (!s || !f.metrics.return1Y || !s.metrics.return1Y) return null;
+      return {oldSchemeName:f.schemeName,newSchemeName:s.schemeName,windowYears:1,investedAmount:f.currentValue,
+        oldWouldHaveValue:Math.round(f.currentValue*(1+f.metrics.return1Y.cagrPct/100)),
+        newWouldHaveValue:Math.round(f.currentValue*(1+s.metrics.return1Y.cagrPct/100)),isIllustrationOnly:true};
+    }).filter(Boolean);
+    beforeAfter = {before:{funds:funds,health:health},after:{funds:afterFunds,health:healthFor(afterFunds)},illustration:illustration,
+      exitLoadNote:'Exit load data is unavailable. Check the scheme documents before redeeming.',
+      taxNote:'Capital gains tax is not computed without transaction history.'};
+  }
+  return {generatedAt:new Date().toISOString(),client:body.client,funds:funds,
+    recommendations:funds.map(function(f){return {schemeCode:f.schemeCode,schemeName:f.schemeName,verdict:'Insufficient data',signals:[],reason:'The demo has no 3Y peer or benchmark evidence for a reliable verdict.'};}),
+    duplication:duplication,health:health,horizonFit:horizonFit,beforeAfter:beforeAfter,goals:goals,warnings:warnings,
+    methodology:{riskFreeRateUsed:null,benchmarkMethod:'No benchmark proxy figures are shown in demo mode. Live reports disclose the ETF proxy used for each index.',
+      peerMethod:'Demo mode omits peer verdicts because complete 3Y data is unavailable.'}};
+}
+
 async function demoApi(path, opts) {
   await demoDelay(220);
   const method = (opts && opts.method) || 'GET';
@@ -1197,6 +1368,7 @@ async function demoApi(path, opts) {
 
   // Mutations: the UI already updates its local arrays optimistically before
   // calling api(), so in demo mode we just acknowledge success.
+  if (path === '/folioxpert/report' && method === 'POST') return demoFolioReport(body);
   if (path === '/reminders/run-now') return { ok: true, sent: 0 };
   if (path === '/statements/import') return { ok: true, imported: 0 };
   if (path.startsWith('/clients') && method === 'POST') return { id: demoNextId.client++, ...body };
@@ -3210,6 +3382,377 @@ function renderAnalyzerResults(body){
   };
 }
 
+/* ================= FOLIOXPERT AI ================= */
+let fxStep = 0;
+let fxMode = 'existing';
+let fxClientId = '';
+let fxClient = { name:'', age:'', riskProfile:'', horizonYears:'' };
+let fxGoals = [];
+let fxHoldings = [{ scheme:null, currentValue:'' }];
+let fxReplacements = {};
+let fxReport = null;
+let fxBusy = false;
+let fxError = '';
+
+function fxMoney(n) { return n === null || n === undefined || !Number.isFinite(Number(n)) ? 'Not available' : fmtRupee(Number(n)); }
+function fxPct(n) { return n === null || n === undefined || !Number.isFinite(Number(n)) ? 'Not available' : Number(n).toFixed(2) + '%'; }
+function fxMetric(n) { return n === null || n === undefined || !Number.isFinite(Number(n)) ? 'Not available' : String(n); }
+function fxReturn(r, years) {
+  if (!r || r.cagrPct === null || r.cagrPct === undefined) return 'Not available';
+  return fxPct(r.cagrPct) + (r.actualYears !== undefined && r.actualYears !== null && Number(r.actualYears) < years - 0.1 ? ' over ' + fxMetric(r.actualYears) + ' years (partial ' + years + 'Y window)' : r.isAnnualized ? ' p.a.' : ' total over ' + fxMetric(r.actualYears) + ' years');
+}
+function fxValue(v) { return v === null || v === undefined ? '' : esc(v); }
+function fxInput(label, id, value, type, extra) {
+  return '<div class="form-field"><label for="' + id + '">' + label + '</label><input id="' + id + '" type="' + (type || 'text') + '" value="' + fxValue(value) + '" ' + (extra || '') + '></div>';
+}
+function fxWarnings(warnings) {
+  return warnings && warnings.length ? '<div class="fx-warn-box"><div class="t">Data and calculation notes</div><ul>' + warnings.map(function(w){ return '<li>' + esc(w) + '</li>'; }).join('') + '</ul></div>' : '';
+}
+function fxSetError(message) { fxError = message; renderFolioXpert(); }
+function fxClientPayload() {
+  return { name:fxClient.name.trim(), age:fxClient.age === '' ? null : Number(fxClient.age),
+    riskProfile:fxClient.riskProfile || null, horizonYears:fxClient.horizonYears === '' ? null : Number(fxClient.horizonYears) };
+}
+function fxGoalPayload() {
+  return fxGoals.map(function(g) { return {
+    name:g.name.trim(), targetAmount:Number(g.targetAmount), years:Number(g.years),
+    currentValue:g.currentValue === '' ? 0 : Number(g.currentValue),
+    monthlySip:g.monthlySip === '' ? 0 : Number(g.monthlySip),
+    annualReturnPct:Number(g.annualReturnPct)
+  }; });
+}
+function fxHoldingPayload() {
+  return fxHoldings.filter(function(h){ return h.scheme; }).map(function(h){
+    return { schemeCode:h.scheme.schemeCode, currentValue:Number(h.currentValue) };
+  });
+}
+function fxValidStep() {
+  if (fxStep === 0) {
+    if (!fxClient.name.trim()) return 'Enter or select a client name.';
+    if (fxClient.age !== '' && (!Number.isFinite(Number(fxClient.age)) || Number(fxClient.age) <= 0)) return 'Enter a valid client age.';
+    if (fxClient.horizonYears !== '' && (!Number.isFinite(Number(fxClient.horizonYears)) || Number(fxClient.horizonYears) <= 0)) return 'Enter a valid investment horizon.';
+  }
+  if (fxStep === 1) {
+    for (const g of fxGoals) {
+      if (!g.name.trim() || !(Number(g.targetAmount) > 0) || !(Number(g.years) > 0) ||
+          g.annualReturnPct === '' || !Number.isFinite(Number(g.annualReturnPct)) || Number(g.annualReturnPct) < 0 ||
+          (g.currentValue !== '' && !(Number(g.currentValue) >= 0)) ||
+          (g.monthlySip !== '' && !(Number(g.monthlySip) >= 0))) {
+        return 'Each goal needs a name, target amount, years, and an advisor-entered return assumption. Amounts cannot be negative.';
+      }
+    }
+  }
+  if (fxStep === 2) {
+    const selected = fxHoldings.filter(function(h){ return h.scheme; });
+    if (!selected.length) return 'Select at least one scheme from the search results.';
+    if (selected.length > 12) return 'A report can include up to 12 holdings.';
+    if (fxHoldings.some(function(h){ return !h.scheme && h.currentValue !== ''; })) return 'Select a scheme for every value entered.';
+    if (selected.some(function(h){ return !(Number(h.currentValue) > 0); })) return 'Enter a current value greater than zero for every selected holding.';
+    const codes = selected.map(function(h){ return h.scheme.schemeCode; });
+    if (new Set(codes).size !== codes.length) return 'Each scheme can appear only once. Combine duplicate holdings into one value.';
+  }
+  return '';
+}
+function renderFolioXpert() {
+  const root = document.getElementById('view-folioxpert');
+  if (!root) return;
+  const names = ['Client', 'Goals', 'Holdings', 'Report'];
+  let html = '<div class="ai-hero"><div class="ai-hero-badge">Client portfolio review</div><h1>FolioXpert AI</h1><p>Prepare a personal portfolio review using fund performance, advisor-entered goals and confirmed holdings.</p></div>';
+  html += '<div class="fx-steps">' + names.map(function(name,i){
+    return '<div class="fx-step ' + (i === fxStep ? 'active' : i < fxStep ? 'done' : '') + '"><span class="n">' + (i+1) + '</span>' + name + '</div>' + (i < 3 ? '<span class="fx-step-sep"></span>' : '');
+  }).join('') + '</div>';
+  if (fxError) html += '<div class="fx-warn-box"><div class="t">' + esc(fxError) + '</div></div>';
+  if (fxStep === 0) html += fxClientStepHtml();
+  if (fxStep === 1) html += fxGoalsStepHtml();
+  if (fxStep === 2) html += fxHoldingsStepHtml();
+  if (fxStep === 3) html += fxReportStepHtml();
+  root.innerHTML = html;
+  fxWireStep(root);
+}
+function fxClientStepHtml() {
+  let html = '<div class="card card-pad"><div class="section-head"><div class="section-title">Who is this report for?</div></div>';
+  html += '<div class="fx-toggle"><button class="ai-mode-btn ' + (fxMode === 'existing' ? 'active' : '') + '" id="fxExisting">Existing client</button><button class="ai-mode-btn ' + (fxMode === 'manual' ? 'active' : '') + '" id="fxManual">New client</button></div>';
+  if (fxMode === 'existing') {
+    html += '<div class="form-field"><label for="fxClientPick">Choose a client</label><select id="fxClientPick"><option value="">Select a client</option>' +
+      clients.map(function(c){ return '<option value="' + esc(c.id) + '"' + (c.id === fxClientId ? ' selected' : '') + '>' + esc(c.name) + '</option>'; }).join('') + '</select></div>';
+    if (!clients.length) html += '<p class="fx-help">No CRM clients yet. Choose New client to enter details manually.</p>';
+  } else html += fxInput('Client name', 'fxName', fxClient.name, 'text', 'required maxlength="120"');
+  html += '<div class="form-grid" style="margin-top:14px">' +
+    fxInput('Age (optional)', 'fxAge', fxClient.age, 'number', 'min="1" max="120"') +
+    '<div class="form-field"><label for="fxRisk">Risk profile (optional)</label><select id="fxRisk"><option value="">Not supplied</option>' +
+    ['Conservative','Moderate','Aggressive'].map(function(v){return '<option' + (fxClient.riskProfile === v ? ' selected' : '') + '>' + v + '</option>';}).join('') + '</select></div>' +
+    fxInput('Investment horizon in years (optional)', 'fxHorizon', fxClient.horizonYears, 'number', 'min="0.1" step="0.1"') + '</div>';
+  html += '<p class="fx-help">The CRM record does not include verified scheme holdings. You will confirm each holding and its current value in step 3.</p>';
+  html += '<div class="fx-actions"><button class="btn btn-primary btn-gold" id="fxNext">Continue to goals</button></div></div>';
+  return html;
+}
+function fxGoalsStepHtml() {
+  let html = '<div class="card card-pad"><div class="section-head"><div class="section-title">Goals for ' + esc(fxClient.name) + '</div></div><p class="fx-help">Goals are optional. Enter each return assumption yourself. A blank current value or SIP means zero has been earmarked.</p>';
+  html += fxGoals.map(function(g,i){
+    const fields = [['name','Goal name','text',''],['targetAmount','Target amount (₹)','number','min="1"'],['years','Years left','number','min="0.1" step="0.1"'],['currentValue','Already set aside (₹)','number','min="0"'],['monthlySip','Monthly SIP (₹)','number','min="0"'],['annualReturnPct','Assumed annual return (%)','number','min="0" step="0.01"']];
+    return '<div class="fx-goal-row">' + fields.map(function(f){
+      return '<div><label>' + f[1] + '</label><input data-fx-goal="' + i + '" data-fx-field="' + f[0] + '" type="' + f[2] + '" value="' + fxValue(g[f[0]]) + '" ' + f[3] + '></div>';
+    }).join('') + '<button class="fx-remove-btn" data-fx-remove-goal="' + i + '" title="Remove goal" aria-label="Remove goal">×</button></div>';
+  }).join('');
+  html += '<div class="fx-actions"><button class="btn" id="fxAddGoal">Add goal</button><button class="btn" id="fxBack">Back</button><button class="btn btn-primary btn-gold" id="fxNext">Continue to holdings</button></div></div>';
+  return html;
+}
+function fxHoldingsStepHtml() {
+  let html = '<div class="card card-pad"><div class="section-head"><div class="section-title">Confirm current holdings</div></div><p class="fx-help">Search and select 1 to 12 schemes. Enter each holding’s current value in rupees. These values are supplied by you, not fetched from NAV data.</p>';
+  html += fxHoldings.map(function(h,i){
+    return '<div class="fx-holding-row"><div class="fx-search"><label class="fx-label">Scheme ' + (i+1) + '</label><input data-fx-scheme="' + i + '" placeholder="Search scheme name..." value="' + (h.scheme ? esc(h.scheme.schemeName) : '') + '" ' + (h.scheme ? 'readonly' : '') + '><div class="picker-dd" data-fx-dd="' + i + '"></div></div><div><label class="fx-label">Current value (₹)</label><input type="number" min="0" data-fx-value="' + i + '" value="' + fxValue(h.currentValue) + '"></div><button class="fx-remove-btn" data-fx-remove-holding="' + i + '" title="' + (h.scheme ? 'Clear holding' : 'Remove row') + '" aria-label="Remove holding">×</button></div>';
+  }).join('');
+  html += '<div class="fx-actions"><button class="btn" id="fxAddHolding"' + (fxHoldings.length >= 12 ? ' disabled' : '') + '>Add holding</button><button class="btn" id="fxBack">Back</button><button class="btn btn-primary btn-gold" id="fxGenerate"' + (fxBusy ? ' disabled' : '') + '>' + (fxBusy ? 'Building report...' : 'Generate report') + '</button></div></div>';
+  return html;
+}
+function fxReportStepHtml() {
+  if (!fxReport) return '<div class="card card-pad"><p>No report has been generated yet.</p><button class="btn" id="fxBack">Back to holdings</button></div>';
+  let html = '<div class="fx-actions"><button class="btn" id="fxEdit">Edit inputs</button><button class="btn btn-primary btn-gold" id="fxPreview">Print / Save as PDF</button></div>';
+  html += '<div class="card card-pad">' + fxReportBody(fxReport) + '</div>';
+  html += '<div class="card card-pad" style="margin-top:16px"><div class="section-head"><div class="section-title">Compare proposed replacements</div></div><p class="fx-help">Optional. Choose a replacement for any holding, then update the report. A comparison of past returns is an illustration, not a forecast. Check exit load and tax before acting.</p>';
+  html += fxReport.funds.map(function(f){
+    const chosen = fxReplacements[f.schemeCode];
+    return '<div class="fx-holding-row"><div><b>' + esc(f.schemeName) + '</b><div class="fx-help">' + fxMoney(f.currentValue) + '</div></div><div class="fx-search"><input data-fx-replacement="' + f.schemeCode + '" placeholder="Search replacement..." value="' + (chosen ? esc(chosen.schemeName) : '') + '" ' + (chosen ? 'readonly' : '') + '><div class="picker-dd" data-fx-replacement-dd="' + f.schemeCode + '"></div></div><button class="fx-remove-btn" data-fx-clear-replacement="' + f.schemeCode + '" aria-label="Clear replacement">×</button></div>';
+  }).join('');
+  html += '<div class="fx-actions"><button class="btn btn-primary" id="fxCompare"' + (fxBusy ? ' disabled' : '') + '>' + (fxBusy ? 'Updating...' : 'Update comparison') + '</button></div></div>';
+  return html;
+}
+function fxWireSearch(input, dd, selected) {
+  let timer, sequence = 0;
+  input.oninput = function() {
+    const q = input.value.trim();
+    clearTimeout(timer);
+    const request = ++sequence;
+    if (q.length < 2) { dd.classList.remove('open'); return; }
+    dd.innerHTML = '<div class="pdd-empty">Searching...</div>';
+    dd.classList.add('open');
+    timer = setTimeout(async function() {
+      try {
+        const response = await api('/mf/search?q=' + encodeURIComponent(q));
+        if (request !== sequence || !document.body.contains(input)) return;
+        const results = response.results || [];
+        dd.innerHTML = results.length ? results.map(function(s,i){ return '<div class="pdd-item" data-fx-result="' + i + '">' + esc(s.schemeName) + '</div>'; }).join('') : '<div class="pdd-empty">No matching schemes found</div>';
+        dd.querySelectorAll('[data-fx-result]').forEach(function(item){
+          item.onclick = function(){ selected(results[Number(item.dataset.fxResult)]); };
+        });
+      } catch(e) {
+        if (request === sequence) dd.innerHTML = '<div class="pdd-empty">Could not search schemes. Try again.</div>';
+      }
+    }, 320);
+  };
+  input.onblur = function(){ setTimeout(function(){ dd.classList.remove('open'); }, 180); };
+}
+function fxWireStep(root) {
+  const get = function(id){ return root.querySelector('#' + id); };
+  if (get('fxBack')) get('fxBack').onclick = function(){ fxError = ''; fxStep--; renderFolioXpert(); };
+  if (get('fxNext')) get('fxNext').onclick = function(){
+    const error = fxValidStep(); if (error) { fxSetError(error); return; }
+    fxError = ''; fxStep++; renderFolioXpert();
+  };
+  if (fxStep === 0) {
+    get('fxExisting').onclick = function(){ fxMode = 'existing'; fxClientId = ''; fxClient = {name:'',age:'',riskProfile:'',horizonYears:''}; renderFolioXpert(); };
+    get('fxManual').onclick = function(){ fxMode = 'manual'; fxClientId = ''; fxClient = {name:'',age:'',riskProfile:'',horizonYears:''}; renderFolioXpert(); };
+    if (get('fxClientPick')) get('fxClientPick').onchange = function(){
+      fxClientId = this.value;
+      const c = clients.find(function(item){return item.id === fxClientId;});
+      fxClient = c ? {name:c.name, age:c.age || '', riskProfile:c.riskProfile || '', horizonYears:''} : {name:'',age:'',riskProfile:'',horizonYears:''};
+      renderFolioXpert();
+    };
+    if (get('fxName')) get('fxName').oninput = function(){fxClient.name = this.value;};
+    get('fxAge').oninput = function(){fxClient.age = this.value;};
+    get('fxRisk').onchange = function(){fxClient.riskProfile = this.value;};
+    get('fxHorizon').oninput = function(){fxClient.horizonYears = this.value;};
+  }
+  if (fxStep === 1) {
+    get('fxAddGoal').onclick = function(){
+      if (fxGoals.length >= 10) { fxSetError('A report can include up to 10 goals.'); return; }
+      fxGoals.push({name:'',targetAmount:'',years:'',currentValue:'',monthlySip:'',annualReturnPct:''});
+      fxError = ''; renderFolioXpert();
+    };
+    root.querySelectorAll('[data-fx-goal]').forEach(function(input){
+      input.oninput = function(){ fxGoals[Number(this.dataset.fxGoal)][this.dataset.fxField] = this.value; };
+    });
+    root.querySelectorAll('[data-fx-remove-goal]').forEach(function(btn){
+      btn.onclick = function(){ fxGoals.splice(Number(this.dataset.fxRemoveGoal),1); fxError = ''; renderFolioXpert(); };
+    });
+  }
+  if (fxStep === 2) {
+    get('fxAddHolding').onclick = function(){ if (fxHoldings.length < 12) { fxHoldings.push({scheme:null,currentValue:''}); renderFolioXpert(); } };
+    root.querySelectorAll('[data-fx-value]').forEach(function(input){
+      input.oninput = function(){ fxHoldings[Number(this.dataset.fxValue)].currentValue = this.value; };
+    });
+    root.querySelectorAll('[data-fx-scheme]').forEach(function(input){
+      const i = Number(input.dataset.fxScheme);
+      if (!fxHoldings[i].scheme) fxWireSearch(input, root.querySelector('[data-fx-dd="' + i + '"]'), function(s){
+        fxHoldings[i].scheme = {schemeCode:Number(s.schemeCode),schemeName:s.schemeName}; fxError = ''; renderFolioXpert();
+      });
+    });
+    root.querySelectorAll('[data-fx-remove-holding]').forEach(function(btn){
+      btn.onclick = function(){ fxHoldings.splice(Number(this.dataset.fxRemoveHolding),1); if (!fxHoldings.length) fxHoldings.push({scheme:null,currentValue:''}); fxError = ''; renderFolioXpert(); };
+    });
+    get('fxGenerate').onclick = function(){ fxRunReport(false); };
+  }
+  if (fxStep === 3 && fxReport) {
+    get('fxEdit').onclick = function(){fxStep = 0; fxError = ''; renderFolioXpert();};
+    get('fxPreview').onclick = fxOpenReport;
+    root.querySelectorAll('[data-fx-replacement]').forEach(function(input){
+      const code = Number(input.dataset.fxReplacement);
+      if (!fxReplacements[code]) fxWireSearch(input, root.querySelector('[data-fx-replacement-dd="' + code + '"]'), function(s){
+        if (Number(s.schemeCode) === code) { fxSetError('Choose a different scheme as the replacement.'); return; }
+        fxReplacements[code] = {schemeCode:Number(s.schemeCode),schemeName:s.schemeName}; fxError = ''; renderFolioXpert();
+      });
+    });
+    root.querySelectorAll('[data-fx-clear-replacement]').forEach(function(btn){
+      btn.onclick = function(){delete fxReplacements[Number(this.dataset.fxClearReplacement)]; renderFolioXpert();};
+    });
+    get('fxCompare').onclick = function(){ fxRunReport(true); };
+  }
+}
+async function fxRunReport(withReplacements) {
+  if (fxBusy) return;
+  const oldStep = fxStep;
+  for (let i = 0; i < 3; i++) {
+    fxStep = i;
+    const error = fxValidStep();
+    if (error) { fxSetError(error); return; }
+  }
+  fxStep = oldStep;
+  const replacements = {};
+  if (withReplacements) Object.keys(fxReplacements).forEach(function(code){ replacements[code] = fxReplacements[code].schemeCode; });
+  fxBusy = true; fxError = ''; renderFolioXpert();
+  try {
+    fxReport = await api('/folioxpert/report', {method:'POST', body:{
+      client:fxClientPayload(), goals:fxGoalPayload(), holdings:fxHoldingPayload(), proposedReplacements:replacements
+    }});
+    fxStep = 3;
+  } catch(e) { fxError = e.message || 'Could not build the report.'; }
+  fxBusy = false; renderFolioXpert();
+}
+function fxRow(label,value) { return '<div class="row"><span>' + esc(label) + '</span><b>' + value + '</b></div>'; }
+function fxSection(n,title,body) { return '<section class="fx-print-section"><h3 class="fx-section-title">' + n + '. ' + title + '</h3>' + body + '</section>'; }
+function fxReportBody(r) {
+  const name = esc(r.client.name);
+  const funds = r.funds || [], recs = r.recommendations || [], health = r.health || {};
+  const mix = health.equityDebtMix || {}, concentration = health.concentration || {};
+  const value = health.totalValue;
+  const keeps = recs.filter(function(x){return x.verdict === 'Keep';}).length;
+  const reviews = recs.filter(function(x){return x.verdict === 'Review';}).length;
+  const unknown = recs.filter(function(x){return x.verdict === 'Insufficient data';}).length;
+  const monitors = recs.filter(function(x){return x.verdict === 'Monitor';}).length;
+  const dupe = r.duplication || [];
+  let intro = '<div class="fx-opening"><p>' + name + ', we reviewed ' + funds.length + ' fund' + (funds.length === 1 ? '' : 's') +
+    ' with a current value of ' + fxMoney(value) + '.';
+  if (r.horizonFit && r.horizonFit.flag === 'appropriate') intro += ' ' + esc(r.horizonFit.text);
+  if (keeps) intro += ' ' + keeps + ' fund' + (keeps === 1 ? ' is' : 's are') + ' marked Keep in the comparison below.';
+  intro += '</p><p>' + (monitors || reviews ? monitors + ' fund' + (monitors === 1 ? ' is' : 's are') + ' marked Monitor and ' + reviews + ' Review' : 'No funds are marked Monitor or Review') +
+    (unknown ? ', while ' + unknown + ' have insufficient comparison data' : '') + '. Each call is explained by the figures in sections 3 and 4.</p>';
+  if (r.horizonFit && r.horizonFit.flag !== 'appropriate') intro += '<p>' + esc(r.horizonFit.text) + '</p>';
+  if (dupe.length) intro += '<p>' + dupe.length + ' category group' + (dupe.length === 1 ? '' : 's') + ' contain more than one holding. These may be candidates for consolidation, after reviewing costs and tax.</p>';
+  intro += '</div>';
+  let html = '<div class="rp-title">Portfolio review for ' + name + '</div><div class="rp-sub">Prepared ' + esc(fmtDate(r.generatedAt)) + ' · Fund performance is based on NAV history, not your personal investment return.</div>';
+  html += fxSection(1,'Personal review',intro);
+  let healthHtml = '<div class="rp-grid"><div class="rp-box"><div class="k">Portfolio</div>' +
+    fxRow('Current value',fxMoney(value)) + fxRow('Holdings',String(funds.length)) +
+    fxRow('Equity estimate',fxPct(mix.equityPct)) + fxRow('Debt estimate',fxPct(mix.debtPct)) +
+    fxRow('Unclassified value',fxMoney(mix.unclassifiedValue)) + '</div><div class="rp-box"><div class="k">Concentration</div>' +
+    fxRow('Largest fund',concentration.maxSingleFund ? esc(concentration.maxSingleFund.schemeName) + ' (' + fxPct(concentration.maxSingleFund.weightPct) + ')' : 'Not available') +
+    fxRow('Largest fund house',concentration.maxFundHouse ? esc(concentration.maxFundHouse.fundHouse) + ' (' + fxPct(concentration.maxFundHouse.weightPct) + ')' : 'Not available') + '</div></div>';
+  if (mix.hasHybridEstimate) healthHtml += '<p class="fx-help">Hybrid fund equity and debt shares use an estimated 50/50 split. Actual holdings may differ.</p>';
+  healthHtml += '<div class="fx-scroll"><table class="fx-table"><thead><tr><th>Fund</th><th>Fund house</th><th>Value</th><th>Weight</th></tr></thead><tbody>' +
+    (health.byFund || []).map(function(f){return '<tr><td>' + esc(f.schemeName) + '</td><td>' + esc(f.fundHouse || '') + '</td><td>' + fxMoney(f.currentValue) + '</td><td>' + fxPct(f.weightPct) + '</td></tr>';}).join('') + '</tbody></table></div>';
+  if (dupe.length) healthHtml += '<div class="rp-obs"><div class="t">Same-category holdings</div><ul>' + dupe.map(function(d){return '<li>' + esc(d.category) + ': ' + d.schemes.map(function(s){return esc(s.schemeName);}).join(', ') + '</li>';}).join('') + '</ul></div>';
+  html += fxSection(2,'Portfolio health',healthHtml);
+  let comparison = funds.map(function(f){
+    const m = f.metrics || {}, p = f.peerComparison, b = f.benchmarkComparison;
+    let out = '<div class="fx-rp-fund-card"><h4>' + esc(f.schemeName) + '</h4><div class="fx-help">' + esc(f.category || 'Category not available') + ' · NAV as of ' + esc(m.asOfDate || 'not available') + ' · ' + esc(f.dataFreshness || 'unknown') + ' data</div>';
+    out += '<div class="fx-rp-metric-row"><span>1Y fund return <b>' + fxReturn(m.return1Y,1) + '</b></span><span>3Y <b>' + fxReturn(m.return3Y,3) + '</b></span><span>5Y <b>' + fxReturn(m.return5Y,5) + '</b></span></div>';
+    out += [1,3,5].map(function(years){
+      const rolling = m['rolling' + years + 'Y'];
+      return '<div class="fx-rp-metric-row"><span>Rolling ' + years + 'Y average <b>' + (rolling ? fxPct(rolling.avgPct) : 'Not available') +
+        '</b></span><span>Range <b>' + (rolling ? fxPct(rolling.minPct) + ' to ' + fxPct(rolling.maxPct) : 'Not available') +
+        '</b></span><span>Positive periods <b>' + (rolling ? fxPct(rolling.positivePct) : 'Not available') + '</b></span></div>';
+    }).join('');
+    out += '<div class="fx-rp-metric-row"><span>1Y standard deviation <b>' + fxPct(m.stdDev1Y) + '</b></span><span>Downside deviation <b>' + fxPct(m.downsideDeviation1Y) + '</b></span><span>Sharpe <b>' + fxMetric(m.sharpe1Y) + '</b></span><span>Sortino <b>' + fxMetric(m.sortino1Y) + '</b></span><span>Max drawdown <b>' + (m.maxDrawdown5Y ? fxPct(m.maxDrawdown5Y.maxDrawdownPct) + ' over ' + fxMetric(m.maxDrawdown5Y.windowYears) + ' years' : 'Not available') + '</b></span></div>';
+    out += '<div class="rp-grid"><div class="rp-box"><div class="k">Curated peers</div>' +
+      fxRow('1Y average',p ? fxPct(p.categoryAvg1Y) : 'Not available') +
+      fxRow('3Y average',p ? fxPct(p.categoryAvg3Y) : 'Not available') +
+      fxRow('1Y rank',p && p.rank ? p.rank + ' of ' + p.outOf : 'Not available') +
+      fxRow('1Y difference',p && p.lagVs1Y !== null ? fxPct(p.lagVs1Y) + ' points' : 'Not available') +
+      fxRow('3Y difference',p && p.lagVs3Y !== null ? fxPct(p.lagVs3Y) + ' points' : 'Not available') +
+      fxRow('Average 1Y Sharpe',p ? fxMetric(p.categoryAvgSharpe1Y) : 'Not available') +
+      '</div><div class="rp-box"><div class="k">Index comparison</div>' +
+      fxRow('Index',b ? esc(b.indexName) : 'Not available') +
+      fxRow('ETF proxy',b ? esc(b.proxySchemeName) : 'Not available') +
+      fxRow('1Y proxy return',b ? fxPct(b.return1Y) : 'Not available') +
+      fxRow('3Y proxy return',b ? fxPct(b.return3Y) : 'Not available') +
+      fxRow('5Y proxy return',b ? fxPct(b.return5Y) : 'Not available') +
+      fxRow('1Y difference',b && b.lagVs1Y !== null ? fxPct(b.lagVs1Y) + ' points' : 'Not available') +
+      fxRow('3Y difference',b && b.lagVs3Y !== null ? fxPct(b.lagVs3Y) + ' points' : 'Not available') +
+      fxRow('5Y difference',b && b.lagVs5Y !== null ? fxPct(b.lagVs5Y) + ' points' : 'Not available') + '</div></div></div>';
+    return out;
+  }).join('');
+  html += fxSection(3,'Fund by fund comparison',comparison);
+  const verdicts = recs.map(function(rec){
+    const cls = rec.verdict === 'Keep' ? 'keep' : rec.verdict === 'Monitor' ? 'monitor' : rec.verdict === 'Review' ? 'review' : 'unknown';
+    let evidence = (rec.signals || []).length ? '<ul class="fx-signal-list">' + rec.signals.map(function(s){return '<li>' + esc(s.text) + '</li>';}).join('') + '</ul>' :
+      '<p class="fx-help">' + esc(rec.reason || 'No corroborating 3-year weakness signal in the available peer and benchmark data. This is not a guarantee of future results.') + '</p>';
+    return '<div class="fx-rp-fund-card"><h4>' + esc(rec.schemeName) + ' <span class="fx-verdict ' + cls + '">' + esc(rec.verdict) + '</span></h4>' + evidence + '</div>';
+  }).join('');
+  html += fxSection(4,'Keep, Monitor or Review',verdicts);
+  const ba = r.beforeAfter;
+  let before = '<p>No replacement has been proposed. The current holdings remain the comparison base.</p>';
+  if (ba) {
+    before = '<div class="fx-compare-grid"><div class="fx-compare-col"><div class="hd">Current portfolio</div>' +
+      fxRow('Total value',fxMoney(ba.before.health.totalValue)) + fxRow('Equity estimate',fxPct(ba.before.health.equityDebtMix.equityPct)) +
+      ba.before.funds.map(function(f){return fxRow(f.schemeName,fxMoney(f.currentValue));}).join('') +
+      '</div><div class="fx-compare-col after"><div class="hd">With proposed swaps</div>' +
+      fxRow('Total value',fxMoney(ba.after.health.totalValue)) + fxRow('Equity estimate',fxPct(ba.after.health.equityDebtMix.equityPct)) +
+      ba.after.funds.map(function(f){return fxRow(f.schemeName,fxMoney(f.currentValue));}).join('') + '</div></div>';
+    before += (ba.illustration || []).length ? '<div class="rp-obs"><div class="t">Historical illustration on the same amount and window</div><ul>' +
+      ba.illustration.map(function(item){return '<li>' + esc(item.oldSchemeName) + ' versus ' + esc(item.newSchemeName) + ', ' + item.windowYears + 'Y on ' + fxMoney(item.investedAmount) + ': ' + fxMoney(item.oldWouldHaveValue) + ' versus ' + fxMoney(item.newWouldHaveValue) + '. This is past performance, not a forecast.</li>';}).join('') + '</ul></div>' :
+      '<p>Comparable full historical windows were unavailable for these swaps, so no return illustration is shown.</p>';
+    before += '<p class="fx-help">' + esc(ba.exitLoadNote) + ' ' + esc(ba.taxNote) + '</p>';
+  }
+  html += fxSection(5,'Before and after',before);
+  let goalHtml = (r.goals || []).length ? r.goals.map(function(g){
+    return '<div class="fx-goal-card"><h4>' + esc(g.name) + '</h4><div class="rp-grid"><div class="rp-box">' +
+      fxRow('Target',fxMoney(g.targetAmount)) + fxRow('Years left',fxMetric(g.years)) +
+      fxRow('Already set aside',fxMoney(g.currentValue)) + fxRow('Current monthly SIP',fxMoney(g.monthlySip)) +
+      fxRow('Advisor-assumed annual return',fxPct(g.annualReturnPct)) + '</div><div class="rp-box">' +
+      fxRow('Projected value',g.projection ? fxMoney(g.projection.projectedValue) : 'Not available') +
+      fxRow('Funding gap',g.gap === null ? 'Not available' : fxMoney(Math.max(0,g.gap))) +
+      fxRow('Additional monthly SIP',fxMoney(g.additionalMonthlySipRequired)) +
+      fxRow('Status',g.onTrack === null ? 'Not available' : g.onTrack ? 'On track under the stated assumption' : 'Below target under the stated assumption') + '</div></div></div>';
+  }).join('') : '<p>No goals were supplied, so no funding projection was made.</p>';
+  let actions = [];
+  if (reviews) actions.push('Review the ' + reviews + ' funds marked Review using the signals in section 4.');
+  if (monitors) actions.push('Monitor the ' + monitors + ' funds marked Monitor and revisit their evidence at the next review.');
+  if (dupe.length) actions.push('Check whether the ' + dupe.length + ' same-category groups need consolidation.');
+  (r.goals || []).forEach(function(g){ if (g.additionalMonthlySipRequired > 0) actions.push('For ' + g.name + ', discuss an additional monthly SIP of ' + fxMoney(g.additionalMonthlySipRequired) + ' under the ' + fxPct(g.annualReturnPct) + ' assumption.'); });
+  if (r.horizonFit && r.horizonFit.flag !== 'appropriate') actions.push('Discuss the ' + fxPct(mix.equityPct) + ' equity estimate against the ' + fxMetric(r.client.horizonYears) + '-year horizon.');
+  if (!actions.length) actions.push('Review these holdings and any goal assumptions with your advisor at the next scheduled meeting.');
+  goalHtml += '<div class="rp-obs"><div class="t">Discussion and action plan</div><ol>' + actions.map(function(a){return '<li>' + esc(a) + '</li>';}).join('') + '</ol></div>';
+  html += fxSection(6,'Goal outlook and action plan',goalHtml);
+  html += fxWarnings(r.warnings);
+  const method = r.methodology || {};
+  html += '<div class="rp-disclaimer"><b>How to read this report.</b> NAV returns describe fund performance, not your own XIRR. No transaction history, expense ratio, exit load, capital gains tax, or underlying-stock overlap was supplied. Same-category holdings indicate possible duplication, not measured stock overlap. ' +
+    esc(method.peerMethod || '') + ' ' + esc(method.benchmarkMethod || '') +
+    ' Return projections use only the advisor-entered rate shown for each goal and are illustrations, not forecasts. Mutual fund investments are subject to market risks. Read scheme documents before acting.</div>';
+  return html;
+}
+function fxOpenReport() {
+  if (!fxReport) return;
+  const overlay = document.getElementById('reportOverlay');
+  const logo = document.querySelector('.brand-lockup');
+  overlay.innerHTML = '<div class="report-toolbar"><button class="btn btn-gold btn-sm" id="fxPrint">Print / Save as PDF</button><button class="btn btn-sm" id="fxClose">Close preview</button></div>' +
+    '<div class="report-page"><div class="rp-head"><div class="rp-brand"><img src="' + (logo ? logo.src : '') + '" alt="MF Sarthi"></div><div class="meta">' +
+    esc(currentUser && currentUser.name || 'MF Sarthi') + '<br>' + esc(currentUser && currentUser.email || '') + '</div></div>' +
+    fxReportBody(fxReport) + '<div class="rp-foot"><span>Generated by MF Sarthi</span><span>' + esc(fmtDate(fxReport.generatedAt)) + '</span></div></div>';
+  overlay.classList.add('open');
+  overlay.querySelector('#fxClose').onclick = function(){overlay.classList.remove('open');};
+  overlay.querySelector('#fxPrint').onclick = function(){window.print();};
+}
+
 function renderInsights(){
   const el = document.getElementById('view-insights');
   const rh = reviewHealthCounts();
@@ -3407,7 +3950,7 @@ function renderNotifications(){
    ============================================================ */
 const VIEW_RENDERERS = {
   dashboard: renderDashboard, crm: renderCrm, meetings: renderMeetings, calculators: renderCalculators,
-  knowledge: renderKnowledge, analyzer: renderAnalyzer, insights: renderInsights, reports: renderReportsList, settings: renderSettings, help: renderHelp
+  knowledge: renderKnowledge, analyzer: renderAnalyzer, folioxpert: renderFolioXpert, insights: renderInsights, reports: renderReportsList, settings: renderSettings, help: renderHelp
 };
 function switchView(name, resetState){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));

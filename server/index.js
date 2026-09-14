@@ -27,6 +27,7 @@ const exportRoutes = require('./routes/export');
 const reminderRoutes = require('./routes/reminders');
 const bootstrapRoutes = require('./routes/bootstrap');
 const mfRoutes = require('./routes/mf');
+const folioxpertRoutes = require('./routes/folioxpert');
 const { ensureSchemeIndex } = require('./utils/mfapi');
 const { runDailyReminders } = require('./utils/reminders');
 const { runBackup } = require('./utils/backup');
@@ -57,6 +58,7 @@ app.use('/api/export', exportRoutes);
 app.use('/api/reminders', reminderRoutes);
 app.use('/api/bootstrap', bootstrapRoutes);
 app.use('/api/mf', mfRoutes);
+app.use('/api/folioxpert', folioxpertRoutes);
 
 app.get('/api/health', (req, res) => res.json({ ok: true, time: new Date().toISOString() }));
 
