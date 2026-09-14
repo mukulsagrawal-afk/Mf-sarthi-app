@@ -23,7 +23,7 @@ ensureSchemeIndex().catch((e) => console.error('Scheme index build failed:', e.m
 router.get('/search', async (req, res) => {
   const q = req.query.q || '';
   try {
-    const results = await searchSchemes(q, 15);
+    const results = await searchSchemes(q, 25);
     res.json({ results });
   } catch (e) {
     res.status(502).json({ error: 'Could not reach the mutual fund data provider (MFAPI.in). Please try again in a moment.' });

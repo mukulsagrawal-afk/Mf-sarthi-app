@@ -116,14 +116,36 @@ async function ensureSchemeIndex() {
 
 // Local search against the cached index - falls back to MFAPI's own search endpoint
 // (and lazily seeds the local index from it) if the local index hasn't been built yet.
-async function searchSchemes(query, limit = 20) {
+//
+// Ranked by match quality, not just insertion order: a bare 15-row cap with no ordering
+// meant a common query like "HDFC" or "ICICI Prudential" - which can match hundreds of
+// scheme variants (Direct/Regular, Growth/IDCW, multiple sub-categories) - would silently
+// drop the exact scheme an MFD was looking for if it didn't happen to be among the first
+// few rows SQLite returned. Ordering by (starts-with > word-boundary match > contains),
+// then by name length, surfaces the most likely intended match first and raises the cap
+// so a specific-enough query has room to actually include the right scheme.
+async function searchSchemes(query, limit = 25) {
   const q = String(query || '').trim();
   if (q.length < 2) return [];
 
   const localCount = db.prepare('SELECT COUNT(*) AS n FROM mf_scheme_index').get().n;
   if (localCount > 0) {
     const like = `%${q}%`;
-    return db.prepare('SELECT scheme_code AS schemeCode, scheme_name AS schemeName FROM mf_scheme_index WHERE scheme_name LIKE ? LIMIT ?').all(like, limit);
+    const startsWith = `${q}%`;
+    const wordBoundary = `% ${q}%`;
+    return db.prepare(`
+      SELECT scheme_code AS schemeCode, scheme_name AS schemeName FROM mf_scheme_index
+      WHERE scheme_name LIKE ?
+      ORDER BY
+        CASE
+          WHEN scheme_name LIKE ? THEN 0
+          WHEN scheme_name LIKE ? THEN 1
+          ELSE 2
+        END,
+        LENGTH(scheme_name) ASC,
+        scheme_name ASC
+      LIMIT ?
+    `).all(like, startsWith, wordBoundary, limit);
   }
 
   // No local index yet (first run) - use MFAPI's own search so the feature works
