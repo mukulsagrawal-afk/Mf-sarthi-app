@@ -8,7 +8,7 @@
 // without waiting on a live API integration.
 
 const { parse } = require('csv-parse/sync');
-const ExcelJS = require('exceljs');
+const XLSX = require('xlsx');
 
 const HEADER_ALIASES = {
   name: ['name', 'client name', 'investor name', 'client', 'unit holder name'],
@@ -72,13 +72,9 @@ async function parseStatementFile(buffer, originalName) {
     return rowsFromMatrix(records);
   }
   if (lower.endsWith('.xlsx') || lower.endsWith('.xlsm')) {
-    const workbook = new ExcelJS.Workbook();
-    await workbook.xlsx.load(buffer);
-    const sheet = workbook.worksheets[0];
-    const matrix = [];
-    sheet.eachRow({ includeEmpty: false }, (row) => {
-      matrix.push(row.values.slice(1).map((c) => (c && c.text !== undefined ? c.text : c)));
-    });
+    const workbook = XLSX.read(buffer, { type:'buffer', cellDates:true });
+    const sheet = workbook.Sheets[workbook.SheetNames[0]];
+    const matrix = XLSX.utils.sheet_to_json(sheet, { header:1, raw:false, defval:'' });
     return rowsFromMatrix(matrix);
   }
   throw new Error('Unsupported file type - please upload a .csv or .xlsx export from your RTA/back-office portal.');

@@ -1,0 +1,344 @@
+[
+  {
+    "mfId": 62,
+    "mfName": "360 ONE Mutual Fund",
+    "amcName": "360 ONE Asset Management Limited",
+    "monthlyUrl": "https://www.360.one/asset/mutual-funds/downloads/"
+  },
+  {
+    "mfId": 85,
+    "mfName": "Abakkus Mutual Fund",
+    "amcName": "Abakkus Investment Managers Private Limited",
+    "monthlyUrl": "https://www.abakkusmf.com/statutory-disclosures.html#"
+  },
+  {
+    "mfId": 3,
+    "mfName": "Aditya Birla Sun Life Mutual Fund",
+    "amcName": "Aditya Birla Sun Life AMC Limited",
+    "monthlyUrl": "https://mutualfund.adityabirlacapital.com/forms-and-downloads/portfolio"
+  },
+  {
+    "mfId": 86,
+    "mfName": "AlphaGrep Mutual Fund",
+    "amcName": "AlphaGrep Investment Management Private Limited",
+    "monthlyUrl": "https://www.alphagrepmf.ai/disclosures"
+  },
+  {
+    "mfId": 80,
+    "mfName": "Angel One Mutual Fund",
+    "amcName": "Angel One Asset Management Company Limited",
+    "monthlyUrl": "https://www.angelonemf.com/downloads"
+  },
+  {
+    "mfId": 87,
+    "mfName": "ASK MUTUAL FUND",
+    "amcName": "ASK ASSET MANAGEMENT PRIVATE LIMITED",
+    "monthlyUrl": "https://www.askmutualfund.com/#/downloads"
+  },
+  {
+    "mfId": 53,
+    "mfName": "Axis Mutual Fund",
+    "amcName": "Axis Asset Management Co. Ltd.",
+    "monthlyUrl": "https://www.axismf.com/statutory-disclosures"
+  },
+  {
+    "mfId": 75,
+    "mfName": "Bajaj Finserv Mutual Fund",
+    "amcName": "Bajaj Finserv Asset Management Limited",
+    "monthlyUrl": "https://www.bajajamc.com/downloads?statutory-disclosures="
+  },
+  {
+    "mfId": 48,
+    "mfName": "Bandhan Mutual Fund",
+    "amcName": "Bandhan AMC Limited",
+    "monthlyUrl": "https://bandhanmutual.com/downloads/disclosures"
+  },
+  {
+    "mfId": 46,
+    "mfName": "Bank of India Mutual Fund",
+    "amcName": "Bank of India Investment Managers Private Limited",
+    "monthlyUrl": "https://www.boimf.in/investor-corner#t2"
+  },
+  {
+    "mfId": 4,
+    "mfName": "Baroda BNP Paribas Mutual Fund",
+    "amcName": "Baroda BNP Paribas Asset Management India Private Limited",
+    "monthlyUrl": "https://www.barodabnpparibasmf.in/downloads/monthly-portfolio-scheme"
+  },
+  {
+    "mfId": 32,
+    "mfName": "Canara Robeco Mutual Fund",
+    "amcName": "Canara Robeco Asset Management Company Limited",
+    "monthlyUrl": "https://www.canararobeco.com/documents/statutory-disclosures/scheme-dashboard/scheme-monthly-portfolio/"
+  },
+  {
+    "mfId": 81,
+    "mfName": "Capitalmind Mutual Fund",
+    "amcName": "Capitalmind Asset Management Private Limited",
+    "monthlyUrl": "https://capitalmindmf.com/statutory-disclosures.html#"
+  },
+  {
+    "mfId": 91,
+    "mfName": "Carnelian Mutual Fund",
+    "amcName": "Carnelian Investment Managers Private Limited",
+    "monthlyUrl": ""
+  },
+  {
+    "mfId": 84,
+    "mfName": "Choice Mutual Fund",
+    "amcName": "Choice AMC Private Limited",
+    "monthlyUrl": "https://choicemf.com/disclosures/monthly-portfolio"
+  },
+  {
+    "mfId": 6,
+    "mfName": "DSP Mutual Fund",
+    "amcName": "DSP Asset Managers Private Limited",
+    "monthlyUrl": "https://www.dspim.com/about-us/mandatory-disclosure/portfolio-disclosures"
+  },
+  {
+    "mfId": 47,
+    "mfName": "Edelweiss Mutual Fund",
+    "amcName": "Edelweiss Asset Management Limited",
+    "monthlyUrl": "https://www.edelweissmf.com/statutory#Portfolio-of-Schemes"
+  },
+  {
+    "mfId": 27,
+    "mfName": "Franklin Templeton Mutual Fund",
+    "amcName": "Franklin Templeton Asset Management (India) Private Limited",
+    "monthlyUrl": "https://www.franklintempletonindia.com/investor/reports?firstFilter-12"
+  },
+  {
+    "mfId": 63,
+    "mfName": "Groww Mutual Fund",
+    "amcName": "Groww Asset Management Limited",
+    "monthlyUrl": "https://growwmf.in/statutory-disclosure/portfolio"
+  },
+  {
+    "mfId": 9,
+    "mfName": "HDFC Mutual Fund",
+    "amcName": "HDFC Asset Management Company Limited",
+    "monthlyUrl": "https://www.hdfcfund.com/statutory-disclosure/portfolio/monthly-portfolio"
+  },
+  {
+    "mfId": 76,
+    "mfName": "Helios Mutual Fund",
+    "amcName": "Helios Capital Asset Management (India) Pvt. Ltd.",
+    "monthlyUrl": "https://www.heliosmf.in/portfolio-disclosure/"
+  },
+  {
+    "mfId": 37,
+    "mfName": "HSBC Mutual Fund",
+    "amcName": "HSBC Asset Management (India) Private Ltd.",
+    "monthlyUrl": "https://www.assetmanagement.hsbc.co.in/en/mutual-funds/investor-resources/information-library#&accordion1446811090=2"
+  },
+  {
+    "mfId": 20,
+    "mfName": "ICICI Prudential Mutual Fund",
+    "amcName": "ICICI Prudential Asset Management Company Limited",
+    "monthlyUrl": "https://www.icicipruamc.com/news-and-media/downloads?currentTabFilter=Disclosures&&subCatTabFilter=MonthlyPortfolioDisclosures"
+  },
+  {
+    "mfId": 65,
+    "mfName": "IL&FS Mutual Fund (IDF)",
+    "amcName": "IL&FS Infra Asset Management Limited",
+    "monthlyUrl": "http://www.ilfsinfrafund.com/other.php"
+  },
+  {
+    "mfId": 42,
+    "mfName": "Invesco Mutual Fund",
+    "amcName": "Invesco Asset Management (India) Private Limited",
+    "monthlyUrl": "https://invescomutualfund.com/literature-and-form?tab=Complete"
+  },
+  {
+    "mfId": 70,
+    "mfName": "ITI Mutual Fund",
+    "amcName": "ITI Asset Management Limited",
+    "monthlyUrl": "https://www.itiamc.com/statuory-disclosure"
+  },
+  {
+    "mfId": 82,
+    "mfName": "Jio BlackRock Mutual Fund",
+    "amcName": "Jio BlackRock Asset Management Private Limited",
+    "monthlyUrl": "https://www.jioblackrockamc.com/statutory-disclosure/disclosures/monthly-portfolio-disclosure"
+  },
+  {
+    "mfId": 16,
+    "mfName": "JM Financial Mutual Fund",
+    "amcName": "JM Financial Asset Management Limited",
+    "monthlyUrl": "https://www.jmfinancialmf.com/downloads/Portfolio-Disclosure"
+  },
+  {
+    "mfId": 17,
+    "mfName": "Kotak Mahindra Mutual Fund",
+    "amcName": "Kotak Mahindra Asset Management Company Limited.",
+    "monthlyUrl": "https://www.kotakmf.com/Information/forms-and-downloads"
+  },
+  {
+    "mfId": 88,
+    "mfName": "Lakshya Mutual Fund",
+    "amcName": "Lakshya Asset Management Private Limited",
+    "monthlyUrl": ""
+  },
+  {
+    "mfId": 18,
+    "mfName": "LIC Mutual Fund",
+    "amcName": "LIC Mutual Fund Asset Management Limited",
+    "monthlyUrl": "https://www.licmf.com/downloads/monthly-portfolio"
+  },
+  {
+    "mfId": 69,
+    "mfName": "Mahindra Manulife Mutual Fund",
+    "amcName": "Mahindra Manulife Investment Management Pvt Ltd",
+    "monthlyUrl": "https://www.mahindramanulife.com/downloads#mandatory-disclosures"
+  },
+  {
+    "mfId": 45,
+    "mfName": "Mirae Asset Mutual Fund",
+    "amcName": "Mirae Asset Investment Managers (India) Pvt. Ltd",
+    "monthlyUrl": "https://www.miraeassetmf.co.in/downloads/portfolio"
+  },
+  {
+    "mfId": 89,
+    "mfName": "Monarch Mutual Fund",
+    "amcName": "Monarch Networth Asset Management Private Limited",
+    "monthlyUrl": ""
+  },
+  {
+    "mfId": 55,
+    "mfName": "Motilal Oswal Mutual Fund",
+    "amcName": "Motilal Oswal Asset Management Company Limited",
+    "monthlyUrl": "https://www.motilaloswalmf.com/downloads/scheme-portfolio-details"
+  },
+  {
+    "mfId": 54,
+    "mfName": "Navi Mutual Fund",
+    "amcName": "Navi AMC Limited",
+    "monthlyUrl": "https://navi.com/mutual-fund/downloads/portfolio"
+  },
+  {
+    "mfId": 21,
+    "mfName": "Nippon India Mutual Fund",
+    "amcName": "Nippon Life India Asset Management Limited",
+    "monthlyUrl": "https://mf.nipponindiaim.com/investor-service/downloads/factsheet-portfolio-and-other-disclosures"
+  },
+  {
+    "mfId": 73,
+    "mfName": "NJ Mutual Fund",
+    "amcName": "NJ Asset Management Private Limited",
+    "monthlyUrl": "https://downloads.njmutualfund.com/njmf_download.php?nme=127"
+  },
+  {
+    "mfId": 90,
+    "mfName": "Nuvama Mutual Fund",
+    "amcName": "Nuvama Asset Management Limited",
+    "monthlyUrl": ""
+  },
+  {
+    "mfId": 78,
+    "mfName": "Old Bridge Mutual Fund",
+    "amcName": "Old Bridge Asset Management Private Limited",
+    "monthlyUrl": "https://oldbridgemf.com/statutory-disclosures.html#v-pills-tabContent2"
+  },
+  {
+    "mfId": 58,
+    "mfName": "PGIM India Mutual Fund",
+    "amcName": "PGIM India Asset Management Private Limite",
+    "monthlyUrl": "https://www.pgimindia.com/mutual-funds/disclosures/Portfolios/Monthly-Portfolio"
+  },
+  {
+    "mfId": 64,
+    "mfName": "PPFAS Mutual Fund",
+    "amcName": "PPFAS Asset Management Pvt. Ltd.",
+    "monthlyUrl": "https://amc.ppfas.com/downloads/portfolio-disclosure/"
+  },
+  {
+    "mfId": 13,
+    "mfName": "quant Mutual Fund",
+    "amcName": "quant Money Managers Limited",
+    "monthlyUrl": "https://quantmutual.com/statutory-disclosures"
+  },
+  {
+    "mfId": 41,
+    "mfName": "Quantum Mutual Fund",
+    "amcName": "Quantum Asset Management Company Private Limited",
+    "monthlyUrl": "https://www.quantumamc.com/portfolio/combined/-1/1/0/0"
+  },
+  {
+    "mfId": 74,
+    "mfName": "Samco Mutual Fund",
+    "amcName": "Samco Asset Management Private Limited",
+    "monthlyUrl": "https://www.samcomf.com/StatutoryDisclosure"
+  },
+  {
+    "mfId": 22,
+    "mfName": "SBI Mutual Fund",
+    "amcName": "SBI Funds Management Limited",
+    "monthlyUrl": "https://www.sbimf.com/portfolios"
+  },
+  {
+    "mfId": 67,
+    "mfName": "Shriram Mutual Fund",
+    "amcName": "Shriram Asset Management Co. Ltd.",
+    "monthlyUrl": "https://www.shriramamc.in/investor-statutory-disclosures"
+  },
+  {
+    "mfId": 33,
+    "mfName": "Sundaram Mutual Fund",
+    "amcName": "Sundaram Asset Management Company Ltd",
+    "monthlyUrl": "https://www.sundarammutual.com/Monthly-Fortnightly-Adhoc-Portfolios"
+  },
+  {
+    "mfId": 25,
+    "mfName": "Tata Mutual Fund",
+    "amcName": "Tata Asset Management Limited",
+    "monthlyUrl": "https://www.tatamutualfund.com/schemes-related"
+  },
+  {
+    "mfId": 26,
+    "mfName": "Taurus Mutual Fund",
+    "amcName": "Taurus Asset Management Company Limited",
+    "monthlyUrl": "https://taurusmutualfund.com/monthly-portfolio"
+  },
+  {
+    "mfId": 72,
+    "mfName": "Trust Mutual Fund",
+    "amcName": "Trust Asset Management Private Limited",
+    "monthlyUrl": "https://www.trustmf.com/disclosures?activeTab=portfolio-disclosures"
+  },
+  {
+    "mfId": 79,
+    "mfName": "Unifi Mutual Fund",
+    "amcName": "Unifi Asset Management Private Limited",
+    "monthlyUrl": "https://unifimf.com/statutorydocuments/#monthly-portfolio-disclosure"
+  },
+  {
+    "mfId": 61,
+    "mfName": "Union Mutual Fund",
+    "amcName": "Union Asset Management Company Private Limited",
+    "monthlyUrl": "https://www.unionmf.com/about-us/downloads/monthly-portfolio"
+  },
+  {
+    "mfId": 28,
+    "mfName": "UTI Mutual Fund",
+    "amcName": "UTI Asset Mgmt. Co. Ltd.",
+    "monthlyUrl": "https://www.utimf.com/downloads/consolidate-all-portfolio-disclosure"
+  },
+  {
+    "mfId": 83,
+    "mfName": "The Wealth Company Mutual Fund",
+    "amcName": "Wealth Company Asset Management Holdings Private Limited",
+    "monthlyUrl": "https://www.wealthcompanyamc.in/literature-forms/portfolio-documents/monthly/"
+  },
+  {
+    "mfId": 71,
+    "mfName": "WhiteOak Capital Mutual Fund",
+    "amcName": "WhiteOak Capital Asset Management Limited",
+    "monthlyUrl": "https://mf.whiteoakamc.com/regulatory-disclosures/scheme-portfolios"
+  },
+  {
+    "mfId": 77,
+    "mfName": "Zerodha Mutual Fund",
+    "amcName": "Zerodha Asset Management Private Limited",
+    "monthlyUrl": "https://www.zerodhafundhouse.com/resources/disclosures?source=footer"
+  }
+]

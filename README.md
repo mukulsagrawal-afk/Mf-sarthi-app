@@ -10,7 +10,7 @@ The interface uses Manrope and a navy, blue, brass, and emerald brand palette. D
 - server/index.js: the Express server, routes, and scheduled jobs.
 - server/db: the SQLite database schema and setup.
 - server/routes and server/utils: authentication, CRM, imports, exports, NAV analysis, and report calculations.
-- package.json and package-lock.json: all required Node packages.
+- package.json and pnpm-lock.yaml: all required Node packages, locked for repeatable deployment.
 - .env.example: the environment variable reference. It contains no real secrets.
 - render.yaml: an optional Render Blueprint for a paid service and persistent CRM disk.
 
@@ -21,7 +21,7 @@ Upload the **contents of this folder** to the root of your GitHub repository. Th
 1. In GitHub, open your MF Sarthi repository. Click **Add file**, then **Upload files**.
 2. Open this folder on your computer and upload its contents. Check the file list before committing: package.json must be at the top level, with public and server beside it. Click **Commit changes**.
 3. If a Render service is already connected to this repository, use that service and keep its existing secrets and disk. A commit to the connected branch should trigger a deploy. For a new service, choose **New > Blueprint** to use render.yaml, or **New > Web Service** for manual setup. The Blueprint creates paid resources; review the plan before accepting it.
-4. Set **Language** to Node, **Build Command** to npm ci, and **Start Command** to npm start. Keep the repository root as the service root directory.
+4. Set **Language** to Node, **Build Command** to `corepack enable && pnpm install --frozen-lockfile`, and **Start Command** to `pnpm start`. Keep the repository root as the service root directory. The included render.yaml already has these settings.
 5. For real CRM data, choose a **paid web service with a persistent disk**. Mount the disk at /var/data and set DATA_DIR to /var/data. Render Free web services lose local SQLite data when they idle, restart, or redeploy. They are suitable only for a disposable demonstration.
 6. For manual setup, add JWT_SECRET and ENCRYPTION_KEY in Render's Environment page. The Blueprint generates JWT_SECRET and prompts for ENCRYPTION_KEY before creation. Generate an encryption key locally with `node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"` and paste its output into Render. It must decode to exactly 32 bytes. Keep existing secrets if updating a running service, or saved PAN numbers may become unreadable. Never put secrets in GitHub.
 7. Set CORS_ORIGIN to the exact https://...onrender.com address Render gives your service. This app serves its own frontend and API from that same address.
@@ -43,6 +43,16 @@ The SQLite database, client records, and local backups are stored under DATA_DIR
 - Each fund report has a comparison table with the selected scheme, the peer average, and date-aligned same-category peers. It shows average rolling 1Y and 3Y returns and average annualized rolling 1Y and 3Y standard deviations. Empty cells are displayed as dashes when full windows are unavailable; peer-average cells use only peers with a valid value for that metric. The portfolio matrix also contains both rolling standard-deviation columns.
 - CAMS, KFintech/Karvy and depository CAS PDFs are parsed on a best-effort basis. The app displays possible holdings and requires the advisor to confirm the exact scheme, plan and value. Scanned/image-only PDFs need OCR, which is not included. No statement password is stored.
 
+### SchemeScope underlying holdings
+
+- SchemeScope imports monthly scheme-portfolio disclosure spreadsheets from AMC pages listed in AMFI's official portfolio-disclosure registry. It refreshes that registry before each scheduled run so a newly listed fund house remains visible.
+- Automatic checks run at 4:30 AM India time on the 12th, 16th and 20th of each month. Those dates follow the publication window for the previous month-end disclosure and provide two retries for late or changed sources. Set `AUTO_REFRESH_HOLDINGS=false` only when another scheduler owns this job.
+- Direct, Regular, Growth, IDCW payout and IDCW reinvestment NAV codes map to the same underlying scheme portfolio. The searched plan remains visible, while the disclosure source, month-end date and mapping method are retained.
+- Each import keeps the official source URL, source file, SHA-256 checksum, parser version, warnings and import time. Re-importing the same file is safe. A failed or incomplete fetch never deletes the last validated snapshot.
+- The Coverage control screen tracks every AMC in the saved AMFI registry, including AMCs whose disclosure URL is missing or whose page can no longer be read automatically. The official Excel upload is the fallback for those sources. This is deliberate: coverage gaps are shown instead of being silently treated as zero holdings.
+- FolioXpert uses the latest available scheme disclosures for security-level look-through when holdings are available. It weights each disclosed security by the client's current fund value, joins securities by ISIN where possible, and shows the covered and uncovered fund values. This is an estimate from month-end data, not a live trading portfolio.
+- The parser accepts `.xls`, `.xlsx` and `.xlsm` files and recognizes common AMC column labels for instrument, ISIN, market value, percentage of NAV, sector, rating, maturity and quantity. AMC layouts vary; review warnings and the percentage totals before relying on a newly encountered layout.
+
 ## Local development
 
-Use Node.js 22. Run npm ci. Copy .env.example to .env, fill in JWT_SECRET and ENCRYPTION_KEY, then run npm start. Open http://localhost:4000. The real .env, node_modules, and server/data are excluded from Git.
+Use Node.js 22 or newer. Run `corepack enable`, then `pnpm install --frozen-lockfile`. Copy .env.example to .env, fill in JWT_SECRET and ENCRYPTION_KEY, then run `pnpm start`. Open http://localhost:4000. The real .env, node_modules, and server/data are excluded from Git.

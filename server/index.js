@@ -28,9 +28,11 @@ const reminderRoutes = require('./routes/reminders');
 const bootstrapRoutes = require('./routes/bootstrap');
 const mfRoutes = require('./routes/mf');
 const folioxpertRoutes = require('./routes/folioxpert');
+const holdingsRoutes = require('./routes/holdings');
 const { ensureSchemeIndex } = require('./utils/mfapi');
 const { runDailyReminders } = require('./utils/reminders');
 const { runBackup } = require('./utils/backup');
+const { refreshAllSources } = require('./utils/portfolioService');
 
 const app = express();
 app.set('trust proxy', 1); // correct client IPs behind a reverse proxy (needed for rate limiting in production)
@@ -59,6 +61,7 @@ app.use('/api/reminders', reminderRoutes);
 app.use('/api/bootstrap', bootstrapRoutes);
 app.use('/api/mf', mfRoutes);
 app.use('/api/folioxpert', folioxpertRoutes);
+app.use('/api/holdings', holdingsRoutes);
 
 app.get('/api/health', (req, res) => res.json({ ok: true, time: new Date().toISOString() }));
 
@@ -103,3 +106,12 @@ try { runBackup(); } catch (e) { /* no data yet on first run - fine */ }
 cron.schedule('0 3 * * *', () => {
   ensureSchemeIndex().catch((e) => console.error('Scheme index refresh failed:', e.message));
 });
+
+// AMCs publish month-end portfolios during the following month. Run after the
+// regulatory publication window and retry twice so a late source is picked up.
+// Imports are checksum-idempotent and a failed run never deletes a valid snapshot.
+if (String(process.env.AUTO_REFRESH_HOLDINGS || 'true').toLowerCase() !== 'false') {
+  cron.schedule('30 4 12,16,20 * *', () => {
+    refreshAllSources().catch((e) => console.error('Monthly portfolio refresh failed:', e.message));
+  }, { timezone: 'Asia/Kolkata' });
+}

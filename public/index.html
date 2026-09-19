@@ -1031,6 +1031,18 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
 @media(max-width:1050px){.fx-kpi-grid{grid-template-columns:repeat(3,minmax(0,1fr));}}
 @media(max-width:700px){.fx-kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr));}.fx-chart-grid,.fx-import-controls{grid-template-columns:1fr;}.fx-rp-fund-card{padding:16px;}.ai-hero{padding:24px;}.fx-peer-bar-row{grid-template-columns:minmax(80px,1fr) minmax(50px,1fr) 55px;gap:5px;}}
 @media(prefers-reduced-motion:reduce){.view.active,.view.active>* , .picker-dd.open,.picker-dd .pdd-item,.picker-dd .pdd-spinner,.ai-hero::after,.fx-rp-fund-card,.fx-chart-line,.fx-peer-track>div,.crm-aum-row i,.goal-bar-fill,.fx-gap-bar-fill{animation:none}.nav-item:hover,.btn:hover,.card.card-pad:hover,.picker-dd .pdd-item:hover,.kpi-card.grad:hover{transform:none}}
+
+/* ================= HOLDINGS INTELLIGENCE ================= */
+.hi-hero{position:relative;overflow:hidden;padding:34px;border-radius:24px;color:#fff;background:linear-gradient(125deg,#072c49 0%,#0b4960 55%,#147866 100%);box-shadow:0 22px 55px rgba(6,44,73,.18)}
+.hi-hero:after{content:'';position:absolute;width:260px;height:260px;right:-70px;top:-110px;border-radius:50%;border:45px solid rgba(255,255,255,.08);animation:hiOrbit 9s ease-in-out infinite}
+.hi-hero h1{font-size:34px;letter-spacing:-1.4px;margin:7px 0 7px;color:#fff}.hi-hero p{max-width:720px;color:rgba(255,255,255,.82);font-size:14px;line-height:1.7}.hi-kicker{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;font-weight:800;color:#f2c66d}
+@keyframes hiOrbit{50%{transform:translate(-26px,24px) rotate(18deg)}}
+.hi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:18px 0}.hi-stat{padding:20px;border-radius:18px;background:#fff;border:1px solid var(--border);box-shadow:0 8px 28px rgba(23,42,74,.06);transition:.3s var(--ease-premium)}.hi-stat:hover{transform:translateY(-5px);box-shadow:0 16px 38px rgba(23,42,74,.12)}.hi-stat span{display:block;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.6px}.hi-stat b{display:block;font-size:24px;margin-top:8px;color:var(--navy)}
+.hi-panel{background:#fff;border:1px solid var(--border);border-radius:20px;padding:22px;margin-top:16px;box-shadow:0 8px 26px rgba(23,42,74,.05)}
+.hi-search{position:relative}.hi-search input{width:100%;height:52px;border:1px solid #d7dfeb;border-radius:15px;padding:0 18px;font:600 14px Manrope,sans-serif;background:#f8fafc}.hi-results{position:absolute;z-index:15;left:0;right:0;top:58px;background:white;border:1px solid var(--border);border-radius:14px;box-shadow:0 18px 45px rgba(15,35,60,.16);max-height:320px;overflow:auto}.hi-result{padding:13px 16px;border-bottom:1px solid #eef2f6;cursor:pointer;font-size:13px}.hi-result:hover{background:#eef8f5}.hi-result:last-child{border:0}
+.hi-title-row{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}.hi-title-row h2{font-size:20px;margin:0 0 4px}.hi-fresh{font-size:11px;font-weight:800;padding:7px 10px;border-radius:99px;background:#e6f6ef;color:#08784f;white-space:nowrap}.hi-bars{display:grid;gap:11px;margin-top:18px}.hi-bar-row{display:grid;grid-template-columns:minmax(150px,1fr) 3fr 65px;gap:12px;align-items:center;font-size:12px}.hi-bar-track{height:9px;background:#edf1f5;border-radius:99px;overflow:hidden}.hi-bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#0f8d68,#d09a36);animation:hiGrow .75s var(--ease-premium) both;transform-origin:left}@keyframes hiGrow{from{transform:scaleX(0)}}
+.hi-table{width:100%;border-collapse:collapse;margin-top:20px;font-size:12px}.hi-table th{text-align:left;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.5px;padding:11px;border-bottom:1px solid var(--border)}.hi-table td{padding:12px 11px;border-bottom:1px solid #edf1f5}.hi-table tr:hover td{background:#fafcfb}.hi-pct{text-align:right;font-weight:800;color:#0a6e55}.hi-source{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;color:var(--muted);font-size:11px}.hi-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}.hi-upload-grid{display:grid;grid-template-columns:1.5fr 1fr 1.2fr auto;gap:10px;align-items:end}.hi-upload-grid label{display:block;font-size:10px;font-weight:800;color:var(--muted);margin-bottom:6px;text-transform:uppercase}.hi-upload-grid select,.hi-upload-grid input{width:100%;height:42px;border:1px solid var(--border);border-radius:11px;padding:0 10px;background:#fff;font:12px Manrope,sans-serif}.hi-note{margin-top:10px;padding:12px 14px;border-radius:12px;background:#fff8e8;color:#715718;font-size:11px;line-height:1.55}
+@media(max-width:900px){.hi-grid{grid-template-columns:repeat(2,1fr)}.hi-upload-grid{grid-template-columns:1fr 1fr}.hi-bar-row{grid-template-columns:120px 1fr 55px}}@media(max-width:560px){.hi-grid{grid-template-columns:1fr 1fr}.hi-hero{padding:25px}.hi-hero h1{font-size:27px}.hi-upload-grid{grid-template-columns:1fr}.hi-bar-row{grid-template-columns:95px 1fr 48px}.hi-table{min-width:670px}.hi-table-wrap{overflow:auto}}
 @media print{
   :root{--surface:#fff;--surface-2:#eef2f4;--surface-3:#f8fafb;--text:#17283B;--text-muted:#5C6D7C;--border:#DCE3E7;--ink:#142B46;--violet:#3D7197;--info-bg:#EAF0F4;--warning-bg:#F8F0E5}
   .report-page{--surface:#fff;--surface-2:#eef2f4;--surface-3:#f8fafb;--text:#17283B;--text-muted:#5C6D7C;--border:#DCE3E7;--ink:#142B46;--violet:#3D7197;--info-bg:#EAF0F4;--warning-bg:#F8F0E5}
@@ -1126,6 +1138,7 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
       <a class="nav-item" data-view="calculators"><svg viewBox="0 0 24 24"><use href="#i-calc"/></svg>Calculators</a>
       <a class="nav-item" data-view="knowledge"><svg viewBox="0 0 24 24"><use href="#i-book"/></svg>Knowledge Hub</a>
       <a class="nav-item nav-item-ai" data-view="folioxpert"><svg viewBox="0 0 24 24"><use href="#i-target"/></svg>FolioXpert AI</a>
+      <a class="nav-item" data-view="holdings"><svg viewBox="0 0 24 24"><use href="#i-insight"/></svg>Holdings Intelligence</a>
       <div class="nav-label">Practice</div>
       <a class="nav-item" data-view="insights"><svg viewBox="0 0 24 24"><use href="#i-insight"/></svg>Insights</a>
       <a class="nav-item" data-view="reports"><svg viewBox="0 0 24 24"><use href="#i-report"/></svg>Reports</a>
@@ -1182,6 +1195,9 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
 
     <!-- ============ FOLIOXPERT AI ============ -->
     <section class="view" id="view-folioxpert"></section>
+
+    <!-- ============ HOLDINGS INTELLIGENCE ============ -->
+    <section class="view" id="view-holdings"></section>
 
     <!-- ============ INSIGHTS ============ -->
     <section class="view" id="view-insights"></section>
@@ -1483,6 +1499,8 @@ async function demoApi(path, opts) {
     const fund = DEMO_MF_SCHEMES[Number(path.split('/').pop())];
     return fund ? {historyYears:6,dataPoints:fund.metrics.dataPoints,asOfDate:fund.metrics.asOfDate,return1YAvailable:true,rolling1YAvailable:true,rolling3YAvailable:true} : {historyYears:0,dataPoints:0,return1YAvailable:false,rolling1YAvailable:false,rolling3YAvailable:false};
   }
+  if (path === '/holdings/status') return {summary:{portfolioSchemes:0,mappedPlans:0,holdings:0,latestDisclosureDate:null},sources:[],expectedDisclosureDate:null,refresh:{running:false}};
+  if (path.startsWith('/holdings/scheme/')) throw new Error('Underlying holdings are available after an official AMC disclosure is imported in the deployed app.');
 
   return { ok: true };
 }
@@ -3587,6 +3605,14 @@ function fxReportBody(r) {
     (health.byFund || []).map(function(f){return '<tr><td>' + esc(f.schemeName) + '</td><td>' + esc(f.fundHouse || '') + '</td><td>' + fxMoney(f.currentValue) + '</td><td>' + fxPct(f.weightPct) + '</td></tr>';}).join('') + '</tbody></table></div>';
   if (dupe.length) healthHtml += '<div class="rp-obs"><div class="t">Same-category holdings</div><ul>' + dupe.map(function(d){return '<li>' + esc(d.category) + ': ' + d.schemes.map(function(s){return esc(s.schemeName);}).join(', ') + '</li>';}).join('') + '</ul></div>';
   html += fxSection(2,'Portfolio health',healthHtml);
+  const underlying = r.underlyingExposure;
+  if (underlying && underlying.exposures && underlying.exposures.length) {
+    const rows = underlying.exposures.slice(0,20).map(function(x){return '<tr><td>' + esc(x.instrumentName) + '</td><td>' + esc(x.isin || '—') + '</td><td>' + esc(x.sector || x.assetType || '—') + '</td><td>' + fxMoney(x.amount) + '</td><td>' + fxPct(x.pctPortfolio) + '</td></tr>';}).join('');
+    let u = '<div class="rp-grid"><div class="rp-box"><div class="k">Coverage</div>' + fxRow('Portfolio covered',fxMoney(underlying.coveredValue)) + fxRow('Total current value',fxMoney(underlying.totalValue)) + fxRow('Funds with disclosure',String((underlying.used||[]).length)) + '</div><div class="rp-box"><div class="k">Disclosure timing</div><p class="fx-help">Underlying holdings use the latest validated month-end disclosure for each scheme. Dates can differ if an AMC publishes late.</p></div></div>';
+    u += '<div class="fx-scroll"><table class="fx-table"><thead><tr><th>Underlying security</th><th>ISIN</th><th>Sector / asset</th><th>Estimated value</th><th>Portfolio weight</th></tr></thead><tbody>' + rows + '</tbody></table></div>';
+    if ((underlying.missing||[]).length) u += '<p class="fx-help">' + underlying.missing.length + ' fund(s) are excluded because no validated disclosure is mapped yet.</p>';
+    html += fxSection('2A','Underlying holdings look-through',u);
+  }
   const comparison = funds.map(fxFundAnalysisCard).join('');
   html += fxSection(3,'Fund by fund comparison',comparison);
   const verdicts = recs.map(function(rec){
@@ -3632,7 +3658,7 @@ function fxReportBody(r) {
   html += fxSection(6,'Goal outlook and action plan',goalHtml);
   html += fxWarnings(r.warnings);
   const method = r.methodology || {};
-  html += '<div class="rp-disclaimer"><b>How to read this report.</b> NAV returns describe fund performance, not your own XIRR. No transaction history, expense ratio, exit load, capital gains tax, or underlying-stock overlap was supplied. Same-category holdings indicate possible duplication, not measured stock overlap. ' +
+  html += '<div class="rp-disclaimer"><b>How to read this report.</b> NAV returns describe fund performance, not your own XIRR. No transaction history, expense ratio, exit load or capital gains tax was supplied. Underlying exposure, when shown, is estimated from the latest validated monthly AMC disclosures and current fund values. ' +
     esc(method.peerMethod || '') + ' ' + esc(method.benchmarkMethod || '') +
     ' Return projections use only the advisor-entered rate shown for each goal and are illustrations, not forecasts. Mutual fund investments are subject to market risks. Read scheme documents before acting.</div>';
   return html;
@@ -3843,11 +3869,44 @@ function renderNotifications(){
 }
 
 /* ============================================================
+   HOLDINGS INTELLIGENCE
+   ============================================================ */
+let hiStatus=null, hiFund=null, hiLoading=false, hiError='', hiSearchResults=[], hiSearchTimer=null, hiQuery='';
+function hiNum(n){ return Number(n||0).toLocaleString('en-IN',{maximumFractionDigits:2}); }
+function hiMoney(n){ return '₹'+Number(n||0).toLocaleString('en-IN',{maximumFractionDigits:0}); }
+async function hiLoadStatus(){ try{hiStatus=await api('/holdings/status');}catch(e){hiError=e.message;} renderHoldings(); }
+async function hiLoadScheme(code){ hiLoading=true; hiError=''; hiSearchResults=[]; renderHoldings(); try{hiFund=await api('/holdings/scheme/'+code);}catch(e){hiFund=null;hiError=e.message;} hiLoading=false;renderHoldings(); }
+function hiSearch(q){ hiQuery=String(q||''); clearTimeout(hiSearchTimer); if(hiQuery.trim().length<2){hiSearchResults=[];renderHoldings();return;} hiSearchTimer=setTimeout(async function(){try{const r=await api('/mf/search?q='+encodeURIComponent(hiQuery));hiSearchResults=r.results||[];}catch(e){hiError=e.message;}renderHoldings();},260); }
+function renderHoldings(){
+  const root=document.getElementById('view-holdings'); if(!root)return;
+  const s=hiStatus&&hiStatus.summary||{};
+  const latest=s.latestDisclosureDate?new Date(s.latestDisclosureDate+'T00:00:00').toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}):'Waiting for first import';
+  let body=`<div class="hi-hero"><div class="hi-kicker">Verified monthly disclosure intelligence</div><h1>SchemeScope</h1><p>See what every mutual fund scheme actually owns. Direct, Regular, Growth and IDCW plans are joined to the same validated underlying portfolio, with the source and valuation month always visible.</p></div>
+  <div class="hi-grid"><div class="hi-stat"><span>Portfolio schemes</span><b>${hiNum(s.portfolioSchemes)}</b></div><div class="hi-stat"><span>Mapped plan variants</span><b>${hiNum(s.mappedPlans)}</b></div><div class="hi-stat"><span>Security records</span><b>${hiNum(s.holdings)}</b></div><div class="hi-stat"><span>Latest disclosure</span><b style="font-size:17px">${esc(latest)}</b></div></div>
+  <div class="hi-panel"><div class="hi-title-row"><div><h2>Find a scheme</h2><div class="muted" style="font-size:12px">Search any plan or option. SchemeScope resolves it to its common underlying portfolio.</div></div><button class="btn btn-ghost" id="hiRefresh">Refresh official sources</button></div><div class="hi-search" style="margin-top:17px"><input id="hiSearch" value="${esc(hiQuery)}" placeholder="Try HDFC Large Cap, Parag Parikh Flexi Cap…" autocomplete="off"><div class="hi-results">${hiSearchResults.map(x=>`<div class="hi-result" data-hi-code="${x.schemeCode}">${esc(x.schemeName)}</div>`).join('')}</div></div>${hiStatus&&hiStatus.refresh&&hiStatus.refresh.running?'<div class="hi-note">Refreshing official AMC sources in the background. You may keep using the CRM.</div>':''}</div>`;
+  if(hiLoading) body+=`<div class="hi-panel">${emptyState('i-trend-up','Reading the latest validated portfolio…','Large scheme tables can take a moment to assemble.')}</div>`;
+  if(hiError) body+=`<div class="hi-panel"><div class="hi-note">${esc(hiError)}</div></div>`;
+  if(hiFund){
+    const top=hiFund.holdings.filter(h=>Number.isFinite(Number(h.pctNav))).slice(0,10),max=Math.max(1,...top.map(h=>Number(h.pctNav)));
+    body+=`<div class="hi-panel"><div class="hi-title-row"><div><h2>${esc(hiFund.schemeName)}</h2><div class="muted" style="font-size:12px">Underlying portfolio: ${esc(hiFund.portfolioName)}</div></div><span class="hi-fresh">As of ${esc(hiFund.disclosureDate)}</span></div><div class="hi-bars">${top.map(h=>`<div class="hi-bar-row"><span title="${esc(h.instrumentName)}">${esc(h.instrumentName.length>28?h.instrumentName.slice(0,27)+'…':h.instrumentName)}</span><div class="hi-bar-track"><div class="hi-bar-fill" style="width:${Math.max(1,Number(h.pctNav)/max*100)}%"></div></div><b>${hiNum(h.pctNav)}%</b></div>`).join('')}</div><div class="hi-table-wrap"><table class="hi-table"><thead><tr><th>Security</th><th>ISIN</th><th>Sector / asset type</th><th>Rating</th><th style="text-align:right">% of NAV</th></tr></thead><tbody>${hiFund.holdings.map(h=>`<tr><td><b>${esc(h.instrumentName)}</b></td><td>${esc(h.isin||'—')}</td><td>${esc(h.sector||h.assetType||'—')}</td><td>${esc(h.rating||'—')}</td><td class="hi-pct">${h.pctNav==null?'—':hiNum(h.pctNav)+'%'}</td></tr>`).join('')}</tbody></table></div><div class="hi-source"><span>Source file: ${esc(hiFund.source.sourceFilename)}</span><span>•</span><span>Imported ${esc(hiFund.source.importedAt)}</span>${hiFund.source.sourceUrl?`<span>•</span><a href="${esc(hiFund.source.sourceUrl)}" target="_blank" rel="noopener">Open official source</a>`:''}</div></div>`;
+  }
+  const sources=hiStatus&&hiStatus.sources||[];
+  const expected=hiStatus&&hiStatus.expectedDisclosureDate, currentSources=sources.filter(x=>x.latestDisclosureDate&&(!expected||x.latestDisclosureDate>=expected)), attention=sources.filter(x=>!x.latestDisclosureDate||x.latestDisclosureDate<expected);
+  body+=`<div class="hi-panel"><div class="hi-title-row"><div><h2>Coverage control</h2><div class="muted" style="font-size:12px">Every AMC in the current AMFI registry stays visible until its disclosure is loaded.</div></div><span class="hi-fresh">${currentSources.length} current · ${attention.length} need attention</span></div>${attention.length?`<div class="hi-table-wrap"><table class="hi-table"><thead><tr><th>Fund house</th><th>Latest month</th><th>Status</th><th>Official page</th></tr></thead><tbody>${attention.slice(0,12).map(x=>`<tr><td><b>${esc(x.mfName)}</b></td><td>${esc(x.latestDisclosureDate||'Not loaded')}</td><td>${esc(x.lastError||(!x.monthlyUrl?'AMFI URL pending':'Awaiting refresh'))}</td><td>${x.monthlyUrl?`<a href="${esc(x.monthlyUrl)}" target="_blank" rel="noopener">Open</a>`:'—'}</td></tr>`).join('')}</tbody></table></div>${attention.length>12?`<p class="fx-help">Showing 12 of ${attention.length} sources that need attention.</p>`:''}`:'<div class="hi-note">All tracked AMCs have the expected month-end snapshot.</div>'}</div>`;
+  body+=`<div class="hi-panel"><div class="hi-title-row"><div><h2>Official disclosure fallback</h2><div class="muted" style="font-size:12px">If an AMC changes its page and automatic discovery cannot read it, upload that AMC's original Excel disclosure here.</div></div></div><form id="hiUpload" class="hi-upload-grid" style="margin-top:16px"><div><label>Fund house</label><select name="mfId" required><option value="">Choose AMC</option>${sources.map(x=>`<option value="${x.mfId}">${esc(x.mfName)}</option>`).join('')}</select></div><div><label>Month-end date</label><input name="disclosureDate" type="date" value="${esc(expected||'')}" required></div><div><label>Official Excel file</label><input name="file" type="file" accept=".xls,.xlsx,.xlsm" required></div><button class="btn btn-primary" type="submit">Validate & import</button></form><div class="hi-note">Automatic checks run on the 12th, 16th and 20th each month. The last validated snapshot stays active if a source is late or changes its layout.</div></div>`;
+  root.innerHTML=body;
+  const search=document.getElementById('hiSearch'); if(search)search.oninput=e=>hiSearch(e.target.value);
+  root.querySelectorAll('[data-hi-code]').forEach(n=>n.onclick=()=>hiLoadScheme(n.dataset.hiCode));
+  const refresh=document.getElementById('hiRefresh'); if(refresh)refresh.onclick=async()=>{refresh.disabled=true;try{await api('/holdings/refresh',{method:'POST',body:{}});hiStatus=await api('/holdings/status');}catch(e){hiError=e.message;}renderHoldings();};
+  const form=document.getElementById('hiUpload'); if(form)form.onsubmit=async e=>{e.preventDefault();const btn=form.querySelector('button');btn.disabled=true;btn.textContent='Validating…';try{const result=await api('/holdings/upload',{method:'POST',body:new FormData(form)});hiError=`Imported ${result.schemeCount} scheme portfolio(s) and ${result.holdingCount} security rows.`;hiStatus=await api('/holdings/status');}catch(err){hiError=err.message;}renderHoldings();};
+}
+
+/* ============================================================
    ROUTER
    ============================================================ */
 const VIEW_RENDERERS = {
   dashboard: renderDashboard, crm: renderCrm, meetings: renderMeetings, calculators: renderCalculators,
-  knowledge: renderKnowledge, folioxpert: renderFolioXpert, insights: renderInsights, reports: renderReportsList, settings: renderSettings, help: renderHelp
+  knowledge: renderKnowledge, folioxpert: renderFolioXpert, holdings: renderHoldings, insights: renderInsights, reports: renderReportsList, settings: renderSettings, help: renderHelp
 };
 function switchView(name, resetState){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
@@ -3860,6 +3919,7 @@ function switchView(name, resetState){
     if(name==='calculators'){ calcMode='landing'; }
   }
   (VIEW_RENDERERS[name]||function(){})();
+  if(name==='holdings'&&!hiStatus) hiLoadStatus();
   document.getElementById('sidebar').classList.remove('open');
   window.scrollTo(0,0);
 }
