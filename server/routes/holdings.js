@@ -1,7 +1,7 @@
 const express = require('express');
 const multer = require('multer');
 const { requireAuth } = require('../middleware/auth');
-const { importPortfolioBuffer, getSchemeHoldings, searchMappedSchemes, portfolioOverlap, lookThrough, refreshAllSources, coverageStatus, endOfPreviousMonth } = require('../utils/portfolioService');
+const { importPortfolioBuffer, getSchemeHoldings, getSchemeRecord, searchMappedSchemes, listAmcs, portfolioOverlap, lookThrough, refreshAllSources, coverageStatus, endOfPreviousMonth } = require('../utils/portfolioService');
 const { requireSiteAdmin } = require('../utils/siteAdmin');
 
 const router = express.Router();
@@ -13,9 +13,10 @@ router.get('/status', (_req,res) => {
 });
 router.get('/admin/status', requireSiteAdmin, (_req,res) => res.json(coverageStatus()));
 router.get('/search', (req,res) => res.json({results:searchMappedSchemes(req.query.q,req.query.limit)}));
+router.get('/amcs', (_req,res) => res.json({amcs:listAmcs()}));
 router.get('/scheme/:code', (req,res) => {
   const data = getSchemeHoldings(req.params.code);
-  if (!data) return res.status(404).json({ error:'No validated portfolio disclosure is mapped to this scheme yet.', canUpload:true });
+  if (!data) return res.status(404).json({ error:'This AMFI-listed scheme is waiting for its official AMC portfolio disclosure.', status:'awaiting_official_disclosure', scheme:getSchemeRecord(req.params.code) });
   res.json(data);
 });
 router.post('/look-through', (req,res) => {

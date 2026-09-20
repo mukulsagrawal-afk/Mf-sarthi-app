@@ -4,6 +4,22 @@ CREATE TABLE IF NOT EXISTS metadata (
   updated_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
 
+CREATE TABLE IF NOT EXISTS scheme_universe (
+  scheme_code INTEGER PRIMARY KEY,
+  amc_name TEXT NOT NULL,
+  category TEXT NOT NULL,
+  scheme_name TEXT NOT NULL,
+  plan TEXT,
+  option TEXT,
+  isin_primary TEXT,
+  isin_reinvestment TEXT,
+  nav REAL,
+  nav_date TEXT,
+  active INTEGER NOT NULL DEFAULT 1,
+  source_url TEXT NOT NULL DEFAULT 'https://portal.amfiindia.com/spages/NAVAll.txt',
+  synced_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
 CREATE TABLE IF NOT EXISTS amc_sources (
   mf_id INTEGER PRIMARY KEY,
   mf_name TEXT NOT NULL,
@@ -73,3 +89,6 @@ CREATE INDEX IF NOT EXISTS idx_portfolio_scheme_name ON portfolio_schemes(normal
 CREATE INDEX IF NOT EXISTS idx_holdings_scheme_date ON holdings(portfolio_scheme_id, disclosure_date DESC);
 CREATE INDEX IF NOT EXISTS idx_holdings_isin ON holdings(isin);
 CREATE INDEX IF NOT EXISTS idx_imports_date ON portfolio_imports(disclosure_date DESC);
+CREATE INDEX IF NOT EXISTS idx_universe_amc ON scheme_universe(amc_name, active);
+CREATE INDEX IF NOT EXISTS idx_universe_category ON scheme_universe(category, active);
+CREATE INDEX IF NOT EXISTS idx_universe_name ON scheme_universe(scheme_name, active);

@@ -7,6 +7,7 @@ const db = require('../db');
 const holdingsDb = require('../holdings-db');
 const seedSources = require('../config/amfi-sources.json');
 const { parseWorkbook, normalizeSchemeName, PARSER_VERSION } = require('./portfolioParser');
+const { syncAmfiSchemeUniverse } = require('./amfiUniverse');
 
 const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, '..', 'data');
 const MAX_BYTES = Math.max(5, Number(process.env.PORTFOLIO_SOURCE_MAX_MB || 40)) * 1024 * 1024;
@@ -68,17 +69,31 @@ function tokenScore(a, b) {
 let mappingIndexCache = null;
 function compactName(value){return String(value||'').replace(/[^a-z0-9]/g,'');}
 function isSubsequence(shorter,longer){let i=0;for(const ch of longer)if(ch===shorter[i])i++;return i===shorter.length;}
+function disclosureBaseName(value){
+  return String(value||'')
+    .replace(/^\s*MONTHLY PORTFOLIO STATEMENT OF\s+/i,'')
+    .replace(/\s+AS ON\s+[A-Za-z]+\s+\d{1,2},\s+\d{4}[\s\S]*$/i,'')
+    .replace(/^\s*[A-Z]{2,8}\d{2,5}\s*[-:]?\s*/i,'')
+    .split(/\s*\((?:an?|a)\s+(?:open|close)[\s\S]*$/i)[0]
+    .replace(/\s+Index\s*$/i,'').trim();
+}
 function mapPortfolioScheme(portfolioSchemeId, canonicalName, normalizedName) {
   if (!mappingIndexCache) {
     const exact = new Map();
-    for (const candidate of db.prepare('SELECT scheme_code, scheme_name FROM mf_scheme_index').all()) {
+    const official = holdingsDb.prepare('SELECT scheme_code, scheme_name FROM scheme_universe WHERE active=1').all();
+    const candidates = [...official,...db.prepare('SELECT scheme_code, scheme_name FROM mf_scheme_index').all()];
+    const seenCodes = new Set();
+    for (const candidate of candidates) {
+      if (seenCodes.has(candidate.scheme_code)) continue;
+      seenCodes.add(candidate.scheme_code);
       const key = normalizeSchemeName(candidate.scheme_name);
       if (!exact.has(key)) exact.set(key, []);
       exact.get(key).push(candidate);
     }
     mappingIndexCache={exact,families:[...exact.keys()].map(key=>({key,compact:compactName(key)}))};
   }
-  let candidates = mappingIndexCache.exact.get(normalizedName) || [], method='normalized-exact', confidence=1;
+  const baseNormalized=normalizeSchemeName(disclosureBaseName(canonicalName));
+  let candidates = mappingIndexCache.exact.get(normalizedName) || mappingIndexCache.exact.get(baseNormalized) || [], method=baseNormalized!==normalizedName?'official-disclosure-title':'normalized-exact', confidence=1;
   if(!candidates.length && !/\s/.test(String(canonicalName||'').trim())){
     const compact=compactName(normalizedName);
     if(compact.length>=6){
@@ -178,14 +193,32 @@ function searchMappedSchemes(query, limit = 40) {
   const q = String(query || '').trim();
   if (!q) return [];
   const terms = q.split(/\s+/).filter(Boolean).slice(0,6);
-  const where = terms.map(() => 'pm.scheme_name LIKE ?').join(' AND ');
-  const rows = holdingsDb.prepare(`SELECT pm.scheme_code AS schemeCode,pm.scheme_name AS schemeName,
-    ps.canonical_name AS portfolioName,MAX(h.disclosure_date) AS disclosureDate
-    FROM scheme_map pm JOIN portfolio_schemes ps ON ps.id=pm.portfolio_scheme_id
-    JOIN holdings h ON h.portfolio_scheme_id=ps.id WHERE ${where}
-    GROUP BY pm.scheme_code ORDER BY CASE WHEN pm.scheme_name LIKE ? THEN 0 ELSE 1 END,
-    LENGTH(pm.scheme_name),pm.scheme_name LIMIT ?`).all(...terms.map(term => `%${term}%`),`${q}%`,Math.min(100,Math.max(10,Number(limit)||40)));
-  return rows.map(row => ({...row,planType:/\bdirect\b/i.test(row.schemeName)?'Direct':/\bregular\b/i.test(row.schemeName)?'Regular':'Other'}));
+  const where = terms.map(() => '(u.scheme_name LIKE ? OR u.amc_name LIKE ? OR u.category LIKE ?)').join(' AND ');
+  const bindings = terms.flatMap(term => [`%${term}%`,`%${term}%`,`%${term}%`]);
+  const rows = holdingsDb.prepare(`SELECT u.scheme_code AS schemeCode,u.scheme_name AS schemeName,u.amc_name AS amcName,
+    u.category,u.plan,u.option,u.nav,u.nav_date AS navDate,ps.canonical_name AS portfolioName,
+    MAX(h.disclosure_date) AS disclosureDate,CASE WHEN COUNT(h.id)>0 THEN 1 ELSE 0 END AS hasHoldings
+    FROM scheme_universe u LEFT JOIN scheme_map pm ON pm.scheme_code=u.scheme_code
+    LEFT JOIN portfolio_schemes ps ON ps.id=pm.portfolio_scheme_id
+    LEFT JOIN holdings h ON h.portfolio_scheme_id=ps.id
+    WHERE u.active=1 AND ${where} GROUP BY u.scheme_code
+    ORDER BY hasHoldings DESC,CASE WHEN u.scheme_name LIKE ? THEN 0 ELSE 1 END,LENGTH(u.scheme_name),u.scheme_name LIMIT ?`)
+    .all(...bindings,`${q}%`,Math.min(100,Math.max(10,Number(limit)||40)));
+  return rows.map(row => ({...row,hasHoldings:Boolean(row.hasHoldings),status:row.hasHoldings?'available':'awaiting_official_disclosure',
+    planType:/direct/i.test(row.plan||row.schemeName)?'Direct':/regular/i.test(row.plan||row.schemeName)?'Regular':'Other'}));
+}
+
+function getSchemeRecord(schemeCode) {
+  return holdingsDb.prepare(`SELECT scheme_code AS schemeCode,scheme_name AS schemeName,amc_name AS amcName,category,plan,option,
+    nav,nav_date AS navDate,source_url AS sourceUrl FROM scheme_universe WHERE scheme_code=? AND active=1`).get(Number(schemeCode)) || null;
+}
+
+function listAmcs() {
+  return holdingsDb.prepare(`SELECT u.amc_name AS amcName,COUNT(*) AS schemeVariants,
+    COUNT(DISTINCT CASE WHEN h.id IS NOT NULL THEN u.scheme_code END) AS variantsWithHoldings
+    FROM scheme_universe u LEFT JOIN scheme_map pm ON pm.scheme_code=u.scheme_code
+    LEFT JOIN holdings h ON h.portfolio_scheme_id=pm.portfolio_scheme_id WHERE u.active=1
+    GROUP BY u.amc_name ORDER BY u.amc_name`).all().map(row => ({...row,pendingVariants:row.schemeVariants-row.variantsWithHoldings}));
 }
 
 function portfolioOverlap(funds) {
@@ -340,6 +373,24 @@ async function crawlDisclosureLinks(entryUrl, targetDate) {
   return [...excel].sort((a,b)=>linkScore(b,targetDate)-linkScore(a,targetDate));
 }
 
+async function officialApiLinks(source, targetDate) {
+  const date = new Date(`${targetDate}T00:00:00Z`);
+  if (/nipponindiaim\.com/i.test(source.monthly_url || '')) {
+    const month=date.toLocaleString('en-US',{month:'short',timeZone:'UTC'});
+    return [`https://mf.nipponindiaim.com/InvestorServices/FactsheetsDocuments/NIMF-MONTHLY-PORTFOLIO-${String(date.getUTCDate()).padStart(2,'0')}-${month}-${String(date.getUTCFullYear()).slice(-2)}.xls`];
+  }
+  if (!/sbimf\.com/i.test(source.monthly_url || '')) return [];
+  const response = await fetch('https://www.sbimf.com/ajaxcall/CMS/GetSchemePortfolioSheets', {
+    method:'POST', signal:AbortSignal.timeout(20000),
+    headers:{'content-type':'application/json;charset=utf-8','user-agent':'MF-Sarthi-Portfolio-Importer/1.0'},
+    body:JSON.stringify({FundId:0,PSYear:String(date.getUTCFullYear()),PSMonth:date.toLocaleString('en-US',{month:'long',timeZone:'UTC'}),PSFrequency:'Monthly'})
+  });
+  if (!response.ok) throw new Error(`SBI official portfolio service returned HTTP ${response.status}`);
+  const links = discoverExcelLinks(await response.text(), 'https://www.sbimf.com/portfolios');
+  const consolidated = links.find(link => /all-schemes/i.test(link));
+  return consolidated ? [consolidated] : links;
+}
+
 function linkScore(url, targetDate) {
   const month = new Date(`${targetDate}T00:00:00Z`).toLocaleString('en-US',{month:'long',timeZone:'UTC'}).toLowerCase();
   const short = month.slice(0,3), year = targetDate.slice(0,4), ym = targetDate.slice(0,7).replace('-',''), yy = targetDate.slice(2,7).replace('-','');
@@ -364,8 +415,9 @@ async function refreshOneSource(source, targetDate) {
   if (!source.monthly_url) throw new Error('AMFI has not listed a monthly disclosure URL');
   const entryUrls = [source.monthly_url];
   if (/bandhanmutual\.com/i.test(source.monthly_url)) entryUrls.push('https://cmsnew.bandhanmutual.com/category/scheme-portfolios/');
-  let links = [];
   let discoveryError = null;
+  let links = [];
+  try { links.push(...await officialApiLinks(source,targetDate)); } catch (e) { discoveryError = e; }
   for (const entry of entryUrls) {
     try { links.push(...await crawlDisclosureLinks(entry,targetDate)); }
     catch (e) { discoveryError = e; }
@@ -397,6 +449,7 @@ async function refreshOneSource(source, targetDate) {
 async function refreshAllSources(targetDate = endOfPreviousMonth(), options = {}) {
   if (refreshState.running) return refreshState;
   Object.assign(refreshState,{running:true,startedAt:new Date().toISOString(),finishedAt:null,checked:0,imported:0,failed:0,message:'Refreshing official AMC disclosures'});
+  try { await syncAmfiSchemeUniverse(); mappingIndexCache=null; } catch (e) { console.warn('AMFI scheme-list refresh failed; using the last saved universe:',e.message); }
   try { await syncAmfiRegistry(); } catch (e) { console.warn('AMFI registry refresh failed; using the last saved registry:',e.message); }
   let sources = holdingsDb.prepare('SELECT * FROM amc_sources WHERE enabled=1 ORDER BY mf_name').all();
   if (options.skipExisting) {
@@ -422,11 +475,16 @@ function coverageStatus() {
     s.last_success_at AS lastSuccessAt,s.last_error AS lastError,COUNT(DISTINCT ps.id) AS schemes,
     MAX(i.disclosure_date) AS latestDisclosureDate FROM amc_sources s LEFT JOIN portfolio_schemes ps ON ps.mf_id=s.mf_id
     LEFT JOIN portfolio_imports i ON i.mf_id=s.mf_id AND i.status='valid' GROUP BY s.mf_id ORDER BY s.mf_name`).all();
-  const summary = holdingsDb.prepare(`SELECT COUNT(DISTINCT ps.id) AS portfolioSchemes,COUNT(DISTINCT pm.scheme_code) AS mappedPlans,
+  const summary = holdingsDb.prepare(`SELECT
+    (SELECT COUNT(DISTINCT amc_name) FROM scheme_universe WHERE active=1) AS officialAmcs,
+    (SELECT COUNT(*) FROM scheme_universe WHERE active=1) AS officialSchemeVariants,
+    COUNT(DISTINCT ps.id) AS portfolioSchemes,COUNT(DISTINCT pm.scheme_code) AS variantsWithHoldings,
     COUNT(DISTINCT h.id) AS holdings,MAX(h.disclosure_date) AS latestDisclosureDate FROM portfolio_schemes ps
     LEFT JOIN scheme_map pm ON pm.portfolio_scheme_id=ps.id LEFT JOIN holdings h ON h.portfolio_scheme_id=ps.id`).get();
+  summary.mappedPlans=summary.variantsWithHoldings;
+  summary.pendingVariants=Math.max(0,summary.officialSchemeVariants-summary.variantsWithHoldings);
   return { summary, sources, refresh:{...refreshState}, expectedDisclosureDate:endOfPreviousMonth() };
 }
 
 seedAmcSources();
-module.exports = { importPortfolioBuffer, mapPortfolioScheme, getSchemeHoldings, searchMappedSchemes, portfolioOverlap, lookThrough, refreshAllSources, refreshOneSource, coverageStatus, refreshState, endOfPreviousMonth, discoverExcelLinks, discoverDisclosurePages, crawlDisclosureLinks, linkMatchesTargetMonth, assertPublicUrl, isPrivateAddress, seedAmcSources, parseAmfiRegistryHtml, syncAmfiRegistry };
+module.exports = { importPortfolioBuffer, mapPortfolioScheme, getSchemeHoldings, getSchemeRecord, searchMappedSchemes, listAmcs, portfolioOverlap, lookThrough, refreshAllSources, refreshOneSource, coverageStatus, refreshState, endOfPreviousMonth, discoverExcelLinks, discoverDisclosurePages, crawlDisclosureLinks, linkMatchesTargetMonth, assertPublicUrl, isPrivateAddress, seedAmcSources, parseAmfiRegistryHtml, syncAmfiRegistry };
