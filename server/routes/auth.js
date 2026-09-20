@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const rateLimit = require('express-rate-limit');
 const db = require('../db');
 const { requireAuth } = require('../middleware/auth');
+const { isSiteAdmin } = require('../utils/siteAdmin');
 
 const router = express.Router();
 
@@ -83,7 +84,7 @@ router.post('/logout', (req, res) => {
 router.get('/me', requireAuth, (req, res) => {
   const row = db.prepare('SELECT id, name, email, arn, city, role, created_at FROM users WHERE id = ?').get(req.user.id);
   if (!row) return res.status(404).json({ error: 'User not found' });
-  res.json({ user: row });
+  res.json({ user: {...row,isSiteAdmin:isSiteAdmin(req.user.id)} });
 });
 
 module.exports = router;

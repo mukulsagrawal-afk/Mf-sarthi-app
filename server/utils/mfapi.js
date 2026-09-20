@@ -138,6 +138,7 @@ async function searchSchemes(query, limit = 25) {
     const wordBoundary = `% ${q}%`;
     const terms = q.split(/\s+/).filter(Boolean).slice(0, 6);
     const tokenWhere = terms.map(() => 'scheme_name LIKE ?').join(' AND ');
+    const candidateLimit = Math.min(Math.max(limit * 6, 120), 600);
     const localResults = db.prepare(`
       SELECT scheme_code AS schemeCode, scheme_name AS schemeName FROM mf_scheme_index
       WHERE ${tokenWhere}
@@ -147,21 +148,20 @@ async function searchSchemes(query, limit = 25) {
           WHEN scheme_name LIKE ? THEN 1
           ELSE 2
         END,
-        CASE WHEN scheme_name LIKE '%Growth%' AND scheme_name LIKE '%Direct%' THEN 0 ELSE 1 END,
         LENGTH(scheme_name) ASC,
         scheme_name ASC
       LIMIT ?
-    `).all(...terms.map(t => `%${t}%`), startsWith, wordBoundary, limit);
+    `).all(...terms.map(t => `%${t}%`), startsWith, wordBoundary, candidateLimit);
 
     // The local index only refreshes on a schedule (daily, see index.js), so a scheme
     // that was newly listed on MFAPI since the last refresh won't be in it yet. Rather
     // than make an MFD wait for tomorrow's refresh, fall through to MFAPI's own live
     // search whenever the local index comes back empty for a query - this is the exact
     // gap that hid a real fund (a newer AMC's scheme) from search before this fix.
-    if (localResults.length) return localResults;
+    if (localResults.length) return balancePlanVariants(localResults, limit);
     try {
       const live = await fetchJson(`/mf/search?q=${encodeURIComponent(q)}`);
-      return (live || []).slice(0, limit);
+      return balancePlanVariants(live || [], limit);
     } catch (e) {
       return []; // MFAPI unreachable and nothing local either - genuinely nothing to show
     }
@@ -170,7 +170,37 @@ async function searchSchemes(query, limit = 25) {
   // No local index yet (first run) - use MFAPI's own search so the feature works
   // immediately, and kick off building the full local index in the background.
   ensureSchemeIndex().catch(() => {});
-  return fetchJson(`/mf/search?q=${encodeURIComponent(q)}`).then((rows) => (rows || []).slice(0, limit));
+  return fetchJson(`/mf/search?q=${encodeURIComponent(q)}`).then((rows) => balancePlanVariants(rows || [], limit));
 }
 
-module.exports = { getSchemeData, searchSchemes, ensureSchemeIndex };
+function planType(name) {
+  if (/\bdirect\b/i.test(name || '')) return 'Direct';
+  if (/\bregular\b/i.test(name || '')) return 'Regular';
+  return 'Other';
+}
+
+// Keep both distributor (Regular) and Direct variants visible. MFAPI's catalogue often
+// groups every Direct option first, which made a 25-row result look Direct-only even
+// when matching Regular plans existed further down the same result set.
+function balancePlanVariants(rows, limit) {
+  const buckets = { Direct:[], Regular:[], Other:[] };
+  const seen = new Set();
+  for (const row of rows) {
+    const schemeCode = Number(row.schemeCode ?? row.scheme_code);
+    const schemeName = String(row.schemeName ?? row.scheme_name ?? '');
+    if (!schemeCode || !schemeName || seen.has(schemeCode)) continue;
+    seen.add(schemeCode);
+    const type = planType(schemeName);
+    buckets[type].push({ schemeCode, schemeName, planType:type });
+  }
+  const result = [];
+  while (result.length < limit && (buckets.Regular.length || buckets.Direct.length || buckets.Other.length)) {
+    // Regular comes first for an MFD workspace, followed immediately by its Direct peer.
+    for (const type of ['Regular','Direct','Other']) {
+      if (buckets[type].length && result.length < limit) result.push(buckets[type].shift());
+    }
+  }
+  return result;
+}
+
+module.exports = { getSchemeData, searchSchemes, ensureSchemeIndex, balancePlanVariants, planType };

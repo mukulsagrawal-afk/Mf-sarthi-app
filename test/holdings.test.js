@@ -5,8 +5,10 @@ const XLSX = require('xlsx');
 
 process.env.DATA_DIR = path.join(process.cwd(), '.test-data', `holdings-${process.pid}`);
 const db = require('../server/db');
+const holdingsDb = require('../server/holdings-db');
 const { parseWorkbook, normalizeSchemeName } = require('../server/utils/portfolioParser');
-const { importPortfolioBuffer, getSchemeHoldings, lookThrough, parseAmfiRegistryHtml, assertPublicUrl } = require('../server/utils/portfolioService');
+const { importPortfolioBuffer, getSchemeHoldings, lookThrough, parseAmfiRegistryHtml, assertPublicUrl, discoverDisclosurePages, linkMatchesTargetMonth } = require('../server/utils/portfolioService');
+const { balancePlanVariants } = require('../server/utils/mfapi');
 
 function fixtureWorkbook() {
   const rows = [
@@ -41,7 +43,7 @@ test('Direct, Regular, Growth and IDCW normalize to one underlying scheme', () =
 });
 
 test('one imported disclosure serves every mapped plan and portfolio look-through', () => {
-  const amc = db.prepare("SELECT mf_id FROM mf_amc_sources WHERE mf_name LIKE 'HDFC%' LIMIT 1").get();
+  const amc = holdingsDb.prepare("SELECT mf_id FROM amc_sources WHERE mf_name LIKE 'HDFC%' LIMIT 1").get();
   assert.ok(amc);
   const insert = db.prepare('INSERT OR REPLACE INTO mf_scheme_index (scheme_code,scheme_name) VALUES (?,?)');
   insert.run(900001,'HDFC Large Cap Fund - Direct Plan - Growth Option');
@@ -70,4 +72,26 @@ test('portfolio source URLs reject local and private-network destinations', () =
   assert.throws(()=>assertPublicUrl('http://172.20.1.4/private.xlsx'),/Unsafe/);
   assert.throws(()=>assertPublicUrl('javascript:alert(1)'),/Unsafe/);
   assert.equal(assertPublicUrl('https://www.amfiindia.com/disclosure.xlsx').protocol,'https:');
+});
+
+test('scheme search keeps Regular and Direct plans visible together', () => {
+  const rows = [
+    ...Array.from({length:30},(_,i)=>({schemeCode:1000+i,schemeName:`Bandhan Example Fund ${i} - Direct Plan - Growth`})),
+    ...Array.from({length:6},(_,i)=>({schemeCode:2000+i,schemeName:`Bandhan Example Fund ${i} - Regular Plan - Growth`})),
+  ];
+  const balanced = balancePlanVariants(rows,10);
+  assert.equal(balanced[0].planType,'Regular');
+  assert.ok(balanced.some(x=>x.planType==='Direct'));
+  assert.ok(balanced.some(x=>x.planType==='Regular'));
+});
+
+test('disclosure crawler follows relevant same-AMC pages only', () => {
+  const html = '<a href="/downloads/monthly-portfolio">Monthly portfolio</a><a href="https://evil.example/file.xlsx">Other site</a><a href="/about">About</a>';
+  assert.deepEqual(discoverDisclosurePages(html,'https://fund.example/disclosures','2026-08-31'),['https://fund.example/downloads/monthly-portfolio']);
+});
+
+test('automatic portfolio import rejects the wrong year even when the month matches', () => {
+  assert.equal(linkMatchesTargetMonth('https://fund.example/Monthly-Portfolio-31-August-2026.xlsx','2026-08-31'),true);
+  assert.equal(linkMatchesTargetMonth('https://fund.example/Monthly-Portfolio-31-August-2025.xlsx','2026-08-31'),false);
+  assert.equal(linkMatchesTargetMonth('https://fund.example/portfolio_20260831.xlsx','2026-08-31'),true);
 });

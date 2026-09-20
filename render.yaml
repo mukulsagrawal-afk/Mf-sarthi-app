@@ -15,13 +15,15 @@ services:
     envVars:
       - key: DATA_DIR
         value: /var/data
+      - key: HOLDINGS_DATA_DIR
+        value: /var/data
       - key: NODE_ENV
         value: production
       - key: JWT_SECRET
         generateValue: true
       - key: ENCRYPTION_KEY
         sync: false
-      - key: AUTO_REFRESH_HOLDINGS
-        value: true
+      - key: SITE_ADMIN_EMAILS
+        sync: false
       - key: PORTFOLIO_SOURCE_MAX_MB
         value: 40

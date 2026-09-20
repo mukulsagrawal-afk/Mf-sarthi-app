@@ -7,7 +7,8 @@ const router = express.Router();
 router.use(requireAuth);
 ensureSchemeIndex().catch(e => console.error('Scheme index build failed:', e.message));
 router.get('/search', async (req, res) => {
-  try { res.json({ results: await searchSchemes(req.query.q || '', 25) }); }
+  const limit = Math.min(100, Math.max(10, Number(req.query.limit) || 50));
+  try { res.json({ results: await searchSchemes(req.query.q || '', limit) }); }
   catch (_) { res.status(502).json({ error: 'Could not reach the mutual fund data provider. Please try again.' }); }
 });
 router.get('/preview/:code', async (req, res) => {

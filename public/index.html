@@ -1039,7 +1039,7 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
 @keyframes hiOrbit{50%{transform:translate(-26px,24px) rotate(18deg)}}
 .hi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:18px 0}.hi-stat{padding:20px;border-radius:18px;background:#fff;border:1px solid var(--border);box-shadow:0 8px 28px rgba(23,42,74,.06);transition:.3s var(--ease-premium)}.hi-stat:hover{transform:translateY(-5px);box-shadow:0 16px 38px rgba(23,42,74,.12)}.hi-stat span{display:block;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.6px}.hi-stat b{display:block;font-size:24px;margin-top:8px;color:var(--navy)}
 .hi-panel{background:#fff;border:1px solid var(--border);border-radius:20px;padding:22px;margin-top:16px;box-shadow:0 8px 26px rgba(23,42,74,.05)}
-.hi-search{position:relative}.hi-search input{width:100%;height:52px;border:1px solid #d7dfeb;border-radius:15px;padding:0 18px;font:600 14px Manrope,sans-serif;background:#f8fafc}.hi-results{position:absolute;z-index:15;left:0;right:0;top:58px;background:white;border:1px solid var(--border);border-radius:14px;box-shadow:0 18px 45px rgba(15,35,60,.16);max-height:320px;overflow:auto}.hi-result{padding:13px 16px;border-bottom:1px solid #eef2f6;cursor:pointer;font-size:13px}.hi-result:hover{background:#eef8f5}.hi-result:last-child{border:0}
+.hi-search{position:relative}.hi-search input{width:100%;height:52px;border:1px solid #d7dfeb;border-radius:15px;padding:0 18px;font:600 14px Manrope,sans-serif;background:#f8fafc}.hi-results{position:absolute;z-index:15;left:0;right:0;top:58px;background:white;border:1px solid var(--border);border-radius:14px;box-shadow:0 18px 45px rgba(15,35,60,.16);max-height:360px;overflow:auto}.hi-result{padding:12px 16px;border-bottom:1px solid #eef2f6;cursor:pointer;font-size:13px;display:flex;gap:12px;align-items:center;justify-content:space-between;transition:.2s}.hi-result:hover{background:#eef8f5;transform:translateX(2px)}.hi-result:last-child{border:0}.hi-plan{font-size:9px;font-weight:800;letter-spacing:.45px;text-transform:uppercase;border-radius:999px;padding:5px 8px;flex:0 0 auto;background:#eef4fb;color:#365979}.hi-plan.regular{background:#e9f7f1;color:#087056}.hi-plan.direct{background:#f2effb;color:#59429a}.hi-plan-filter{display:flex;gap:7px;margin-top:12px}.hi-plan-filter button{border:1px solid #dbe3ec;background:#fff;border-radius:999px;padding:7px 12px;font:700 11px Manrope,sans-serif;color:#607084;cursor:pointer}.hi-plan-filter button.active{background:#102f4f;color:#fff;border-color:#102f4f;box-shadow:0 6px 18px rgba(16,47,79,.16)}
 .hi-title-row{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}.hi-title-row h2{font-size:20px;margin:0 0 4px}.hi-fresh{font-size:11px;font-weight:800;padding:7px 10px;border-radius:99px;background:#e6f6ef;color:#08784f;white-space:nowrap}.hi-bars{display:grid;gap:11px;margin-top:18px}.hi-bar-row{display:grid;grid-template-columns:minmax(150px,1fr) 3fr 65px;gap:12px;align-items:center;font-size:12px}.hi-bar-track{height:9px;background:#edf1f5;border-radius:99px;overflow:hidden}.hi-bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#0f8d68,#d09a36);animation:hiGrow .75s var(--ease-premium) both;transform-origin:left}@keyframes hiGrow{from{transform:scaleX(0)}}
 .hi-table{width:100%;border-collapse:collapse;margin-top:20px;font-size:12px}.hi-table th{text-align:left;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.5px;padding:11px;border-bottom:1px solid var(--border)}.hi-table td{padding:12px 11px;border-bottom:1px solid #edf1f5}.hi-table tr:hover td{background:#fafcfb}.hi-pct{text-align:right;font-weight:800;color:#0a6e55}.hi-source{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;color:var(--muted);font-size:11px}.hi-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}.hi-upload-grid{display:grid;grid-template-columns:1.5fr 1fr 1.2fr auto;gap:10px;align-items:end}.hi-upload-grid label{display:block;font-size:10px;font-weight:800;color:var(--muted);margin-bottom:6px;text-transform:uppercase}.hi-upload-grid select,.hi-upload-grid input{width:100%;height:42px;border:1px solid var(--border);border-radius:11px;padding:0 10px;background:#fff;font:12px Manrope,sans-serif}.hi-note{margin-top:10px;padding:12px 14px;border-radius:12px;background:#fff8e8;color:#715718;font-size:11px;line-height:1.55}
 @media(max-width:900px){.hi-grid{grid-template-columns:repeat(2,1fr)}.hi-upload-grid{grid-template-columns:1fr 1fr}.hi-bar-row{grid-template-columns:120px 1fr 55px}}@media(max-width:560px){.hi-grid{grid-template-columns:1fr 1fr}.hi-hero{padding:25px}.hi-hero h1{font-size:27px}.hi-upload-grid{grid-template-columns:1fr}.hi-bar-row{grid-template-columns:95px 1fr 48px}.hi-table{min-width:670px}.hi-table-wrap{overflow:auto}}
@@ -1136,7 +1136,7 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
       <a class="nav-item" data-view="crm"><svg viewBox="0 0 24 24"><use href="#i-crm"/></svg>CRM<span class="nav-badge" id="nav-leads-badge">15</span></a>
       <a class="nav-item" data-view="meetings"><svg viewBox="0 0 24 24"><use href="#i-cal"/></svg>Meetings &amp; Reviews<span class="nav-badge" id="nav-overdue-badge">8</span></a>
       <a class="nav-item" data-view="calculators"><svg viewBox="0 0 24 24"><use href="#i-calc"/></svg>Calculators</a>
-      <a class="nav-item" data-view="knowledge"><svg viewBox="0 0 24 24"><use href="#i-book"/></svg>Knowledge Hub</a>
+      <a class="nav-item" data-view="knowledge"><svg viewBox="0 0 24 24"><use href="#i-book"/></svg>Knowledge Board</a>
       <a class="nav-item nav-item-ai" data-view="folioxpert"><svg viewBox="0 0 24 24"><use href="#i-target"/></svg>FolioXpert AI</a>
       <a class="nav-item" data-view="holdings"><svg viewBox="0 0 24 24"><use href="#i-insight"/></svg>Holdings Intelligence</a>
       <div class="nav-label">Practice</div>
@@ -3074,7 +3074,7 @@ function renderKnowledge(){
   const el = document.getElementById('view-knowledge');
   if(kbActiveArticle){ renderArticleView(); return; }
   el.innerHTML = `
-    <div class="page-head"><div><h1>Knowledge Hub</h1><div class="sub">Practical knowledge to build, manage and grow your MFD practice.</div></div>
+    <div class="page-head"><div><h1>Knowledge Board</h1><div class="sub">Practical knowledge to build, manage and grow your MFD practice.</div></div>
       <div class="lang-switch">${Object.keys(LANGS).map(l=>`<button class="${kbLang===l?'active':''}" data-l="${l}">${LANGS[l]}</button>`).join('')}</div>
     </div>
     <div class="kb-layout">
@@ -3112,7 +3112,7 @@ function renderArticleView(){
     ? `<div class="badge badge-warning" style="margin-bottom:16px">This article isn't translated to ${LANGS[kbLang]} yet - showing English</div>` : '';
   const related = articles.filter(x=>x.cat===a.cat && x.id!==a.id).slice(0,2);
   el.innerHTML = `
-    <button class="btn btn-sm" id="articleBack" style="margin-bottom:16px"><svg viewBox="0 0 24 24"><use href="#i-chevron-left"/></svg>Knowledge Hub</button>
+    <button class="btn btn-sm" id="articleBack" style="margin-bottom:16px"><svg viewBox="0 0 24 24"><use href="#i-chevron-left"/></svg>Knowledge Board</button>
     <div class="lang-switch" style="margin-bottom:18px;width:fit-content">${Object.keys(LANGS).map(l=>`<button class="${kbLang===l?'active':''}" data-l="${l}">${LANGS[l]}</button>`).join('')}</div>
     <div class="article-view">
       ${notice}
@@ -3747,6 +3747,8 @@ function renderSettings(){
       </div>
     </div>
 
+    ${currentUser?.isSiteAdmin?`<div class="card card-pad" style="max-width:760px;margin-bottom:20px"><div class="section-title" style="margin-bottom:4px">Holdings database administration</div><div class="sub" style="color:var(--text-muted);font-size:12.5px;margin-bottom:14px">Run this after the 10th of each month, when fund houses have published the previous month-end disclosures. This control is visible only to configured site administrators.</div><div id="holdingsAdminPanel"><div class="hi-note">Reading holdings database status…</div></div></div>`:''}
+
     <div class="card card-pad" style="max-width:560px;margin-bottom:20px">
       <div class="section-title" style="margin-bottom:4px">Import Monthly Statement</div>
       <div class="sub" style="color:var(--text-muted);font-size:12.5px;margin-bottom:12px">
@@ -3806,6 +3808,7 @@ function renderSettings(){
       resultEl.textContent = 'Import failed: '+err.message;
     }
   };
+  if(currentUser?.isSiteAdmin) loadHoldingsAdmin();
 }
 function renderHelp(){
   const el = document.getElementById('view-help');
@@ -3835,7 +3838,7 @@ function runGlobalSearch(q){
   const meetingHits = meetings.filter(m=>m.clientName.toLowerCase().includes(q) || m.type.toLowerCase().includes(q)).slice(0,4);
   if(meetingHits.length) groups.push({label:'Meetings', items:meetingHits.map(m=>({t:m.clientName+' - '+m.type, s:fmtDateShort(m.date), action:()=>{closeSearch(); switchView('meetings');}}))});
   const artHits = articles.filter(a=>a.t.en.title.toLowerCase().includes(q) || a.cat.toLowerCase().includes(q)).slice(0,4);
-  if(artHits.length) groups.push({label:'Knowledge Hub', items:artHits.map(a=>({t:a.t.en.title, s:a.cat, action:()=>{closeSearch(); kbActiveArticle=a.id; kbLang='en'; switchView('knowledge');}}))});
+  if(artHits.length) groups.push({label:'Knowledge Board', items:artHits.map(a=>({t:a.t.en.title, s:a.cat, action:()=>{closeSearch(); kbActiveArticle=a.id; kbLang='en'; switchView('knowledge');}}))});
   const calcHits = SEARCHABLE_CALCS.filter(c=>c.t.toLowerCase().includes(q));
   if(calcHits.length) groups.push({label:'Calculators', items:calcHits.map(c=>({t:c.t, s:'Calculator', action:()=>{closeSearch(); calcMode = c.id==='goal'?'goal':'sip'; switchView('calculators');}}))});
   if(!groups.length){ box.innerHTML = `<div style="padding:16px">${emptyState('i-search','No results for "'+esc(q)+'"','Try searching a client name, meeting type or article topic.')}</div>`; box.classList.add('open'); return; }
@@ -3871,34 +3874,43 @@ function renderNotifications(){
 /* ============================================================
    HOLDINGS INTELLIGENCE
    ============================================================ */
-let hiStatus=null, hiFund=null, hiLoading=false, hiError='', hiSearchResults=[], hiSearchTimer=null, hiQuery='';
+let hiStatus=null, hiFund=null, hiLoading=false, hiError='', hiSearchResults=[], hiSearchTimer=null, hiQuery='', hiPlanFilter='All';
+let holdingsAdminTimer=null;
 function hiNum(n){ return Number(n||0).toLocaleString('en-IN',{maximumFractionDigits:2}); }
 function hiMoney(n){ return '₹'+Number(n||0).toLocaleString('en-IN',{maximumFractionDigits:0}); }
+async function loadHoldingsAdmin(){
+  const panel=document.getElementById('holdingsAdminPanel'); if(!panel)return;
+  clearTimeout(holdingsAdminTimer);
+  try{
+    const status=await api('/holdings/admin/status'), s=status.summary||{}, r=status.refresh||{}, sources=status.sources||[];
+    const attention=sources.filter(x=>!x.latestDisclosureDate||x.latestDisclosureDate<status.expectedDisclosureDate);
+    panel.innerHTML=`<div class="hi-grid" style="margin:12px 0"><div class="hi-stat"><span>Schemes</span><b>${hiNum(s.portfolioSchemes)}</b></div><div class="hi-stat"><span>Plan mappings</span><b>${hiNum(s.mappedPlans)}</b></div><div class="hi-stat"><span>Holding rows</span><b>${hiNum(s.holdings)}</b></div><div class="hi-stat"><span>Latest month</span><b style="font-size:15px">${esc(s.latestDisclosureDate||'Not loaded')}</b></div></div><div class="form-grid"><div class="form-field"><label>Month-end date</label><input id="adminDisclosureDate" type="date" value="${esc(status.expectedDisclosureDate||'')}"></div><div class="form-field" style="align-self:end"><button class="btn btn-primary" id="adminHoldingsRefresh" ${r.running?'disabled':''}>${r.running?'Updating database…':'Run monthly holdings update'}</button></div></div>${r.running?`<div class="hi-note"><b>${esc(r.message||'Updating')}</b><br>${hiNum(r.checked)} fund houses checked · ${hiNum(r.imported)} files imported · ${hiNum(r.failed)} need attention</div>`:`<div class="hi-note">${attention.length} fund house${attention.length===1?'':'s'} need the ${esc(status.expectedDisclosureDate||'latest')} disclosure. Existing verified data remains available until replaced.</div>`}<details style="margin-top:14px"><summary style="cursor:pointer;font-weight:800;font-size:12px">Manual official-file import</summary><form id="adminHoldingsUpload" class="hi-upload-grid" style="margin-top:12px"><div><label>Fund house</label><select name="mfId" required><option value="">Choose AMC</option>${sources.map(x=>`<option value="${x.mfId}">${esc(x.mfName)}</option>`).join('')}</select></div><div><label>Month-end</label><input name="disclosureDate" type="date" value="${esc(status.expectedDisclosureDate||'')}" required></div><div><label>Official Excel</label><input name="file" type="file" accept=".xls,.xlsx,.xlsm" required></div><button class="btn" type="submit">Validate & import</button></form></details>`;
+    const refresh=document.getElementById('adminHoldingsRefresh'); if(refresh)refresh.onclick=async()=>{refresh.disabled=true;const date=document.getElementById('adminDisclosureDate').value;try{await api('/holdings/refresh',{method:'POST',body:{disclosureDate:date}});toast('Monthly holdings update started','i-check');loadHoldingsAdmin();}catch(e){toast(e.message);refresh.disabled=false;}};
+    const upload=document.getElementById('adminHoldingsUpload'); if(upload)upload.onsubmit=async e=>{e.preventDefault();const btn=upload.querySelector('button');btn.disabled=true;try{const result=await api('/holdings/upload',{method:'POST',body:new FormData(upload)});toast(`Imported ${result.schemeCount} scheme portfolio(s)`,'i-check');loadHoldingsAdmin();}catch(err){toast(err.message);btn.disabled=false;}};
+    if(r.running) holdingsAdminTimer=setTimeout(loadHoldingsAdmin,3500);
+  }catch(e){panel.innerHTML=`<div class="hi-note">${esc(e.message)}</div>`;}
+}
 async function hiLoadStatus(){ try{hiStatus=await api('/holdings/status');}catch(e){hiError=e.message;} renderHoldings(); }
 async function hiLoadScheme(code){ hiLoading=true; hiError=''; hiSearchResults=[]; renderHoldings(); try{hiFund=await api('/holdings/scheme/'+code);}catch(e){hiFund=null;hiError=e.message;} hiLoading=false;renderHoldings(); }
-function hiSearch(q){ hiQuery=String(q||''); clearTimeout(hiSearchTimer); if(hiQuery.trim().length<2){hiSearchResults=[];renderHoldings();return;} hiSearchTimer=setTimeout(async function(){try{const r=await api('/mf/search?q='+encodeURIComponent(hiQuery));hiSearchResults=r.results||[];}catch(e){hiError=e.message;}renderHoldings();},260); }
+function hiSearch(q){ hiQuery=String(q||''); clearTimeout(hiSearchTimer); if(hiQuery.trim().length<2){hiSearchResults=[];renderHoldings();return;} hiSearchTimer=setTimeout(async function(){try{const r=await api('/mf/search?q='+encodeURIComponent(hiQuery)+'&limit=100');hiSearchResults=r.results||[];}catch(e){hiError=e.message;}renderHoldings();},260); }
 function renderHoldings(){
   const root=document.getElementById('view-holdings'); if(!root)return;
   const s=hiStatus&&hiStatus.summary||{};
   const latest=s.latestDisclosureDate?new Date(s.latestDisclosureDate+'T00:00:00').toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}):'Waiting for first import';
   let body=`<div class="hi-hero"><div class="hi-kicker">Verified monthly disclosure intelligence</div><h1>SchemeScope</h1><p>See what every mutual fund scheme actually owns. Direct, Regular, Growth and IDCW plans are joined to the same validated underlying portfolio, with the source and valuation month always visible.</p></div>
-  <div class="hi-grid"><div class="hi-stat"><span>Portfolio schemes</span><b>${hiNum(s.portfolioSchemes)}</b></div><div class="hi-stat"><span>Mapped plan variants</span><b>${hiNum(s.mappedPlans)}</b></div><div class="hi-stat"><span>Security records</span><b>${hiNum(s.holdings)}</b></div><div class="hi-stat"><span>Latest disclosure</span><b style="font-size:17px">${esc(latest)}</b></div></div>
-  <div class="hi-panel"><div class="hi-title-row"><div><h2>Find a scheme</h2><div class="muted" style="font-size:12px">Search any plan or option. SchemeScope resolves it to its common underlying portfolio.</div></div><button class="btn btn-ghost" id="hiRefresh">Refresh official sources</button></div><div class="hi-search" style="margin-top:17px"><input id="hiSearch" value="${esc(hiQuery)}" placeholder="Try HDFC Large Cap, Parag Parikh Flexi Cap…" autocomplete="off"><div class="hi-results">${hiSearchResults.map(x=>`<div class="hi-result" data-hi-code="${x.schemeCode}">${esc(x.schemeName)}</div>`).join('')}</div></div>${hiStatus&&hiStatus.refresh&&hiStatus.refresh.running?'<div class="hi-note">Refreshing official AMC sources in the background. You may keep using the CRM.</div>':''}</div>`;
+  <div class="hi-grid"><div class="hi-stat"><span>Portfolio schemes</span><b>${hiNum(s.portfolioSchemes)}</b></div><div class="hi-stat"><span>Mapped plan variants</span><b>${hiNum(s.mappedPlans)}</b></div><div class="hi-stat"><span>Security records</span><b>${hiNum(s.holdings)}</b></div><div class="hi-stat"><span>Latest disclosure</span><b style="font-size:17px">${esc(latest)}</b></div></div>`;
+  const shownResults=hiSearchResults.filter(x=>hiPlanFilter==='All'||x.planType===hiPlanFilter);
+  body+=`<div class="hi-panel"><div class="hi-title-row"><div><h2>Find a scheme</h2><div class="muted" style="font-size:12px">Search Regular or Direct plans. Every option maps to the same underlying scheme portfolio.</div></div></div><div class="hi-plan-filter">${['All','Regular','Direct'].map(p=>`<button type="button" data-hi-plan="${p}" class="${hiPlanFilter===p?'active':''}">${p} plans</button>`).join('')}</div><div class="hi-search" style="margin-top:12px"><input id="hiSearch" value="${esc(hiQuery)}" placeholder="Try Bandhan, HDFC Large Cap, Parag Parikh…" autocomplete="off"><div class="hi-results">${shownResults.map(x=>`<div class="hi-result" data-hi-code="${x.schemeCode}"><span>${esc(x.schemeName)}</span><span class="hi-plan ${(x.planType||'other').toLowerCase()}">${esc(x.planType||'Plan')}</span></div>`).join('')}</div></div></div>`;
   if(hiLoading) body+=`<div class="hi-panel">${emptyState('i-trend-up','Reading the latest validated portfolio…','Large scheme tables can take a moment to assemble.')}</div>`;
   if(hiError) body+=`<div class="hi-panel"><div class="hi-note">${esc(hiError)}</div></div>`;
   if(hiFund){
     const top=hiFund.holdings.filter(h=>Number.isFinite(Number(h.pctNav))).slice(0,10),max=Math.max(1,...top.map(h=>Number(h.pctNav)));
     body+=`<div class="hi-panel"><div class="hi-title-row"><div><h2>${esc(hiFund.schemeName)}</h2><div class="muted" style="font-size:12px">Underlying portfolio: ${esc(hiFund.portfolioName)}</div></div><span class="hi-fresh">As of ${esc(hiFund.disclosureDate)}</span></div><div class="hi-bars">${top.map(h=>`<div class="hi-bar-row"><span title="${esc(h.instrumentName)}">${esc(h.instrumentName.length>28?h.instrumentName.slice(0,27)+'…':h.instrumentName)}</span><div class="hi-bar-track"><div class="hi-bar-fill" style="width:${Math.max(1,Number(h.pctNav)/max*100)}%"></div></div><b>${hiNum(h.pctNav)}%</b></div>`).join('')}</div><div class="hi-table-wrap"><table class="hi-table"><thead><tr><th>Security</th><th>ISIN</th><th>Sector / asset type</th><th>Rating</th><th style="text-align:right">% of NAV</th></tr></thead><tbody>${hiFund.holdings.map(h=>`<tr><td><b>${esc(h.instrumentName)}</b></td><td>${esc(h.isin||'—')}</td><td>${esc(h.sector||h.assetType||'—')}</td><td>${esc(h.rating||'—')}</td><td class="hi-pct">${h.pctNav==null?'—':hiNum(h.pctNav)+'%'}</td></tr>`).join('')}</tbody></table></div><div class="hi-source"><span>Source file: ${esc(hiFund.source.sourceFilename)}</span><span>•</span><span>Imported ${esc(hiFund.source.importedAt)}</span>${hiFund.source.sourceUrl?`<span>•</span><a href="${esc(hiFund.source.sourceUrl)}" target="_blank" rel="noopener">Open official source</a>`:''}</div></div>`;
   }
-  const sources=hiStatus&&hiStatus.sources||[];
-  const expected=hiStatus&&hiStatus.expectedDisclosureDate, currentSources=sources.filter(x=>x.latestDisclosureDate&&(!expected||x.latestDisclosureDate>=expected)), attention=sources.filter(x=>!x.latestDisclosureDate||x.latestDisclosureDate<expected);
-  body+=`<div class="hi-panel"><div class="hi-title-row"><div><h2>Coverage control</h2><div class="muted" style="font-size:12px">Every AMC in the current AMFI registry stays visible until its disclosure is loaded.</div></div><span class="hi-fresh">${currentSources.length} current · ${attention.length} need attention</span></div>${attention.length?`<div class="hi-table-wrap"><table class="hi-table"><thead><tr><th>Fund house</th><th>Latest month</th><th>Status</th><th>Official page</th></tr></thead><tbody>${attention.slice(0,12).map(x=>`<tr><td><b>${esc(x.mfName)}</b></td><td>${esc(x.latestDisclosureDate||'Not loaded')}</td><td>${esc(x.lastError||(!x.monthlyUrl?'AMFI URL pending':'Awaiting refresh'))}</td><td>${x.monthlyUrl?`<a href="${esc(x.monthlyUrl)}" target="_blank" rel="noopener">Open</a>`:'—'}</td></tr>`).join('')}</tbody></table></div>${attention.length>12?`<p class="fx-help">Showing 12 of ${attention.length} sources that need attention.</p>`:''}`:'<div class="hi-note">All tracked AMCs have the expected month-end snapshot.</div>'}</div>`;
-  body+=`<div class="hi-panel"><div class="hi-title-row"><div><h2>Official disclosure fallback</h2><div class="muted" style="font-size:12px">If an AMC changes its page and automatic discovery cannot read it, upload that AMC's original Excel disclosure here.</div></div></div><form id="hiUpload" class="hi-upload-grid" style="margin-top:16px"><div><label>Fund house</label><select name="mfId" required><option value="">Choose AMC</option>${sources.map(x=>`<option value="${x.mfId}">${esc(x.mfName)}</option>`).join('')}</select></div><div><label>Month-end date</label><input name="disclosureDate" type="date" value="${esc(expected||'')}" required></div><div><label>Official Excel file</label><input name="file" type="file" accept=".xls,.xlsx,.xlsm" required></div><button class="btn btn-primary" type="submit">Validate & import</button></form><div class="hi-note">Automatic checks run on the 12th, 16th and 20th each month. The last validated snapshot stays active if a source is late or changes its layout.</div></div>`;
   root.innerHTML=body;
   const search=document.getElementById('hiSearch'); if(search)search.oninput=e=>hiSearch(e.target.value);
+  root.querySelectorAll('[data-hi-plan]').forEach(n=>n.onclick=()=>{hiPlanFilter=n.dataset.hiPlan;renderHoldings();});
   root.querySelectorAll('[data-hi-code]').forEach(n=>n.onclick=()=>hiLoadScheme(n.dataset.hiCode));
-  const refresh=document.getElementById('hiRefresh'); if(refresh)refresh.onclick=async()=>{refresh.disabled=true;try{await api('/holdings/refresh',{method:'POST',body:{}});hiStatus=await api('/holdings/status');}catch(e){hiError=e.message;}renderHoldings();};
-  const form=document.getElementById('hiUpload'); if(form)form.onsubmit=async e=>{e.preventDefault();const btn=form.querySelector('button');btn.disabled=true;btn.textContent='Validating…';try{const result=await api('/holdings/upload',{method:'POST',body:new FormData(form)});hiError=`Imported ${result.schemeCount} scheme portfolio(s) and ${result.holdingCount} security rows.`;hiStatus=await api('/holdings/status');}catch(err){hiError=err.message;}renderHoldings();};
 }
 
 /* ============================================================
@@ -3919,7 +3931,7 @@ function switchView(name, resetState){
     if(name==='calculators'){ calcMode='landing'; }
   }
   (VIEW_RENDERERS[name]||function(){})();
-  if(name==='holdings'&&!hiStatus) hiLoadStatus();
+  if(name==='holdings') hiLoadStatus();
   document.getElementById('sidebar').classList.remove('open');
   window.scrollTo(0,0);
 }

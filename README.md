@@ -1,6 +1,6 @@
 # MF Sarthi
 
-MF Sarthi is a web app for Indian mutual fund distributors and wealth managers. It includes client CRM, leads, meetings, follow-ups, statement import, calculators, a knowledge hub, and FolioXpert AI-assisted client reports. FolioXpert includes CAS holding detection and fund-level peer analysis.
+MF Sarthi is a web app for Indian mutual fund distributors and wealth managers. It includes client CRM, leads, meetings, follow-ups, statement import, calculators, a Knowledge Board, and FolioXpert AI-assisted client reports. FolioXpert includes CAS holding detection and fund-level peer analysis.
 
 The interface uses Manrope and a navy, blue, brass, and emerald brand palette. Dashboard KPI cards, practice cards, forms, charts, and FolioXpert steps have short entrance and hover transitions; reduced-motion preferences disable these effects.
 
@@ -25,7 +25,8 @@ Upload the **contents of this folder** to the root of your GitHub repository. Th
 5. For real CRM data, choose a **paid web service with a persistent disk**. Mount the disk at /var/data and set DATA_DIR to /var/data. Render Free web services lose local SQLite data when they idle, restart, or redeploy. They are suitable only for a disposable demonstration.
 6. For manual setup, add JWT_SECRET and ENCRYPTION_KEY in Render's Environment page. The Blueprint generates JWT_SECRET and prompts for ENCRYPTION_KEY before creation. Generate an encryption key locally with `node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"` and paste its output into Render. It must decode to exactly 32 bytes. Keep existing secrets if updating a running service, or saved PAN numbers may become unreadable. Never put secrets in GitHub.
 7. Set CORS_ORIGIN to the exact https://...onrender.com address Render gives your service. This app serves its own frontend and API from that same address.
-8. Deploy and wait for Render to show **Live**. Open the service URL, sign in, and check CRM and FolioXpert AI. Upload a text-based CAS only after checking that the client has authorized its use.
+8. Set SITE_ADMIN_EMAILS to the comma-separated login email address(es) allowed to update the shared holdings database. Normal users cannot see or call the refresh/import controls.
+9. Deploy and wait for Render to show **Live**. Open the service URL, sign in, and check CRM and FolioXpert AI. Upload a text-based CAS only after checking that the client has authorized its use.
 
 Optional SMTP variables enable email reminders. BACKUP_EMAIL_TO sends a daily database backup to a separate mailbox when SMTP is configured. These values are listed in .env.example.
 
@@ -45,11 +46,13 @@ The SQLite database, client records, and local backups are stored under DATA_DIR
 
 ### SchemeScope underlying holdings
 
-- SchemeScope imports monthly scheme-portfolio disclosure spreadsheets from AMC pages listed in AMFI's official portfolio-disclosure registry. It refreshes that registry before each scheduled run so a newly listed fund house remains visible.
-- Automatic checks run at 4:30 AM India time on the 12th, 16th and 20th of each month. Those dates follow the publication window for the previous month-end disclosure and provide two retries for late or changed sources. Set `AUTO_REFRESH_HOLDINGS=false` only when another scheduler owns this job.
+- Holdings are stored in a dedicated `holdings.db`, separate from CRM and login records. A fresh deployment copies the bundled 31 August 2026 seed into the persistent data directory.
+- The bundled snapshot contains 979 underlying portfolios, 74,179 disclosed security rows and 2,602 mapped Direct/Regular/Growth/IDCW plan variants across 48 fund houses. All bundled imports carry the 31 August 2026 date. Some schemes had not published an August disclosure or could not be reliably normalized; the app reports those schemes as unavailable instead of substituting older data.
+- SchemeScope checks monthly scheme-portfolio spreadsheets from AMC pages listed in AMFI's official portfolio-disclosure registry. For the bundled snapshot, normalized public copies of AMC disclosures fill gaps where an AMC site blocked automated retrieval; source URLs and parser provenance remain stored with each import.
+- Monthly refresh is manual and restricted to SITE_ADMIN_EMAILS. After the 10th of each month, a site admin opens Settings and runs the holdings update. Normal users never see a refresh button.
 - Direct, Regular, Growth, IDCW payout and IDCW reinvestment NAV codes map to the same underlying scheme portfolio. The searched plan remains visible, while the disclosure source, month-end date and mapping method are retained.
 - Each import keeps the official source URL, source file, SHA-256 checksum, parser version, warnings and import time. Re-importing the same file is safe. A failed or incomplete fetch never deletes the last validated snapshot.
-- The Coverage control screen tracks every AMC in the saved AMFI registry, including AMCs whose disclosure URL is missing or whose page can no longer be read automatically. The official Excel upload is the fallback for those sources. This is deliberate: coverage gaps are shown instead of being silently treated as zero holdings.
+- The administrator screen tracks every AMC in the saved AMFI registry, including AMCs whose disclosure URL is missing or whose page can no longer be read automatically. An official Excel upload is the fallback for those sources. Coverage gaps are shown instead of being silently treated as zero holdings.
 - FolioXpert uses the latest available scheme disclosures for security-level look-through when holdings are available. It weights each disclosed security by the client's current fund value, joins securities by ISIN where possible, and shows the covered and uncovered fund values. This is an estimate from month-end data, not a live trading portfolio.
 - The parser accepts `.xls`, `.xlsx` and `.xlsm` files and recognizes common AMC column labels for instrument, ISIN, market value, percentage of NAV, sector, rating, maturity and quantity. AMC layouts vary; review warnings and the percentage totals before relying on a newly encountered layout.
 

@@ -11,6 +11,7 @@ function text(value) {
 
 function normalizeSchemeName(value) {
   return text(value).toLowerCase()
+    .replace(/\((?:erstwhile|formerly)[^)]*\)/g, ' ')
     .replace(/\b(direct|regular)\s*(plan)?\b/g, ' ')
     .replace(/\b(growth|gr|idcw|dividend)\b/g, ' ')
     .replace(/\b(payout|pay\s*out|reinvestment|reinvest|bonus)\b/g, ' ')

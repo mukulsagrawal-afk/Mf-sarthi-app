@@ -2,6 +2,7 @@ const express = require('express');
 const db = require('../db');
 const { requireAuth } = require('../middleware/auth');
 const { rowToClient } = require('../utils/serialize');
+const { isSiteAdmin } = require('../utils/siteAdmin');
 
 const router = express.Router();
 router.use(requireAuth);
@@ -29,7 +30,7 @@ router.get('/', (req, res) => {
   const notes = db.prepare('SELECT * FROM notes WHERE user_id = ? ORDER BY created_at ASC').all(uid);
 
   res.json({
-    user: { id: req.user.id, name: req.user.name, email: req.user.email },
+    user: { id: req.user.id, name: req.user.name, email: req.user.email, isSiteAdmin:isSiteAdmin(req.user.id) },
     clients: clients.map((c) => rowToClient(c, { full: true })),
     leads, meetings, followups, notes,
   });
