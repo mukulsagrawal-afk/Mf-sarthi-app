@@ -15,6 +15,14 @@ test('FolioXpert retains legible hero text and visible scheme-search results', (
   assert.match(html, /prefers-reduced-motion:reduce[^}]*\.picker-dd\.open/);
 });
 
+test('Holdings Intelligence keeps typing focus and FolioXpert exposes overlap analysis', () => {
+  assert.match(html,/<h1>Holdings Intelligence<\/h1>/);
+  assert.match(html,/\/holdings\/search\?q=/);
+  assert.match(html,/request.*!==hiQuery|requested!==hiQuery/);
+  assert.match(html,/Portfolio overlap check/);
+  assert.match(html,/sum of the smaller portfolio weight/i);
+});
+
 test('scheme dropdown keyboard selection keeps the chosen fund while closing', async () => {
   const start = html.indexOf('function fxWireSearch('), end = html.indexOf('async function fxLoadPreview(', start);
   const options = [{id:'scheme-list-0-option-0',dataset:{fxResult:'0'},classList:{toggle(){}},setAttribute(){},scrollIntoView(){}}];

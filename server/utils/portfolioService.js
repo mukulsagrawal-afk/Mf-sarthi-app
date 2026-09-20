@@ -66,22 +66,37 @@ function tokenScore(a, b) {
 }
 
 let mappingIndexCache = null;
+function compactName(value){return String(value||'').replace(/[^a-z0-9]/g,'');}
+function isSubsequence(shorter,longer){let i=0;for(const ch of longer)if(ch===shorter[i])i++;return i===shorter.length;}
 function mapPortfolioScheme(portfolioSchemeId, canonicalName, normalizedName) {
   if (!mappingIndexCache) {
-    mappingIndexCache = new Map();
+    const exact = new Map();
     for (const candidate of db.prepare('SELECT scheme_code, scheme_name FROM mf_scheme_index').all()) {
       const key = normalizeSchemeName(candidate.scheme_name);
-      if (!mappingIndexCache.has(key)) mappingIndexCache.set(key, []);
-      mappingIndexCache.get(key).push(candidate);
+      if (!exact.has(key)) exact.set(key, []);
+      exact.get(key).push(candidate);
+    }
+    mappingIndexCache={exact,families:[...exact.keys()].map(key=>({key,compact:compactName(key)}))};
+  }
+  let candidates = mappingIndexCache.exact.get(normalizedName) || [], method='normalized-exact', confidence=1;
+  if(!candidates.length && !/\s/.test(String(canonicalName||'').trim())){
+    const compact=compactName(normalizedName);
+    if(compact.length>=6){
+      const possible=mappingIndexCache.families.map(f=>{
+        const matches=(compact.length<=f.compact.length?isSubsequence(compact,f.compact):isSubsequence(f.compact,compact));
+        return matches&&compact.slice(0,4)===f.compact.slice(0,4)?{...f,score:Math.min(compact.length,f.compact.length)/Math.max(compact.length,f.compact.length)}:null;
+      }).filter(Boolean).sort((a,b)=>b.score-a.score||a.compact.length-b.compact.length);
+      if(possible[0]&&possible[0].score>=.45&&(!possible[1]||possible[0].score-possible[1].score>=.03)){
+        candidates=mappingIndexCache.exact.get(possible[0].key)||[];method='official-code-abbreviation';confidence=Number(possible[0].score.toFixed(3));
+      }
     }
   }
-  const candidates = mappingIndexCache.get(normalizedName) || [];
   const insert = holdingsDb.prepare(`INSERT INTO scheme_map (scheme_code,scheme_name,portfolio_scheme_id,match_method,confidence)
     VALUES (?,?,?,?,?) ON CONFLICT(scheme_code) DO UPDATE SET scheme_name=excluded.scheme_name,portfolio_scheme_id=excluded.portfolio_scheme_id,
     match_method=excluded.match_method,confidence=excluded.confidence,mapped_at=datetime('now')`);
   let mapped = 0;
   for (const candidate of candidates) {
-    insert.run(candidate.scheme_code, candidate.scheme_name, portfolioSchemeId, 'normalized-exact', 1);
+    insert.run(candidate.scheme_code, candidate.scheme_name, portfolioSchemeId, method, confidence);
     mapped++;
   }
   return mapped;
@@ -159,6 +174,53 @@ function getSchemeHoldings(schemeCode) {
     confidence:scheme.confidence, matchMethod:scheme.match_method, holdings, source:{...source,warnings:JSON.parse(source.warningJson||'[]'),warningJson:undefined} };
 }
 
+function searchMappedSchemes(query, limit = 40) {
+  const q = String(query || '').trim();
+  if (!q) return [];
+  const terms = q.split(/\s+/).filter(Boolean).slice(0,6);
+  const where = terms.map(() => 'pm.scheme_name LIKE ?').join(' AND ');
+  const rows = holdingsDb.prepare(`SELECT pm.scheme_code AS schemeCode,pm.scheme_name AS schemeName,
+    ps.canonical_name AS portfolioName,MAX(h.disclosure_date) AS disclosureDate
+    FROM scheme_map pm JOIN portfolio_schemes ps ON ps.id=pm.portfolio_scheme_id
+    JOIN holdings h ON h.portfolio_scheme_id=ps.id WHERE ${where}
+    GROUP BY pm.scheme_code ORDER BY CASE WHEN pm.scheme_name LIKE ? THEN 0 ELSE 1 END,
+    LENGTH(pm.scheme_name),pm.scheme_name LIMIT ?`).all(...terms.map(term => `%${term}%`),`${q}%`,Math.min(100,Math.max(10,Number(limit)||40)));
+  return rows.map(row => ({...row,planType:/\bdirect\b/i.test(row.schemeName)?'Direct':/\bregular\b/i.test(row.schemeName)?'Regular':'Other'}));
+}
+
+function portfolioOverlap(funds) {
+  const selected = (Array.isArray(funds) ? funds : []).slice(0,12).map(fund => {
+    const portfolio = getSchemeHoldings(fund.schemeCode);
+    if (!portfolio) return null;
+    const weights = new Map();
+    for (const holding of portfolio.holdings) {
+      const weight = Number(holding.pctNav);
+      if (!Number.isFinite(weight) || weight <= 0) continue;
+      const key = holding.isin || `NAME:${String(holding.instrumentName).toLowerCase().replace(/[^a-z0-9]+/g,' ').trim()}`;
+      const existing = weights.get(key);
+      if (!existing || weight > existing.weight) weights.set(key,{ key,instrumentName:holding.instrumentName,isin:holding.isin || null,sector:holding.sector || holding.assetType || null,weight });
+    }
+    return { schemeCode:Number(fund.schemeCode),schemeName:portfolio.schemeName,disclosureDate:portfolio.disclosureDate,weights };
+  }).filter(Boolean);
+  const pairs = [];
+  for (let i=0;i<selected.length;i++) for (let j=i+1;j<selected.length;j++) {
+    const left=selected[i],right=selected[j],shared=[];
+    for (const [key,a] of left.weights) {
+      const b=right.weights.get(key); if(!b) continue;
+      shared.push({instrumentName:a.instrumentName,isin:a.isin,sector:a.sector,leftWeightPct:a.weight,rightWeightPct:b.weight,overlapWeightPct:Math.min(a.weight,b.weight)});
+    }
+    shared.sort((a,b)=>b.overlapWeightPct-a.overlapWeightPct);
+    const overlapPct=Number(shared.reduce((sum,item)=>sum+item.overlapWeightPct,0).toFixed(2));
+    pairs.push({leftSchemeCode:left.schemeCode,leftSchemeName:left.schemeName,rightSchemeCode:right.schemeCode,rightSchemeName:right.schemeName,
+      overlapPct,sharedHoldings:shared.length,topShared:shared.slice(0,10),asOfDates:[left.disclosureDate,right.disclosureDate]});
+  }
+  pairs.sort((a,b)=>b.overlapPct-a.overlapPct);
+  const average=pairs.length?Number((pairs.reduce((sum,pair)=>sum+pair.overlapPct,0)/pairs.length).toFixed(2)):0;
+  const level = !pairs.length ? 'unavailable' : average >= 50 ? 'high' : average >= 25 ? 'moderate' : 'low';
+  return {coveredFunds:selected.map(({weights,...fund})=>fund),missingFunds:(Array.isArray(funds)?funds:[]).filter(f=>!selected.some(s=>s.schemeCode===Number(f.schemeCode))).map(f=>Number(f.schemeCode)),
+    pairCount:pairs.length,averageOverlapPct:average,highestOverlap:pairs[0]||null,level,pairs};
+}
+
 function lookThrough(funds) {
   const exposure = new Map(), missing = [], used = [];
   const totalValue = funds.reduce((s, f) => s + Math.max(0, Number(f.currentValue) || 0), 0);
@@ -177,8 +239,13 @@ function lookThrough(funds) {
       existing.amount += amount; exposure.set(key, existing);
     }
   }
-  return { totalValue, coveredValue:used.reduce((s,x)=>s+x.currentValue,0), used, missing,
-    exposures:[...exposure.values()].map(x=>({...x,pctPortfolio:x.amount/totalValue*100})).sort((a,b)=>b.amount-a.amount) };
+  const coveredValue=used.reduce((s,x)=>s+x.currentValue,0);
+  const exposures=[...exposure.values()].map(x=>({...x,pctPortfolio:x.amount/totalValue*100})).sort((a,b)=>b.amount-a.amount);
+  const sectors=new Map();
+  exposures.forEach(item=>{const key=item.sector||item.assetType||'Unclassified';sectors.set(key,(sectors.get(key)||0)+item.amount);});
+  const sectorAllocation=[...sectors].map(([name,amount])=>({name,amount,pctPortfolio:amount/totalValue*100})).sort((a,b)=>b.amount-a.amount);
+  return { totalValue, coveredValue, coveragePct:coveredValue/totalValue*100, used, missing, exposures, sectorAllocation,
+    concentration:{topHoldingPct:exposures[0]?.pctPortfolio||0,top5Pct:exposures.slice(0,5).reduce((sum,x)=>sum+x.pctPortfolio,0),largestSector:sectorAllocation[0]||null} };
 }
 
 function isPrivateAddress(value) {
@@ -362,4 +429,4 @@ function coverageStatus() {
 }
 
 seedAmcSources();
-module.exports = { importPortfolioBuffer, mapPortfolioScheme, getSchemeHoldings, lookThrough, refreshAllSources, refreshOneSource, coverageStatus, refreshState, endOfPreviousMonth, discoverExcelLinks, discoverDisclosurePages, crawlDisclosureLinks, linkMatchesTargetMonth, assertPublicUrl, isPrivateAddress, seedAmcSources, parseAmfiRegistryHtml, syncAmfiRegistry };
+module.exports = { importPortfolioBuffer, mapPortfolioScheme, getSchemeHoldings, searchMappedSchemes, portfolioOverlap, lookThrough, refreshAllSources, refreshOneSource, coverageStatus, refreshState, endOfPreviousMonth, discoverExcelLinks, discoverDisclosurePages, crawlDisclosureLinks, linkMatchesTargetMonth, assertPublicUrl, isPrivateAddress, seedAmcSources, parseAmfiRegistryHtml, syncAmfiRegistry };

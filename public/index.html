@@ -1039,7 +1039,7 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
 @keyframes hiOrbit{50%{transform:translate(-26px,24px) rotate(18deg)}}
 .hi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:18px 0}.hi-stat{padding:20px;border-radius:18px;background:#fff;border:1px solid var(--border);box-shadow:0 8px 28px rgba(23,42,74,.06);transition:.3s var(--ease-premium)}.hi-stat:hover{transform:translateY(-5px);box-shadow:0 16px 38px rgba(23,42,74,.12)}.hi-stat span{display:block;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.6px}.hi-stat b{display:block;font-size:24px;margin-top:8px;color:var(--navy)}
 .hi-panel{background:#fff;border:1px solid var(--border);border-radius:20px;padding:22px;margin-top:16px;box-shadow:0 8px 26px rgba(23,42,74,.05)}
-.hi-search{position:relative}.hi-search input{width:100%;height:52px;border:1px solid #d7dfeb;border-radius:15px;padding:0 18px;font:600 14px Manrope,sans-serif;background:#f8fafc}.hi-results{position:absolute;z-index:15;left:0;right:0;top:58px;background:white;border:1px solid var(--border);border-radius:14px;box-shadow:0 18px 45px rgba(15,35,60,.16);max-height:360px;overflow:auto}.hi-result{padding:12px 16px;border-bottom:1px solid #eef2f6;cursor:pointer;font-size:13px;display:flex;gap:12px;align-items:center;justify-content:space-between;transition:.2s}.hi-result:hover{background:#eef8f5;transform:translateX(2px)}.hi-result:last-child{border:0}.hi-plan{font-size:9px;font-weight:800;letter-spacing:.45px;text-transform:uppercase;border-radius:999px;padding:5px 8px;flex:0 0 auto;background:#eef4fb;color:#365979}.hi-plan.regular{background:#e9f7f1;color:#087056}.hi-plan.direct{background:#f2effb;color:#59429a}.hi-plan-filter{display:flex;gap:7px;margin-top:12px}.hi-plan-filter button{border:1px solid #dbe3ec;background:#fff;border-radius:999px;padding:7px 12px;font:700 11px Manrope,sans-serif;color:#607084;cursor:pointer}.hi-plan-filter button.active{background:#102f4f;color:#fff;border-color:#102f4f;box-shadow:0 6px 18px rgba(16,47,79,.16)}
+.hi-search{position:relative}.hi-search input{width:100%;height:52px;border:1px solid #d7dfeb;border-radius:15px;padding:0 18px;font:600 14px Manrope,sans-serif;background:#f8fafc}.hi-search input:focus{outline:0;border-color:var(--violet);box-shadow:0 0 0 4px var(--violet-soft);background:#fff}.hi-results{position:absolute;z-index:45;left:0;right:0;top:58px;background:white;border:1px solid var(--border);border-radius:14px;box-shadow:0 18px 45px rgba(15,35,60,.16);max-height:420px;overflow:auto}.hi-results:empty{display:none}.hi-result{width:100%;padding:12px 16px;border:0;border-bottom:1px solid #eef2f6;cursor:pointer;font:600 13px Manrope,sans-serif;text-align:left;background:#fff;color:var(--text);display:flex;gap:12px;align-items:center;justify-content:space-between;transition:.2s}.hi-result span:first-child{min-width:0}.hi-result b{display:block;font-size:12px;line-height:1.4}.hi-result small{display:block;margin-top:3px;color:var(--text-muted);font-size:10px;font-weight:500}.hi-result:hover,.hi-result.active,.hi-result:focus-visible{background:#eef8f5;transform:translateX(2px);outline:0}.hi-result:last-child{border:0}.hi-plan{font-size:9px;font-weight:800;letter-spacing:.45px;text-transform:uppercase;border-radius:999px;padding:5px 8px;flex:0 0 auto;background:#eef4fb;color:#365979}.hi-plan.regular{background:#e9f7f1;color:#087056}.hi-plan.direct{background:#f2effb;color:#59429a}.hi-plan-filter{display:flex;gap:7px;margin-top:12px}.hi-plan-filter button{border:1px solid #dbe3ec;background:#fff;border-radius:999px;padding:7px 12px;font:700 11px Manrope,sans-serif;color:#607084;cursor:pointer}.hi-plan-filter button.active{background:#102f4f;color:#fff;border-color:#102f4f;box-shadow:0 6px 18px rgba(16,47,79,.16)}
 .hi-title-row{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}.hi-title-row h2{font-size:20px;margin:0 0 4px}.hi-fresh{font-size:11px;font-weight:800;padding:7px 10px;border-radius:99px;background:#e6f6ef;color:#08784f;white-space:nowrap}.hi-bars{display:grid;gap:11px;margin-top:18px}.hi-bar-row{display:grid;grid-template-columns:minmax(150px,1fr) 3fr 65px;gap:12px;align-items:center;font-size:12px}.hi-bar-track{height:9px;background:#edf1f5;border-radius:99px;overflow:hidden}.hi-bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#0f8d68,#d09a36);animation:hiGrow .75s var(--ease-premium) both;transform-origin:left}@keyframes hiGrow{from{transform:scaleX(0)}}
 .hi-table{width:100%;border-collapse:collapse;margin-top:20px;font-size:12px}.hi-table th{text-align:left;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.5px;padding:11px;border-bottom:1px solid var(--border)}.hi-table td{padding:12px 11px;border-bottom:1px solid #edf1f5}.hi-table tr:hover td{background:#fafcfb}.hi-pct{text-align:right;font-weight:800;color:#0a6e55}.hi-source{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;color:var(--muted);font-size:11px}.hi-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}.hi-upload-grid{display:grid;grid-template-columns:1.5fr 1fr 1.2fr auto;gap:10px;align-items:end}.hi-upload-grid label{display:block;font-size:10px;font-weight:800;color:var(--muted);margin-bottom:6px;text-transform:uppercase}.hi-upload-grid select,.hi-upload-grid input{width:100%;height:42px;border:1px solid var(--border);border-radius:11px;padding:0 10px;background:#fff;font:12px Manrope,sans-serif}.hi-note{margin-top:10px;padding:12px 14px;border-radius:12px;background:#fff8e8;color:#715718;font-size:11px;line-height:1.55}
 @media(max-width:900px){.hi-grid{grid-template-columns:repeat(2,1fr)}.hi-upload-grid{grid-template-columns:1fr 1fr}.hi-bar-row{grid-template-columns:120px 1fr 55px}}@media(max-width:560px){.hi-grid{grid-template-columns:1fr 1fr}.hi-hero{padding:25px}.hi-hero h1{font-size:27px}.hi-upload-grid{grid-template-columns:1fr}.hi-bar-row{grid-template-columns:95px 1fr 48px}.hi-table{min-width:670px}.hi-table-wrap{overflow:auto}}
@@ -1500,6 +1500,7 @@ async function demoApi(path, opts) {
     return fund ? {historyYears:6,dataPoints:fund.metrics.dataPoints,asOfDate:fund.metrics.asOfDate,return1YAvailable:true,rolling1YAvailable:true,rolling3YAvailable:true} : {historyYears:0,dataPoints:0,return1YAvailable:false,rolling1YAvailable:false,rolling3YAvailable:false};
   }
   if (path === '/holdings/status') return {summary:{portfolioSchemes:0,mappedPlans:0,holdings:0,latestDisclosureDate:null},sources:[],expectedDisclosureDate:null,refresh:{running:false}};
+  if (path.startsWith('/holdings/search')) return {results:[]};
   if (path.startsWith('/holdings/scheme/')) throw new Error('Underlying holdings are available after an official AMC disclosure is imported in the deployed app.');
 
   return { ok: true };
@@ -3271,7 +3272,7 @@ function fxHoldingsStepHtml() {
   html += fxHoldings.map(function(h,i){
     const preview = h.preview;
     const coverage = h.scheme ? (preview?.error ? 'NAV coverage could not be checked; review the report carefully.' : preview ? (preview.historyYears || 0) + ' years of NAV history · ' + (preview.rolling3YAvailable ? '1Y and 3Y rolling analysis ready' : preview.rolling1YAvailable ? '1Y rolling analysis ready; 3Y needs 4 years of history' : preview.return1YAvailable ? '1Y CAGR ready; rolling analysis needs 2 years of history' : 'Less than 1 year of NAV history; risk and return metrics will be limited') : 'Checking NAV coverage...') : '';
-    return '<div class="fx-holding-row"><div class="fx-search"><label class="fx-label">Scheme ' + (i+1) + '</label><input data-fx-scheme="' + i + '" placeholder="Search scheme name..." value="' + (h.scheme ? esc(h.scheme.schemeName) : '') + '" ' + (h.scheme ? 'readonly' : '') + '><div class="picker-dd" data-fx-dd="' + i + '"></div>' + (coverage ? '<div class="fx-coverage">' + esc(coverage) + '</div>' : '') + '</div><div><label class="fx-label">Current value (₹)</label><input type="number" min="0" data-fx-value="' + i + '" value="' + fxValue(h.currentValue) + '"></div><button class="fx-remove-btn" data-fx-remove-holding="' + i + '" title="' + (h.scheme ? 'Clear holding' : 'Remove row') + '" aria-label="Remove holding">×</button></div>';
+    return '<div class="fx-holding-row"><div class="fx-search"><label class="fx-label">Scheme ' + (i+1) + '</label><input data-fx-scheme="' + i + '" placeholder="Type AMC or fund name — e.g. HDFC Large Cap" autocomplete="off" spellcheck="false" value="' + (h.scheme ? esc(h.scheme.schemeName) : '') + '" ' + (h.scheme ? 'readonly' : '') + '><div class="picker-dd" data-fx-dd="' + i + '"></div>' + (coverage ? '<div class="fx-coverage">' + esc(coverage) + '</div>' : '<div class="fx-coverage">Regular and Direct plans are shown together. Use ↑ ↓ and Enter, or click a result.</div>') + '</div><div><label class="fx-label">Current value (₹)</label><input type="number" min="0" data-fx-value="' + i + '" value="' + fxValue(h.currentValue) + '"></div><button class="fx-remove-btn" data-fx-remove-holding="' + i + '" title="' + (h.scheme ? 'Clear holding' : 'Remove row') + '" aria-label="Remove holding">×</button></div>';
   }).join('');
   html += '<div class="fx-actions"><button class="btn" id="fxAddHolding"' + (fxHoldings.length >= 12 ? ' disabled' : '') + '>Add holding</button><button class="btn" id="fxBack">Back</button><button class="btn btn-primary btn-gold" id="fxGenerate"' + (fxBusy ? ' disabled' : '') + '>' + (fxBusy ? 'Building report...' : 'Generate report') + '</button></div></div>';
   return html;
@@ -3321,7 +3322,7 @@ function fxWireSearch(input, dd, selected) {
     clearTimeout(timer);
     const request = ++sequence;
     results = []; activeIndex = -1; input.removeAttribute('aria-activedescendant');
-    if (q.length < 2) { hide(); return; }
+    if (q.length < 1) { dd.innerHTML='<div class="pdd-empty" role="status">Start with an AMC or fund name. Regular and Direct plans will appear together.</div>'; show(); return; }
     dd.innerHTML = '<div class="pdd-empty" role="status"><span class="pdd-spinner" aria-hidden="true"></span>Searching schemes...</div>';
     show();
     timer = setTimeout(async function() {
@@ -3342,8 +3343,9 @@ function fxWireSearch(input, dd, selected) {
       } catch(e) {
         if (request === sequence) dd.innerHTML = '<div class="pdd-empty" role="status">Could not search schemes. Try again.</div>';
       }
-    }, 320);
+    }, 160);
   };
+  input.onfocus = function(){ if(!input.value.trim()){dd.innerHTML='<div class="pdd-empty" role="status">Start typing an AMC or fund name. You can use the keyboard or click a result.</div>';show();} };
   input.onblur = function(){ setTimeout(hide,180); };
 }
 async function fxLoadPreview(code) {
@@ -3534,6 +3536,20 @@ function fxPortfolioMatrix(funds) {
   }).join('');
   return '<div class="fx-matrix"><div class="fx-matrix-head"><div><span class="fx-eyebrow">Performance at a glance</span><h3>Portfolio matrix</h3></div><span>' + ready + ' of ' + funds.length + ' funds have full rolling history</span></div><div class="fx-scroll"><table><thead><tr><th>Holding</th><th>Value</th><th>1Y CAGR</th><th>Avg rolling 1Y</th><th>Avg rolling 3Y</th><th>Avg rolling 1Y SD</th><th>Avg rolling 3Y SD</th><th>Sharpe</th><th>Peer rank</th><th>Coverage</th></tr></thead><tbody>' + rows + '</tbody></table></div><p class="fx-matrix-foot">A dash means the required NAV history or comparable category data is unavailable. Select a scheme to review its coverage before generating a report.</p></div>';
 }
+function fxOverlapAnalysis(overlap,selectedFundCount){
+  if(selectedFundCount<2)return '<p>Add at least two funds to calculate portfolio overlap.</p>';
+  if(!overlap||!overlap.pairCount)return '<div class="fx-data-state"><div><strong>Overlap is waiting for official portfolio disclosures</strong><p>At least two selected funds need mapped official AMC holdings. Funds without a verified disclosure are excluded rather than estimated.</p></div></div>';
+  const highest=overlap.highestOverlap;
+  const tone=overlap.level==='high'?'review':overlap.level==='moderate'?'monitor':'keep';
+  let out='<div class="rp-grid"><div class="rp-box"><div class="k">Portfolio overlap</div>'+fxRow('Average pair overlap',fxPct(overlap.averageOverlapPct))+fxRow('Assessment','<span class="fx-verdict '+tone+'">'+esc(overlap.level.toUpperCase())+'</span>')+fxRow('Pairs compared',String(overlap.pairCount))+'</div><div class="rp-box"><div class="k">Highest-overlap pair</div>'+fxRow('Funds',highest?esc(highest.leftSchemeName)+' ↔ '+esc(highest.rightSchemeName):'Not available')+fxRow('Overlap',highest?fxPct(highest.overlapPct):'Not available')+fxRow('Shared securities',highest?String(highest.sharedHoldings):'0')+'</div></div>';
+  out+='<div class="fx-scroll"><table class="fx-table"><thead><tr><th>Fund pair</th><th>Overlap</th><th>Shared securities</th><th>Disclosure dates</th></tr></thead><tbody>'+overlap.pairs.map(p=>'<tr><td><b>'+esc(p.leftSchemeName)+'</b><br><span class="fx-help">with '+esc(p.rightSchemeName)+'</span></td><td><b>'+fxPct(p.overlapPct)+'</b></td><td>'+p.sharedHoldings+'</td><td>'+esc((p.asOfDates||[]).join(' / '))+'</td></tr>').join('')+'</tbody></table></div>';
+  if(highest&&highest.topShared&&highest.topShared.length){
+    out+='<div class="rp-obs"><div class="t">Largest shared positions in the highest-overlap pair</div><ul>'+highest.topShared.slice(0,8).map(x=>'<li>'+esc(x.instrumentName)+': '+fxPct(x.overlapWeightPct)+' common weight <span class="fx-help">('+fxPct(x.leftWeightPct)+' / '+fxPct(x.rightWeightPct)+')</span></li>').join('')+'</ul></div>';
+  }
+  if((overlap.missingFunds||[]).length)out+='<p class="fx-help">'+overlap.missingFunds.length+' selected fund(s) are excluded because no verified official disclosure is mapped.</p>';
+  out+='<p class="fx-matrix-foot">Pair overlap is the sum of the smaller portfolio weight for each security held by both funds. It is based on month-end AMC disclosures and does not measure return correlation.</p>';
+  return out;
+}
 function fxFundAnalysisCard(f) {
   const m = f.metrics || {}, p = f.peerComparison, b = f.benchmarkComparison;
   const check = f.navVerification || {}, checkLabel = check.status === 'matched' ? 'AMFI NAV matched' : check.status === 'mismatch' ? 'AMFI NAV mismatch' : check.status === 'provider_lag' ? 'Provider NAV lag' : 'AMFI check unavailable';
@@ -3608,11 +3624,15 @@ function fxReportBody(r) {
   const underlying = r.underlyingExposure;
   if (underlying && underlying.exposures && underlying.exposures.length) {
     const rows = underlying.exposures.slice(0,20).map(function(x){return '<tr><td>' + esc(x.instrumentName) + '</td><td>' + esc(x.isin || '—') + '</td><td>' + esc(x.sector || x.assetType || '—') + '</td><td>' + fxMoney(x.amount) + '</td><td>' + fxPct(x.pctPortfolio) + '</td></tr>';}).join('');
-    let u = '<div class="rp-grid"><div class="rp-box"><div class="k">Coverage</div>' + fxRow('Portfolio covered',fxMoney(underlying.coveredValue)) + fxRow('Total current value',fxMoney(underlying.totalValue)) + fxRow('Funds with disclosure',String((underlying.used||[]).length)) + '</div><div class="rp-box"><div class="k">Disclosure timing</div><p class="fx-help">Underlying holdings use the latest validated month-end disclosure for each scheme. Dates can differ if an AMC publishes late.</p></div></div>';
+    const uc=underlying.concentration||{}, largestSector=uc.largestSector;
+    let u = '<div class="rp-grid"><div class="rp-box"><div class="k">Coverage</div>' + fxRow('Portfolio covered',fxMoney(underlying.coveredValue)) + fxRow('Coverage ratio',fxPct(underlying.coveragePct)) + fxRow('Funds with disclosure',String((underlying.used||[]).length)) + '</div><div class="rp-box"><div class="k">Underlying concentration</div>'+fxRow('Largest security',fxPct(uc.topHoldingPct))+fxRow('Top five securities',fxPct(uc.top5Pct))+fxRow('Largest sector',largestSector?esc(largestSector.name)+' ('+fxPct(largestSector.pctPortfolio)+')':'Not available')+'</div></div>';
     u += '<div class="fx-scroll"><table class="fx-table"><thead><tr><th>Underlying security</th><th>ISIN</th><th>Sector / asset</th><th>Estimated value</th><th>Portfolio weight</th></tr></thead><tbody>' + rows + '</tbody></table></div>';
+    if((underlying.sectorAllocation||[]).length)u+='<div class="rp-obs"><div class="t">Largest sector exposures</div><ul>'+underlying.sectorAllocation.slice(0,8).map(x=>'<li>'+esc(x.name)+': '+fxPct(x.pctPortfolio)+' ('+fxMoney(x.amount)+')</li>').join('')+'</ul></div>';
+    u+='<p class="fx-help">Underlying holdings use the latest validated month-end official AMC disclosure for each scheme. Dates can differ if an AMC publishes late.</p>';
     if ((underlying.missing||[]).length) u += '<p class="fx-help">' + underlying.missing.length + ' fund(s) are excluded because no validated disclosure is mapped yet.</p>';
     html += fxSection('2A','Underlying holdings look-through',u);
   }
+  html += fxSection('2B','Portfolio overlap check',fxOverlapAnalysis(r.portfolioOverlap,funds.length));
   const comparison = funds.map(fxFundAnalysisCard).join('');
   html += fxSection(3,'Fund by fund comparison',comparison);
   const verdicts = recs.map(function(rec){
@@ -3651,6 +3671,9 @@ function fxReportBody(r) {
   if (reviews) actions.push('Review the ' + reviews + ' funds marked Review using the signals in section 4.');
   if (monitors) actions.push('Monitor the ' + monitors + ' funds marked Monitor and revisit their evidence at the next review.');
   if (dupe.length) actions.push('Check whether the ' + dupe.length + ' same-category groups need consolidation.');
+  if(r.portfolioOverlap&&r.portfolioOverlap.level==='high')actions.push('Review the highest-overlap fund pair before adding more exposure to the same underlying securities.');
+  else if(r.portfolioOverlap&&r.portfolioOverlap.level==='moderate')actions.push('Discuss whether the moderate underlying portfolio overlap is intentional.');
+  if(r.underlyingExposure?.concentration?.top5Pct>40)actions.push('Review the top-five underlying securities, which together exceed 40% of the portfolio value covered by disclosures.');
   (r.goals || []).forEach(function(g){ if (g.additionalMonthlySipRequired > 0) actions.push('For ' + g.name + ', discuss an additional monthly SIP of ' + fxMoney(g.additionalMonthlySipRequired) + ' under the ' + fxPct(g.annualReturnPct) + ' assumption.'); });
   if (r.horizonFit && r.horizonFit.flag !== 'appropriate') actions.push('Discuss the ' + fxPct(mix.equityPct) + ' equity estimate against the ' + fxMetric(r.client.horizonYears) + '-year horizon.');
   if (!actions.length) actions.push('Review these holdings and any goal assumptions with your advisor at the next scheduled meeting.');
@@ -3892,15 +3915,35 @@ async function loadHoldingsAdmin(){
 }
 async function hiLoadStatus(){ try{hiStatus=await api('/holdings/status');}catch(e){hiError=e.message;} renderHoldings(); }
 async function hiLoadScheme(code){ hiLoading=true; hiError=''; hiSearchResults=[]; renderHoldings(); try{hiFund=await api('/holdings/scheme/'+code);}catch(e){hiFund=null;hiError=e.message;} hiLoading=false;renderHoldings(); }
-function hiSearch(q){ hiQuery=String(q||''); clearTimeout(hiSearchTimer); if(hiQuery.trim().length<2){hiSearchResults=[];renderHoldings();return;} hiSearchTimer=setTimeout(async function(){try{const r=await api('/mf/search?q='+encodeURIComponent(hiQuery)+'&limit=100');hiSearchResults=r.results||[];}catch(e){hiError=e.message;}renderHoldings();},260); }
+function hiResultsHtml(){
+  const shown=hiSearchResults.filter(x=>hiPlanFilter==='All'||x.planType===hiPlanFilter);
+  if(!hiQuery.trim())return '';
+  if(!shown.length)return '<div class="pdd-empty">No verified official-AMC holding matched this search.</div>';
+  return shown.map((x,i)=>`<button type="button" class="hi-result" data-hi-code="${x.schemeCode}" data-hi-index="${i}"><span><b>${esc(x.schemeName)}</b><small>${esc(x.portfolioName||'Underlying portfolio')} · ${esc(x.disclosureDate||'Date unavailable')}</small></span><span class="hi-plan ${(x.planType||'other').toLowerCase()}">${esc(x.planType||'Plan')}</span></button>`).join('');
+}
+function hiPaintResults(){
+  const list=document.getElementById('hiResults'); if(!list)return;
+  list.innerHTML=hiResultsHtml();
+  list.querySelectorAll('[data-hi-code]').forEach(n=>n.onclick=()=>hiLoadScheme(n.dataset.hiCode));
+}
+function hiSearch(q){
+  hiQuery=String(q||''); hiError=''; clearTimeout(hiSearchTimer);
+  const list=document.getElementById('hiResults');
+  if(!hiQuery.trim()){hiSearchResults=[];if(list)list.innerHTML='';return;}
+  if(list)list.innerHTML='<div class="pdd-empty"><span class="pdd-spinner"></span>Searching verified schemes…</div>';
+  const requested=hiQuery;
+  hiSearchTimer=setTimeout(async function(){
+    try{const r=await api('/holdings/search?q='+encodeURIComponent(requested)+'&limit=80');if(requested!==hiQuery)return;hiSearchResults=r.results||[];hiPaintResults();}
+    catch(e){if(requested!==hiQuery)return;hiSearchResults=[];if(list)list.innerHTML='<div class="pdd-empty">'+esc(e.message)+'</div>';}
+  },140);
+}
 function renderHoldings(){
   const root=document.getElementById('view-holdings'); if(!root)return;
   const s=hiStatus&&hiStatus.summary||{};
   const latest=s.latestDisclosureDate?new Date(s.latestDisclosureDate+'T00:00:00').toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}):'Waiting for first import';
-  let body=`<div class="hi-hero"><div class="hi-kicker">Verified monthly disclosure intelligence</div><h1>SchemeScope</h1><p>See what every mutual fund scheme actually owns. Direct, Regular, Growth and IDCW plans are joined to the same validated underlying portfolio, with the source and valuation month always visible.</p></div>
+  let body=`<div class="hi-hero"><div class="hi-kicker">Verified monthly disclosure intelligence</div><h1>Holdings Intelligence</h1><p>See what mutual fund schemes own using only AMFI-listed and official AMC disclosures. Direct, Regular, Growth and IDCW plans are joined to the same validated underlying portfolio.</p></div>
   <div class="hi-grid"><div class="hi-stat"><span>Portfolio schemes</span><b>${hiNum(s.portfolioSchemes)}</b></div><div class="hi-stat"><span>Mapped plan variants</span><b>${hiNum(s.mappedPlans)}</b></div><div class="hi-stat"><span>Security records</span><b>${hiNum(s.holdings)}</b></div><div class="hi-stat"><span>Latest disclosure</span><b style="font-size:17px">${esc(latest)}</b></div></div>`;
-  const shownResults=hiSearchResults.filter(x=>hiPlanFilter==='All'||x.planType===hiPlanFilter);
-  body+=`<div class="hi-panel"><div class="hi-title-row"><div><h2>Find a scheme</h2><div class="muted" style="font-size:12px">Search Regular or Direct plans. Every option maps to the same underlying scheme portfolio.</div></div></div><div class="hi-plan-filter">${['All','Regular','Direct'].map(p=>`<button type="button" data-hi-plan="${p}" class="${hiPlanFilter===p?'active':''}">${p} plans</button>`).join('')}</div><div class="hi-search" style="margin-top:12px"><input id="hiSearch" value="${esc(hiQuery)}" placeholder="Try Bandhan, HDFC Large Cap, Parag Parikh…" autocomplete="off"><div class="hi-results">${shownResults.map(x=>`<div class="hi-result" data-hi-code="${x.schemeCode}"><span>${esc(x.schemeName)}</span><span class="hi-plan ${(x.planType||'other').toLowerCase()}">${esc(x.planType||'Plan')}</span></div>`).join('')}</div></div></div>`;
+  body+=`<div class="hi-panel"><div class="hi-title-row"><div><h2>Find a scheme</h2><div class="muted" style="font-size:12px">Type the fund name, AMC or plan. Results appear without interrupting your typing and include only portfolios backed by a verified official disclosure.</div></div></div><div class="hi-plan-filter">${['All','Regular','Direct'].map(p=>`<button type="button" data-hi-plan="${p}" class="${hiPlanFilter===p?'active':''}">${p} plans</button>`).join('')}</div><div class="hi-search" style="margin-top:12px"><input id="hiSearch" value="${esc(hiQuery)}" placeholder="Type a fund name, for example HDFC Large Cap" autocomplete="off" role="combobox" aria-controls="hiResults"><div class="hi-results" id="hiResults">${hiResultsHtml()}</div></div></div>`;
   if(hiLoading) body+=`<div class="hi-panel">${emptyState('i-trend-up','Reading the latest validated portfolio…','Large scheme tables can take a moment to assemble.')}</div>`;
   if(hiError) body+=`<div class="hi-panel"><div class="hi-note">${esc(hiError)}</div></div>`;
   if(hiFund){
@@ -3908,8 +3951,8 @@ function renderHoldings(){
     body+=`<div class="hi-panel"><div class="hi-title-row"><div><h2>${esc(hiFund.schemeName)}</h2><div class="muted" style="font-size:12px">Underlying portfolio: ${esc(hiFund.portfolioName)}</div></div><span class="hi-fresh">As of ${esc(hiFund.disclosureDate)}</span></div><div class="hi-bars">${top.map(h=>`<div class="hi-bar-row"><span title="${esc(h.instrumentName)}">${esc(h.instrumentName.length>28?h.instrumentName.slice(0,27)+'…':h.instrumentName)}</span><div class="hi-bar-track"><div class="hi-bar-fill" style="width:${Math.max(1,Number(h.pctNav)/max*100)}%"></div></div><b>${hiNum(h.pctNav)}%</b></div>`).join('')}</div><div class="hi-table-wrap"><table class="hi-table"><thead><tr><th>Security</th><th>ISIN</th><th>Sector / asset type</th><th>Rating</th><th style="text-align:right">% of NAV</th></tr></thead><tbody>${hiFund.holdings.map(h=>`<tr><td><b>${esc(h.instrumentName)}</b></td><td>${esc(h.isin||'—')}</td><td>${esc(h.sector||h.assetType||'—')}</td><td>${esc(h.rating||'—')}</td><td class="hi-pct">${h.pctNav==null?'—':hiNum(h.pctNav)+'%'}</td></tr>`).join('')}</tbody></table></div><div class="hi-source"><span>Source file: ${esc(hiFund.source.sourceFilename)}</span><span>•</span><span>Imported ${esc(hiFund.source.importedAt)}</span>${hiFund.source.sourceUrl?`<span>•</span><a href="${esc(hiFund.source.sourceUrl)}" target="_blank" rel="noopener">Open official source</a>`:''}</div></div>`;
   }
   root.innerHTML=body;
-  const search=document.getElementById('hiSearch'); if(search)search.oninput=e=>hiSearch(e.target.value);
-  root.querySelectorAll('[data-hi-plan]').forEach(n=>n.onclick=()=>{hiPlanFilter=n.dataset.hiPlan;renderHoldings();});
+  const search=document.getElementById('hiSearch'); if(search){search.oninput=e=>hiSearch(e.target.value);search.onkeydown=e=>{const items=[...root.querySelectorAll('.hi-result')];if(!items.length)return;let i=items.findIndex(x=>x.classList.contains('active'));if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();items.forEach(x=>x.classList.remove('active'));i=e.key==='ArrowDown'?(i+1)%items.length:(i<=0?items.length-1:i-1);items[i].classList.add('active');items[i].scrollIntoView({block:'nearest'});}else if(e.key==='Enter'&&i>=0){e.preventDefault();items[i].click();}};}
+  root.querySelectorAll('[data-hi-plan]').forEach(n=>n.onclick=()=>{hiPlanFilter=n.dataset.hiPlan;root.querySelectorAll('[data-hi-plan]').forEach(x=>x.classList.toggle('active',x.dataset.hiPlan===hiPlanFilter));hiPaintResults();search&&search.focus();});
   root.querySelectorAll('[data-hi-code]').forEach(n=>n.onclick=()=>hiLoadScheme(n.dataset.hiCode));
 }
 

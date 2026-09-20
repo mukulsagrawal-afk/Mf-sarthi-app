@@ -11,7 +11,11 @@ function text(value) {
 
 function normalizeSchemeName(value) {
   return text(value).toLowerCase()
-    .replace(/\((?:erstwhile|formerly)[^)]*\)/g, ' ')
+    .replace(/&/g, ' and ')
+    .replace(/[’']s\b/g, 's')
+    .replace(/\((?:erstwhile|formerly|ex\s*:)[^)]*\)/g, ' ')
+    .replace(/\bfund\s+of\s+funds\b/g, ' fof ')
+    .replace(/\bnil\b/g, ' ')
     .replace(/\b(direct|regular)\s*(plan)?\b/g, ' ')
     .replace(/\b(growth|gr|idcw|dividend)\b/g, ' ')
     .replace(/\b(payout|pay\s*out|reinvestment|reinvest|bonus)\b/g, ' ')

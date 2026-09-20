@@ -1,7 +1,7 @@
 const express = require('express');
 const multer = require('multer');
 const { requireAuth } = require('../middleware/auth');
-const { importPortfolioBuffer, getSchemeHoldings, lookThrough, refreshAllSources, coverageStatus, endOfPreviousMonth } = require('../utils/portfolioService');
+const { importPortfolioBuffer, getSchemeHoldings, searchMappedSchemes, portfolioOverlap, lookThrough, refreshAllSources, coverageStatus, endOfPreviousMonth } = require('../utils/portfolioService');
 const { requireSiteAdmin } = require('../utils/siteAdmin');
 
 const router = express.Router();
@@ -12,6 +12,7 @@ router.get('/status', (_req,res) => {
   res.json({summary:status.summary,expectedDisclosureDate:status.expectedDisclosureDate});
 });
 router.get('/admin/status', requireSiteAdmin, (_req,res) => res.json(coverageStatus()));
+router.get('/search', (req,res) => res.json({results:searchMappedSchemes(req.query.q,req.query.limit)}));
 router.get('/scheme/:code', (req,res) => {
   const data = getSchemeHoldings(req.params.code);
   if (!data) return res.status(404).json({ error:'No validated portfolio disclosure is mapped to this scheme yet.', canUpload:true });
@@ -21,6 +22,7 @@ router.post('/look-through', (req,res) => {
   try { res.json(lookThrough(Array.isArray(req.body?.funds) ? req.body.funds : [])); }
   catch (e) { res.status(400).json({ error:e.message }); }
 });
+router.post('/overlap', (req,res) => res.json(portfolioOverlap(Array.isArray(req.body?.funds) ? req.body.funds : [])));
 router.post('/upload', requireSiteAdmin, upload.single('file'), (req,res) => {
   try {
     if (!req.file) return res.status(400).json({error:'Choose an official AMC Excel disclosure'});

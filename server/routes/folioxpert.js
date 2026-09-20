@@ -6,7 +6,7 @@ const multer = require('multer');
 const { requireAuth } = require('../middleware/auth');
 const { buildReport } = require('../utils/folioEngine');
 const { extractCandidatesFromPdf } = require('../utils/casExtract');
-const { lookThrough } = require('../utils/portfolioService');
+const { lookThrough, portfolioOverlap } = require('../utils/portfolioService');
 
 const router = express.Router();
 router.use(requireAuth);
@@ -38,6 +38,8 @@ router.post('/report', async (req, res) => {
     // Enrich the report when available without making the NAV analysis depend on it.
     try { report.underlyingExposure = lookThrough(holdings); }
     catch (_) { report.underlyingExposure = null; }
+    try { report.portfolioOverlap = portfolioOverlap(holdings); }
+    catch (_) { report.portfolioOverlap = null; }
     res.json(report);
   } catch (e) {
     res.status(502).json({ error: e.message || 'Could not build the report.' });

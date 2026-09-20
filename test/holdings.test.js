@@ -7,7 +7,7 @@ process.env.DATA_DIR = path.join(process.cwd(), '.test-data', `holdings-${proces
 const db = require('../server/db');
 const holdingsDb = require('../server/holdings-db');
 const { parseWorkbook, normalizeSchemeName } = require('../server/utils/portfolioParser');
-const { importPortfolioBuffer, getSchemeHoldings, lookThrough, parseAmfiRegistryHtml, assertPublicUrl, discoverDisclosurePages, linkMatchesTargetMonth } = require('../server/utils/portfolioService');
+const { importPortfolioBuffer, getSchemeHoldings, searchMappedSchemes, portfolioOverlap, lookThrough, parseAmfiRegistryHtml, assertPublicUrl, discoverDisclosurePages, linkMatchesTargetMonth } = require('../server/utils/portfolioService');
 const { balancePlanVariants } = require('../server/utils/mfapi');
 
 function fixtureWorkbook() {
@@ -59,6 +59,21 @@ test('one imported disclosure serves every mapped plan and portfolio look-throug
   assert.equal(Math.round(exposure.exposures[0].amount),12375);
   const duplicate = importPortfolioBuffer({buffer:fixtureWorkbook(),filename:'again.xlsx',mfId:amc.mf_id,disclosureDate:'2026-08-31'});
   assert.equal(duplicate.duplicate,true);
+});
+
+test('official holdings search is typeable and returns only mapped plan variants', () => {
+  const results = searchMappedSchemes('HDFC Large Cap',20);
+  assert.ok(results.some(x=>x.schemeCode===900001));
+  assert.ok(results.some(x=>x.schemeCode===900002));
+  assert.ok(results.every(x=>x.disclosureDate==='2026-08-31'));
+});
+
+test('FolioXpert overlap uses the smaller shared security weights', () => {
+  const result=portfolioOverlap([{schemeCode:900001,currentValue:100000},{schemeCode:900002,currentValue:50000}]);
+  assert.equal(result.pairCount,1);
+  assert.equal(result.highestOverlap.sharedHoldings,3);
+  assert.equal(result.highestOverlap.overlapPct,16.5);
+  assert.equal(result.highestOverlap.topShared[0].instrumentName,'Reliance Industries Limited');
 });
 
 test('AMFI registry parser preserves AMCs without a published URL for coverage tracking', () => {
